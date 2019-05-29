@@ -28,8 +28,6 @@ except:
 URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
-#TODO: I remember Dodds mentioning that we should have some trys & excepts for our imports w/ error messages
-# that mention that the user needs to install the ap  propriate packages...
 
 def setup():
     " Makes a folder to hold our html files, and return a path to that folder"
