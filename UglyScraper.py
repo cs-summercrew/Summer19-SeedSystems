@@ -1,14 +1,14 @@
 
 # beautiful soup documentation:
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
 from bs4 import BeautifulSoup
-
 import requests
-
 import os
 import os.path
 import shutil
-url = "https://esolangs.org/wiki/Language_list"
+
+URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
 #TODO: I remember Dodds mentioning that we should have some trys & excepts for our imports w/ error messages
@@ -20,7 +20,7 @@ def setup():
     dirContents = os.listdir(original_dir)
     path = os.path.join(original_dir, "Scraped_Files")
     if "Scraped_Files" in dirContents:
-            shutil.rmtree(path) #Removes directories regardless of if they're empty
+            shutil.rmtree(path) # Removes directories regardless of if they're empty
     os.mkdir(path)
     return path
 
@@ -45,7 +45,7 @@ def createfiles(listOflinks, path):
 
 def makesoup(Ourpath):
     "Creates a beautiful soup object that can be used to parse our webpage for links"
-    result = requests.get(url)
+    result = requests.get(URL)
     pagesrc = result.text # Turns the html into a single string
     soup = BeautifulSoup(pagesrc,"lxml")
     return soup
