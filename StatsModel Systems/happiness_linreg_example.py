@@ -1,3 +1,4 @@
+# Necessary dependencies
 import pandas as pd
 from pandas import DataFrame
 import statsmodels.api as sm
