@@ -27,7 +27,6 @@ except:
 # Global Variables
 URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
-newURL = "https://freedirectorysubmissionsites.com"
 
 
 def setup():
@@ -35,7 +34,7 @@ def setup():
     original_dir = os.getcwd()
     dirContents = os.listdir(original_dir)
     path = os.path.join(original_dir, "Scraped_Files")
-    if "Scraped_Files" in dirContents:
+    if "Scraped_Files" in dirContents:  # We check&delete the directory because there is an error if the directory already exists
             shutil.rmtree(path) # Removes directories regardless of if they're empty
     os.mkdir(path)
     return path
@@ -45,16 +44,14 @@ def createfiles(listOflinks, path):
     for link in listOflinks:
         # Make the paths for each file
         name = link.get('href')
-        print(name)
-        file_name = name[6:]+".html"    #TODO: name[6:] will not work on more complex lists
-        print("File name is",file_name)
+        file_name = name[6:]+".html"    #NOTE: name[6:] works for the important links, but not all of them
         filePath = os.path.join(path, file_name)
         # Get the info that will be written to the files
         URLtoLoop = baseURL + name
-        print(URLtoLoop)
         info = requests.get(URLtoLoop)
         finalInfo = info.text
         # Write the files
+        print("Writing",file_name)
         with open(filePath, 'w') as f:
             f.write(finalInfo)
     return
@@ -69,17 +66,21 @@ def makesoup(Ourpath):
 
 def main():
     print("Start of main()\n")
-  
-    #print(LinkList[33]) #external resources link
-    #Links to other lang pages start @35 (!!!)
     
     Ourpath = setup()
     soup = makesoup(Ourpath)
     
     LinkList = soup.findAll('a')
-    LinkList_Subset=LinkList[35:40]
+
+    # NOTE: Experiment with looking at different languages
+    # Our list includes the first 16 or so as well as some favorites and interesting languages
+    # LinkList[34] is the first link in the list of languages: !!!
+    LinkList_Subset = LinkList[34:50]
+    LinkList_Subset.append(LinkList[174])
+    LinkList_Subset.append(LinkList[282])
+    LinkList_Subset.append(LinkList[361])
+    # LinkList[1441] is the last link in the list of languages: ZZZ
     createfiles(LinkList_Subset, Ourpath)
-    
 
     print("End of main()\n")
 

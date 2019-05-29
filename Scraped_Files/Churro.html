@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Churro - Esolang</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Churro","wgTitle":"Churro","wgCurRevisionId":57692,"wgRevisionId":57692,"wgArticleId":9696,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Languages","Thematic","Stack-based","2014"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Churro","wgRelevantArticleId":9696,"wgRequestId":"f3dedd1ebff1d4cd624b1352","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgWikiEditorEnabledModules":{"toolbar":true,"dialogs":true,"preview":false,"publish":false}});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"loading","user.tokens":"loading","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.options@0j3lz3q",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens@152c6tt",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","site","mediawiki.page.startup","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.interface%7Cskins.vector.styles&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.29.2"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Esolang (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//esolangs.org/w/api.php?action=rsd"/>
+<link rel="copyright" href="/wiki/Esolang:Copyrights"/>
+<link rel="alternate" type="application/atom+xml" title="Esolang Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Churro rootpage-Churro skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators mw-body-content">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">Churro</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From Esolang</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p><b>Churro</b> is a stack-based interpreted programming language in which the code is entirely made up of churros. It was designed by Elliot Colp in 2014, who also wrote its interpreter. A compiler, Chlang, was written by Caian Benedicto in the same year.
+</p>
+<div id="toc" class="toc"><div id="toctitle" class="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Design_principles"><span class="tocnumber">1</span> <span class="toctext">Design principles</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Language_concepts"><span class="tocnumber">2</span> <span class="toctext">Language concepts</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Syntax"><span class="tocnumber">3</span> <span class="toctext">Syntax</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="#Literals"><span class="tocnumber">3.1</span> <span class="toctext">Literals</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#Operators"><span class="tocnumber">3.2</span> <span class="toctext">Operators</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-6"><a href="#Style"><span class="tocnumber">4</span> <span class="toctext">Style</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#External_resources"><span class="tocnumber">5</span> <span class="toctext">External resources</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Design_principles">Design principles</span></h2>
+<ul><li> Churros are magical and should therefore be the only syntax element.</li>
+<li> The language must include mutable state in order to irk Calvin Beck.</li></ul>
+<h2><span class="mw-headline" id="Language_concepts">Language concepts</span></h2>
+<p>Churro operates on two structures: a stack and an array. Operations can only be directly performed on data in the stack. The array is used to store data which may need to be recalled later. The array is zero-indexed and all elements should be initialized to zero, though its exact size is implementation-defined.
+</p>
+<h2><span class="mw-headline" id="Syntax">Syntax</span></h2>
+<p>The only syntax elements are churros. A churro might look like this:
+<code>{o}=====}</code>
+</p><p>There are three important components to a churro:
+</p>
+<ol><li> Its orientation -- either left or right</li>
+<li> Its filling -- either <code>o</code> (unfilled) or <code>*</code> (filled)</li>
+<li> Its tail length</li></ol>
+<p>A <code>{</code> always indicates the beginning of a churro. Any other characters between churros are ignored.
+</p>
+<h3><span class="mw-headline" id="Literals">Literals</span></h3>
+<p>Left-facing churros, also known as "literal churros," represent data. When a literal churro is encountered, its value is pushed to the top of the stack.
+</p><p>The tail length of the churro -- that is, the number of <code>=</code> symbols -- is its numerical value. Sign is indicated by a churro's filling, with unfilled churros (<code>o</code>) being positive and filled churros (<code>*</code>) being negative. All data is stored as integers.
+</p><p>For example, this churro stands for 3:
+<code>{o}===}</code>
+</p><p>this churro stands for -9:
+<code>{*}=========}</code>
+</p><p>and this tiny one stands for 0:
+<code>{o}}</code>
+</p>
+<h3><span class="mw-headline" id="Operators">Operators</span></h3>
+<p>Right-facing churros, also known as "operator churros," are used to manipulate data. They operate on values in the stack.
+</p><p>The functions are:
+</p>
+<table class="wikitable">
+<tr>
+<th>Churro
+</th>
+<th>Operation
+</th></tr>
+<tr>
+<td style="text-align:center"> <code>{{o}</code>
+</td>
+<td> pop A; discard A
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{={o}</code>
+</td>
+<td> pop A, B; push (B + A)
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{=={o}</code>
+</td>
+<td> pop A, B; push (B - A)
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{==={o}</code>
+</td>
+<td> pop A; if A = 0, jump to churro after matching occurence of {===={o}
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{===={o}</code>
+</td>
+<td> pop A; if A&#160;!= 0, jump to churro after matching occurence of {==={o}
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{====={o}</code>
+</td>
+<td> pop A, B; store B in memory location A
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{======{o}</code>
+</td>
+<td> pop A; push the value in memory location A to stack
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{======={o}</code>
+</td>
+<td> pop A; print A as an integer
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{========{o}</code>
+</td>
+<td> pop A; print A as an ASCII character
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{========={o}</code>
+</td>
+<td> read a single character from stdin and push it to the stack
+</td></tr>
+<tr>
+<td style="text-align:center"> <code>{=========={o}</code>
+</td>
+<td> exit the program
+</td></tr></table>
+<p>The <code>{==={o}</code> and <code>{===={o}</code> operators are matched much like brackets in other programming languages, so they can be nested.
+</p><p>Filled operator churros have the same behaviour as unfilled churros, but instead of popping values on the stack, they peek them.
+</p>
+<h2><span class="mw-headline" id="Style">Style</span></h2>
+<p>Churros longer than a length of 10 have very little structural integrity, and so for the sake of realism, they should be avoided. Adding two smaller churros together is an acceptable solution.
+</p><p>Churros are also generally not stacked directly end-to-end, so leave a single space between each churro. To avoid churros being cut in half (the horror!) by console displays, keep lines below 80 characters in length.
+</p><p>In order to maintain the purity of the program's churro makeup, minimal (or no) comments are recommended. Of course, this may make code more difficult to read, so it is acceptable to distribute a "dirty" version of the code with comments and extra whitespace so long as a "pure" version with minimal whitespace is also included.
+</p>
+<h2><span class="mw-headline" id="External_resources">External resources</span></h2>
+<ul><li> <a rel="nofollow" class="external text" href="https://github.com/TheLastBanana/Churro/">Haskell interpreter</a> (official implementation)</li>
+<li> <a rel="nofollow" class="external text" href="https://github.com/Caian/Chlang/">Chlang</a>, a Churro frontend for LLVM</li></ul>
+
+<!-- 
+NewPP limit report
+Cached time: 20180919183207
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 0.008 seconds
+Real time usage: 0.006 seconds
+Preprocessor visited node count: 27/1000000
+Preprocessor generated node count: 32/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+<!-- Saved in parser cache with key esolang_wiki:pcache:idhash:9696-0!*!*!!en!*!* and timestamp 20180919183207 and revision id 57692
+ -->
+</div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://esolangs.org/w/index.php?title=Churro&amp;oldid=57692">https://esolangs.org/w/index.php?title=Churro&amp;oldid=57692</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:Languages" title="Category:Languages">Languages</a></li><li><a href="/wiki/Category:Thematic" title="Category:Thematic">Thematic</a></li><li><a href="/wiki/Category:Stack-based" title="Category:Stack-based">Stack-based</a></li><li><a href="/wiki/Category:2014" title="Category:2014">2014</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-createaccount"><a href="/w/index.php?title=Special:CreateAccount&amp;returnto=Churro" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=Churro" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/Churro"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+															<li  id="ca-talk" class="new"><span><a href="/w/index.php?title=Talk:Churro&amp;action=edit&amp;redlink=1"  title="Discussion about the content page [t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label">
+							<span>Variants</span><a href="#"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="/wiki/Churro" >Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="/w/index.php?title=Churro&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=Churro&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<h3 id="p-cactions-label"><span>More</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input type="search" name="search" placeholder="Search Esolang" title="Search Esolang [f]" accesskey="f" id="searchInput"/><input type="hidden" value="Special:Search" name="title"/><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id='p-navigation' aria-labelledby='p-navigation-label'>
+			<h3 id='p-navigation-label'>Navigation</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-portal"><a href="/wiki/Esolang:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-Language-list"><a href="/wiki/Language_list">Language list</a></li><li id="n-Browse-by-category"><a href="/wiki/Esolang:Categorization">Browse by category</a></li><li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li><li id="n-help"><a href="/wiki/Esolang:Help" title="The place to find out">Help</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+			<h3 id='p-tb-label'>Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/Churro" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/Churro" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/w/index.php?title=Churro&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/w/index.php?title=Churro&amp;oldid=57692" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/w/index.php?title=Churro&amp;action=info" title="More information about this page">Page information</a></li>					</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last edited on 19 September 2018, at 18:32.</li>
+											<li id="footer-info-copyright">Content is available under <a href="/wiki/Esolang:Copyrights" title="Esolang:Copyrights">CC0 public domain dedication</a>.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-about"><a href="/wiki/Esolang:About" title="Esolang:About">About Esolang</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Esolang:General_disclaimer" title="Esolang:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="/w/resources/assets/licenses/cc-0.png" alt="CC0 public domain dedication" width="88" height="31"/></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="//www.mediawiki.org/"><img src="/w/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/w/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /w/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"/></a>						</li>
+											<li id="footer-hostedbyico">
+							<a href="https://www.bytemark.co.uk/r/esolangs"><img src="/w/images/hosting_bytemark_88x31.png" srcset="/w/images/hosting_bytemark_132x47.png 1.5x, /w/images/hosting_bytemark_176x62.png 2x" alt="Hosting donated by Bytemark" width="88" height="31"/></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.008","walltime":"0.006","ppvisitednodes":{"value":27,"limit":1000000},"ppgeneratednodes":{"value":32,"limit":1000000},"postexpandincludesize":{"value":0,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":2,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20180919183207","ttl":86400,"transientcontent":false}}});});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":26});});</script>
+	</body>
+<!-- Cached 20180919183619 -->
+</html>
