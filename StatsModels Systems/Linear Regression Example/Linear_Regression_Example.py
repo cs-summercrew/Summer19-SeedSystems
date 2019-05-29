@@ -1,7 +1,11 @@
 # Necessary dependencies
-import pandas as pd
-from pandas import DataFrame
-import statsmodels.api as sm
+try:
+    import pandas as pd
+    from pandas import DataFrame
+    import statsmodels.api as sm
+except:
+    print('''Failed to install correct libraries, follow README for \
+    installation instructions''')
 
 # Create a pandas object using read_csv function, change PATH to fit where csv 
 # file exists
