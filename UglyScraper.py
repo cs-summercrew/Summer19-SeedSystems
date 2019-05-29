@@ -1,5 +1,5 @@
 
-# beautiful soup documentation:
+# BeautifulSoup documentation:
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 try: 
     from bs4 import BeautifulSoup
@@ -18,6 +18,13 @@ try:
 except:
     print("Please install the shutil library and try again")
 
+# If you get any of these except errors, 
+# installing Anaconda should ensure that 
+# you have all the proper libraries installed...
+# https://www.anaconda.com/distribution/
+
+
+# Global Variables
 URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
