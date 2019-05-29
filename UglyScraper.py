@@ -23,18 +23,21 @@ def setup():
 
 def createfiles(listOflinks, path):
     "Creates file directory"
-    # NOTE: Need to either copy files into the Scrapped_Files folder
-    # or somehow directly create the files in that folder
-    
     for link in listOflinks:
+        # Make the paths for each file
         name = link.get('href')
         print(name)
         file_name = name[6:]+".html"    #Will need to check that this works for all links on larger lists
         print("File name is",file_name)
         filePath = os.path.join(path, file_name)
-        #os.mkdir(filePath)
+        # Get the info that will be written to the files
+        URLtoLoop = baseURL + name
+        print(URLtoLoop)
+        info = requests.get(URLtoLoop)
+        finalInfo = info.text
+        # Write the files
         with open(filePath, 'w') as f:
-            f.write('')
+            f.write(finalInfo)
     return
 
 def scrape(Ourpath):
