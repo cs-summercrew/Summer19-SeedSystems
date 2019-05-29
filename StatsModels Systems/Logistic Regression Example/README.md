@@ -23,7 +23,7 @@ The example provided consists of two parts. The first is a csv file called
 Happiness.csv. This is a ficticious data set designed to represent the factors
 that attribute to the happiness of an individual Harvey Mudd student. The first
 column of the csv is whether a given student is happy or not, described
-by either a 1 or a 0. The second represents the number of total puppies that
+by either a 1 (happy) or a 0 (unhappy). The second represents the number of total puppies that
 student has at the given time of their happiness state. The third represents
 the total pounds of candy the student has. And the final represents the number
 of rain clouds in the sky.
