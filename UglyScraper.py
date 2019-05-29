@@ -8,6 +8,8 @@ import requests
 import os
 import os.path
 import shutil
+url = "https://esolangs.org/wiki/Language_list"
+baseURL = "https://esolangs.org"
 
 def setup():
     " Makes a folder to hold our html files"
@@ -35,23 +37,25 @@ def createfiles(listOflinks, path):
             f.write('')
     return
 
-def main():
-    print("Start of main()\n")
-    
-    url = "https://esolangs.org/wiki/Language_list"
-    baseURL = "https://esolangs.org"
+def scrape(Ourpath):
     result = requests.get(url)
     pagesrc = result.text #returns a string
 
     soup = BeautifulSoup(pagesrc,"lxml")
     LinkList = soup.findAll('a')
+    LinkList_Subset=LinkList[35:40]
+    createfiles(LinkList_Subset, Ourpath)
 
+
+def main():
+    print("Start of main()\n")
+  
     #print(LinkList[33]) #external resources link
     #Links to other lang pages start @35 (!!!)
     
     Ourpath = setup()
-    LinkList_Subset = LinkList[35:40]
-    createfiles(LinkList_Subset, Ourpath)
+    scrape(Ourpath)
+    
 
     print("End of main()\n")
 
