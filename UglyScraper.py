@@ -11,6 +11,9 @@ import shutil
 url = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
+#TODO: I remember Dodds mentioning that we should have some trys & excepts for our imports w/ error messages
+# that mention that the user needs to install the appropriate packages...
+
 def setup():
     " Makes a folder to hold our html files"
     original_dir = os.getcwd()
