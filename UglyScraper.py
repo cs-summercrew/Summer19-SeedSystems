@@ -15,7 +15,7 @@ baseURL = "https://esolangs.org"
 # that mention that the user needs to install the appropriate packages...
 
 def setup():
-    " Makes a folder to hold our html files"
+    " Makes a folder to hold our html files, and return a path to that folder"
     original_dir = os.getcwd()
     dirContents = os.listdir(original_dir)
     path = os.path.join(original_dir, "Scraped_Files")
@@ -30,7 +30,7 @@ def createfiles(listOflinks, path):
         # Make the paths for each file
         name = link.get('href')
         print(name)
-        file_name = name[6:]+".html"    #Will need to check that this works for all links on larger lists
+        file_name = name[6:]+".html"    #TODO: name[6:] will not work on more complex lists
         print("File name is",file_name)
         filePath = os.path.join(path, file_name)
         # Get the info that will be written to the files
@@ -43,14 +43,12 @@ def createfiles(listOflinks, path):
             f.write(finalInfo)
     return
 
-def scrape(Ourpath):
+def makesoup(Ourpath):
+    "Creates a beautiful soup object that can be used to parse our webpage for links"
     result = requests.get(url)
-    pagesrc = result.text #returns a string
-
+    pagesrc = result.text # Turns the html into a single string
     soup = BeautifulSoup(pagesrc,"lxml")
-    LinkList = soup.findAll('a')
-    LinkList_Subset=LinkList[35:40]
-    createfiles(LinkList_Subset, Ourpath)
+    return soup
 
 
 def main():
@@ -60,7 +58,11 @@ def main():
     #Links to other lang pages start @35 (!!!)
     
     Ourpath = setup()
-    scrape(Ourpath)
+    soup = makesoup(Ourpath)
+    
+    LinkList = soup.findAll('a')
+    LinkList_Subset=LinkList[35:40]
+    createfiles(LinkList_Subset, Ourpath)
     
 
     print("End of main()\n")
