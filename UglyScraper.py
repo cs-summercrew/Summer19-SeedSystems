@@ -1,18 +1,28 @@
 
 # beautiful soup documentation:
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-
-from bs4 import BeautifulSoup
-import requests
-import os
-import os.path
-import shutil
+try: 
+    from bs4 import BeautifulSoup
+except:
+    print("Please install the BeautifulSoup library and try again")
+try:
+    import requests
+except:
+    print("Please install the requests library and try again")
+try:
+    import os
+except:
+    print("Please install the os library and try again")
+try:
+    import shutil
+except:
+    print("Please install the shutil library and try again")
 
 URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
 #TODO: I remember Dodds mentioning that we should have some trys & excepts for our imports w/ error messages
-# that mention that the user needs to install the appropriate packages...
+# that mention that the user needs to install the ap  propriate packages...
 
 def setup():
     " Makes a folder to hold our html files, and return a path to that folder"
