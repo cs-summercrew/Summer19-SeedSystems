@@ -9,6 +9,7 @@ from pandas, and the StatsModels API (statsmodels.api).
 Furthermore, in the command line, type the following commands:
 
 pip install msgpack
+
 pip install statsmodels
 
 For futher clarification and for any issues, consult the following link to 
