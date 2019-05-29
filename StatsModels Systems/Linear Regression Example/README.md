@@ -14,6 +14,7 @@ pip install statsmodels
 
 For futher clarification and for any issues, consult the following link to 
 the StatsModels tutorial for installation:
+
 https://www.statsmodels.org/stable/install.html
 
 Overview:
@@ -33,8 +34,11 @@ regression model using StatsModels commands. Running the script will print out
 a summary page in the terminal detailing the coefficients of your linear 
 regression equation. For more information on decifering the summary page, 
 consult these two websites:
+
 https://datatofish.com/statsmodels-linear-regression/
+
 https://www.statsmodels.org/stable/regression.html
 
 Further information for StatsModels available at:
+
 https://www.statsmodels.org/stable/index.html
