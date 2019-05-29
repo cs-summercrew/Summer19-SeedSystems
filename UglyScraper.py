@@ -13,7 +13,7 @@ def setup():
     " Makes a folder to hold html files"
     original_dir = os.getcwd()
     dirContents = os.listdir(original_dir)
-    path = os.path.join(original_dir, "Scrapped_Files")
+    path = os.path.join(original_dir, "Scraped_Files")
     if "Scraped_Files" in dirContents:
             shutil.rmtree(path) #Removes directories regardless of if they're empty
     os.mkdir(path)
@@ -33,7 +33,7 @@ def createfiles(listOflinks):
         file_name = name[6:]+".html"
         print("File name is",file_name)
         filePath = os.path.join(path, file_name)
-        os.mkdir(filePath)
+        #os.mkdir(filePath)
         with open(file_name, 'w') as f:
             f.write('')
     return
