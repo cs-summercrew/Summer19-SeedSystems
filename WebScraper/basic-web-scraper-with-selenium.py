@@ -22,7 +22,7 @@ def main():
     
     #sets chrome to incognito mode. Remove if desired
     option = webdriver.ChromeOptions()
-    option.add_argument("— incognito")
+    option.add_argument("—incognito")
 
     #TODO: change executable_path to wherever you downloaded chromedriver to
     browser = webdriver.Chrome(executable_path='/Users/summer19/Downloads/chromedriver', chrome_options=option)
