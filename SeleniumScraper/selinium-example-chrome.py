@@ -20,6 +20,7 @@ except:
 opts = Options()
 #opts.add_argument("—headless")     #Runs invisibly w/o a user interfaces
 #opts.add_argument("-incognito")     #Rusn in incognito mode
+#NOTE: change this path to wherever you unzipped the chromedriver executable to.
 driver = webdriver.Chrome(executable_path='/Users/summer19/Downloads/chromedriver', options=opts)
 
 driver.get('https://duckduckgo.com')
