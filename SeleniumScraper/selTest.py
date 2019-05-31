@@ -87,19 +87,23 @@ def closebrowser(driver):
     driver.quit()   # Closes all tabs
     return
 
+def buttonclick(driver, button_element):
+    "Clicks a button"
+    # NOTE: ActionChains lets you automate low level interactions like mouse movements & button presses
+    actions = ActionChains(driver)
+    actions.move_to_element(button_element)
+    actions.click(button_element)
+    actions.perform()
+    return
+
 def closepopup(driver):
-    "Closes the duckduckgo add-on popup for FIREFOX"
+    "Closes the duckduckgo add-on popup for FIREFOX only"
     try: 
         # NOTE: You can find the xpath of an element by right-clikcing it in the browser
         #       and clicking inspect element. Right click on the respective html code, and
         #       you should see an option to copy the element's XPATH
         close_button = driver.find_element(By.XPATH, "/html/body/div/div[5]/a/span")
-
-        # NOTE: ActionChains lets you automate low level interactions like mouse movements & button presses
-        actions = ActionChains(driver)
-        actions.move_to_element(close_button)
-        actions.click(close_button)
-        actions.perform()
+        buttonclick(driver, close_button)
     except:
         print("If the popup wasn't there, you probably didn't use firefox."+"\n"+
         "If the popup wasn't there, try without incognito mode or just comment out this function")
@@ -109,16 +113,10 @@ def useform(driver):
     "Opens a feedback form for our search, and interacts with it"
     time.sleep(1.0)
     sendfeedback_button = driver.find_element(By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/a")
-    actions = ActionChains(driver)
-    actions.move_to_element(sendfeedback_button)
-    actions.click(sendfeedback_button)
-    actions.perform()
+    buttonclick(driver, sendfeedback_button)
 
     good_button = driver.find_element(By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/div/a[1]")
-    actions = ActionChains(driver)
-    actions.move_to_element(good_button)
-    actions.click(good_button)
-    actions.perform()
+    buttonclick(driver, good_button)
 
     select = Select(driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/div[2]/select"))
     select.select_by_index(13)
@@ -126,17 +124,11 @@ def useform(driver):
     textbox.send_keys("I am testing the powers of automation with Selenium. Please ignore this feedback.")
 
     close_button1 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/a[1]")
-    actions = ActionChains(driver)
-    actions.move_to_element(close_button1)
-    actions.click(close_button1)
-    actions.perform()
+    buttonclick(driver, close_button1)
 
-    #BUG: The section of code below keeps throwing an error and I don't know why
-    close_button2 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[2]/a")
-    actions = ActionChains(driver)
-    actions.move_to_element(close_button2)
-    actions.click(close_button2)
-    actions.perform()
+    # BUG: The section of code below keeps throwing an error and I don't know why
+    # close_button2 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[2]/a")
+    # buttonclick(driver, close_button2)
 
     return
 def main():
@@ -150,9 +142,9 @@ def main():
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
     closepopup(driver)
     websearch(driver)
-    #useform(driver)
+    useform(driver)
     savepage(driver)
-    #screenshot(driver)
+    screenshot(driver)
 
     # link = driver.find_element_by_link_text('Esoteric programming language - Esolang')
     # print(link.text)
