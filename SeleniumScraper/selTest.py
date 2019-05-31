@@ -27,7 +27,7 @@ except:
 def createdriver(url, path):
     "Creates the selenium driver object"
     opts = Options()
-    # NOTE: Incognito mode may prevent the popup from appearing
+    # NOTE: Incognito mode may prevent popups from appearing
     # opts.add_argument("—headless")     #Runs Firefox invisibly w/o a user interfaces
     # opts.add_argument("-incognito")     #Rusn Firefox in incognito mode
     driver = webdriver.Firefox(executable_path=path, options=opts)
@@ -58,31 +58,10 @@ def websearch(driver):
     search_form.send_keys("sdklfjgblsdkfjgblsdkjfgdfgadftgafdhdfhdfdag")
     search_form.submit() # Enters the current earch
 
-    #BUG
-    # If a page or some elements of it load slowly, then you can wait for
-    # it to load with code like below
-    try:
-        print('hi')
-        search_form = driver.find_element_by_id('search_form_input')
-        #print(search_form)
-        wait = WebDriverWait(driver, 3)
-        element = wait.until(EC.visibility_of((By.ID, "'search_form_input'")))
-        print('hi')
-        print(element)
-        #time.sleep(3)
-    except:
-        print("Your Internet must suck! The webpage took too long to load.")
-    
-    #NOTE: this line can replace the try except
-    #time.sleep(2)
-    search_form = driver.find_element_by_id("search_form_input")
+    search_form = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.ID,"search_form_input")))
     search_form.clear()
     search_form.send_keys("esoteric programming languages churro")
     search_form.submit()
-    
-    # Checks that we're on the second search, and have results
-    time.sleep(0.1)
-    assert "No results found" not in driver.page_source
     return
 
 def closebrowser(driver):
@@ -110,29 +89,29 @@ def closepopup(driver):
         buttonclick(driver, close_button)
     except:
         print("If the popup wasn't there, you probably didn't use firefox."+"\n"+
-        "If the popup wasn't there, try without incognito mode or just comment out this function")
+        "Try without incognito mode or just comment out this function if it continues."+"\n"+
+        "If the popup only appeared after a search, move where this function gets called")
     return
 
 def useform(driver):
     "Opens a feedback form for our search, and interacts with it"
-    time.sleep(1.0)
-    sendfeedback_button = driver.find_element(By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/a")
+    # Clicks buttons to open the form
+    sendfeedback_button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/a")))
     buttonclick(driver, sendfeedback_button)
-
     good_button = driver.find_element(By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/div/a[1]")
     buttonclick(driver, good_button)
 
+    # Selects the correct option from the dropdown and enters text
     select = Select(driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/div[2]/select"))
     select.select_by_index(13)
     textbox = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/textarea")
     textbox.send_keys("I am testing the powers of automation with Selenium. Please ignore this feedback.")
 
+    # Clicks the buttons to close the form and the popup that follows it
     close_button1 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/a[1]")
     buttonclick(driver, close_button1)
-
-    # BUG: The section of code below keeps throwing an error and I don't know why
-    # close_button2 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[2]/a")
-    # buttonclick(driver, close_button2)
+    close_button2 = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div/div/div[2]/a")))
+    buttonclick(driver, close_button2)
     backandforth(driver)
     return
 
@@ -143,12 +122,6 @@ def backandforth(driver):
     return
 
 def main():
-    """ run this file as a script """
-    # # Prints all the links on the webpage below
-    # driver.get('https://www.w3.org/')
-    # for a in driver.find_elements_by_xpath('.//a'):
-    #     print(a.get_attribute('href'))
-    
     driver = createdriver('https://duckduckgo.com',
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
     # NOTE: You will need to change the above path to wherever you have installed geckodriver
@@ -157,15 +130,10 @@ def main():
     useform(driver)
     savepage(driver)
     screenshot(driver)
-
-    # link = driver.find_element_by_link_text('Esoteric programming language - Esolang')
-    # print(link.text)
-    # print(link.get_attribute('href'))
     
     # Closes the open web browser
     time.sleep(2)
     closebrowser(driver)
-
 
 
 if __name__ == "__main__":
