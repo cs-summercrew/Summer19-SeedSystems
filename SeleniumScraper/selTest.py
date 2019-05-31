@@ -12,6 +12,7 @@ try:
     from selenium.webdriver.common.keys import Keys
     from selenium.webdriver.firefox.options import Options
     from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.action_chains import ActionChains
 except:
     print("please run 'pip install selenium' and try again")
 
@@ -68,13 +69,21 @@ def websearch(driver):
     # Checks that we're on the second search, and have results
     time.sleep(0.1)
     assert "No results found" not in driver.page_source
-    
     return
 
 def closebrowser(driver):
     "Closes the browser"
     driver.close()  # Closes a single tab
     driver.quit()   # Closes all tabs
+    return
+
+def closepopup(driver):
+    "Closes the duckduckgo add-on popup for firefox"
+    close_button = driver.find_element(By.XPATH, "/html/body/div/div[5]/a/span")
+    actions = ActionChains(driver)
+    actions.move_to_element(close_button)
+    actions.click(close_button)
+    actions.perform()
     return
 
 def main():
@@ -86,8 +95,9 @@ def main():
     
     driver = createdriver('https://duckduckgo.com',
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
-    websearch(driver)
-    savepage(driver)
+    closepopup(driver)
+    #websearch(driver)
+    #savepage(driver)
     #screenshot(driver)
 
     # link = driver.find_element_by_link_text('Esoteric programming language - Esolang')
@@ -96,7 +106,7 @@ def main():
     
     # Closes the open web browser
     time.sleep(2)
-    closebrowser(driver)
+    #closebrowser(driver)
 
 
 
