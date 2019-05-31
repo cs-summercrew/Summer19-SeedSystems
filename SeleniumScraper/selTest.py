@@ -73,7 +73,8 @@ def websearch(driver):
     except:
         print("Your Internet must suck! The webpage took too long to load.")
     
-    time.sleep(2)
+    #NOTE: this line can replace the try except
+    #time.sleep(2)
     search_form = driver.find_element_by_id("search_form_input")
     search_form.clear()
     search_form.send_keys("esoteric programming languages churro")
