@@ -129,8 +129,15 @@ def useform(driver):
     # BUG: The section of code below keeps throwing an error and I don't know why
     # close_button2 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[2]/a")
     # buttonclick(driver, close_button2)
-
+    backandforth(driver)
     return
+
+def backandforth(driver):
+    "The driver moves to the previous item in your search history, then moves forward an item"
+    driver.back()
+    driver.forward()
+    return
+
 def main():
     """ run this file as a script """
     # # Prints all the links on the webpage below
