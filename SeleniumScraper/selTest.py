@@ -28,7 +28,9 @@ def createdriver(url, path):
 def savepage(driver):
     "Saves the current html page as an html file"
     html = driver.page_source
-    return html
+    with open(".", 'w') as f:
+        f.write(html)
+    return
 
 def screenshot(driver):
     "Takes a screenshot of the current page and save it as a png"
