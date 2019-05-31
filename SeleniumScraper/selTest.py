@@ -6,6 +6,7 @@
 # Make sure to choose the geckodriver file that corresponds to your OS
 # More helpful documentation info at https://selenium-python.readthedocs.io/getting-started.html
 
+import os
 import time
 #NOTE: We use sleep from the time library because the code often runs faster than pages can load.
 #      We also added a few extra so that you can watch what is happening.
@@ -32,9 +33,13 @@ def createdriver(url, path):
 
 def savepage(driver):
     "Saves the current html page as an html file"
-    #TODO: Implement
+    time.sleep(1.0)
     html = driver.page_source
-    return html
+    ourdir = os.getcwd()
+    path = os.path.join(ourdir, "DuckDuckResults.html")
+    with open(path, 'w') as f:
+            f.write(html)
+    return
 
 def screenshot(driver):
     "Takes a screenshot of the current page and save it as a png"
@@ -145,8 +150,8 @@ def main():
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
     closepopup(driver)
     websearch(driver)
-    useform(driver)
-    #savepage(driver)
+    #useform(driver)
+    savepage(driver)
     #screenshot(driver)
 
     # link = driver.find_element_by_link_text('Esoteric programming language - Esolang')
@@ -155,7 +160,7 @@ def main():
     
     # Closes the open web browser
     time.sleep(2)
-    #closebrowser(driver)
+    closebrowser(driver)
 
 
 
