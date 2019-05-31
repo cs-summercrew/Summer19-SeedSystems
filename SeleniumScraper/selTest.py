@@ -58,12 +58,14 @@ def websearch(driver):
     # except:
     #     print("Your Internet must suck! The webpage took too long to load.")
     
+    #NOTE: The code runs faster than the page can load, so you need to make it wait
     time.sleep(2)
     search_form = driver.find_element_by_id('search_form_input')
     search_form.clear()
     search_form.send_keys("esoteric programming languages churro")
     search_form.submit()
     
+    # Checks that we're on the second search, and have results
     time.sleep(0.1)
     assert "No results found" not in driver.page_source
     
@@ -84,7 +86,7 @@ def main():
     
     driver = createdriver('https://duckduckgo.com',
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
-    #websearch(driver)
+    websearch(driver)
     savepage(driver)
     #screenshot(driver)
 
@@ -94,7 +96,7 @@ def main():
     
     # Closes the open web browser
     time.sleep(2)
-    #closebrowser(driver)
+    closebrowser(driver)
 
 
 

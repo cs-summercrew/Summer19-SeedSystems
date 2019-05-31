@@ -5,3 +5,16 @@
 1559254182903	Marionette	INFO	Listening on port 62225
 1559254182950	Marionette	WARN	TLS certificate errors will be ignored for this session
 1559254196192	Marionette	INFO	Stopped listening on port 62225
+1559319895777	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/rl/sx0qss7n0qd3jtl50xkd3sv40000gn/T/rust_mozprofile.sn7C0PO8OXOy"
+1559319896470	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559319896470	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559319896471	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559319898092	Marionette	INFO	Listening on port 49528
+1559319898126	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559319935748	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/rl/sx0qss7n0qd3jtl50xkd3sv40000gn/T/rust_mozprofile.aUGbiiVvGFzh"
+1559319936161	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559319936161	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559319936161	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559319937603	Marionette	INFO	Listening on port 49595
+1559319937674	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559319944890	Marionette	INFO	Stopped listening on port 49595
