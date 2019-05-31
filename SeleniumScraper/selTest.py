@@ -9,8 +9,8 @@
 
 import os
 import time
-# NOTE: We use sleep from the time library because the code often runs faster than pages can load.
-#       We also added a few extra so that you can watch what is happening.
+# NOTE: We use sleep from the time library to make it easier to watch what is happening (It is not necessary)
+
 try:
     from selenium import webdriver
     from selenium.webdriver.common.keys import Keys
