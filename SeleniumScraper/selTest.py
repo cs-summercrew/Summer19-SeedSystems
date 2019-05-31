@@ -18,6 +18,8 @@ try:
     from selenium.webdriver.common.by import By
     from selenium.webdriver.common.action_chains import ActionChains
     from selenium.webdriver.support.ui import Select
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
 except:
     print("please run 'pip install selenium' and try again")
 
@@ -57,19 +59,19 @@ def websearch(driver):
     search_form.submit() # Enters the current earch
 
     #BUG
-    # # If a page or some elements of it load slowly, then you can wait for
-    # # it to load with code like below
-    # try:
-    #     print('hi')
-    #     # search_form = driver.find_element_by_id('search_form_input')
-    #     # print(search_form)
-    #     wait = WebDriverWait(driver, 3)
-    #     element = wait.until(EC.visibility_of((By.ID, "'search_form_input'")))
-    #     print('hi')
-    #     print(element)
-    #     #time.sleep(3)
-    # except:
-    #     print("Your Internet must suck! The webpage took too long to load.")
+    # If a page or some elements of it load slowly, then you can wait for
+    # it to load with code like below
+    try:
+        print('hi')
+        search_form = driver.find_element_by_id('search_form_input')
+        #print(search_form)
+        wait = WebDriverWait(driver, 3)
+        element = wait.until(EC.visibility_of((By.ID, "'search_form_input'")))
+        print('hi')
+        print(element)
+        #time.sleep(3)
+    except:
+        print("Your Internet must suck! The webpage took too long to load.")
     
     time.sleep(2)
     search_form = driver.find_element_by_id("search_form_input")
