@@ -7,6 +7,8 @@
 # More helpful documentation info at https://selenium-python.readthedocs.io/getting-started.html
 
 import time
+#NOTE: We use sleep from the time library because the code often runs faster than pages can load.
+#      We also added a few extra so that you can watch what is happening.
 try:
     from selenium import webdriver
     from selenium.webdriver.common.keys import Keys
@@ -20,8 +22,9 @@ except:
 def createdriver(url, path):
     "Creates the selenium driver object"
     opts = Options()
-    #opts.add_argument("—headless")     #Runs Firefox invisibly w/o a user interfaces
-    #opts.add_argument("-incognito")     #Rusn Firefox in incognito mode
+    # NOTE: Incognito mode may prevent the popup from appearing
+    # opts.add_argument("—headless")     #Runs Firefox invisibly w/o a user interfaces
+    # opts.add_argument("-incognito")     #Rusn Firefox in incognito mode
     driver = webdriver.Firefox(executable_path=path, options=opts)
     driver.get(url)
     return driver
@@ -37,7 +40,7 @@ def screenshot(driver):
     return
 
 def websearch(driver):
-    "Showcases a websearch with duckduckgo"
+    "Conducts two websearchs using duckduckgo"
     search_form = driver.find_element_by_id('search_form_input_homepage')
     search_form.send_keys("I'm feeling famished. A churro sounds great!")
     time.sleep(2)
@@ -59,7 +62,6 @@ def websearch(driver):
     # except:
     #     print("Your Internet must suck! The webpage took too long to load.")
     
-    #NOTE: The code runs faster than the page can load, so you need to make it wait
     time.sleep(2)
     search_form = driver.find_element_by_id('search_form_input')
     search_form.clear()
@@ -78,12 +80,21 @@ def closebrowser(driver):
     return
 
 def closepopup(driver):
-    "Closes the duckduckgo add-on popup for firefox"
-    close_button = driver.find_element(By.XPATH, "/html/body/div/div[5]/a/span")
-    actions = ActionChains(driver)
-    actions.move_to_element(close_button)
-    actions.click(close_button)
-    actions.perform()
+    "Closes the duckduckgo add-on popup for FIREFOX"
+    try: 
+        # NOTE: You can find the xpath of an element by right-clikcing it in the browser
+        #       and clicking inspect element. Right click on the respective html code, and
+        #       you should see an option to copy the element's XPATH
+        close_button = driver.find_element(By.XPATH, "/html/body/div/div[5]/a/span")
+
+        # NOTE: ActionChains lets you automate low level interactions like mouse movements & button presses
+        actions = ActionChains(driver)
+        actions.move_to_element(close_button)
+        actions.click(close_button)
+        actions.perform()
+    except:
+        print("Something went wrong here, you probably didn't use firefox, but if you did"+
+        "and the popup wasn't there, try without incognito mode or just comment out this function")
     return
 
 def main():
@@ -96,7 +107,7 @@ def main():
     driver = createdriver('https://duckduckgo.com',
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
     closepopup(driver)
-    #websearch(driver)
+    websearch(driver)
     #savepage(driver)
     #screenshot(driver)
 
@@ -106,7 +117,7 @@ def main():
     
     # Closes the open web browser
     time.sleep(2)
-    #closebrowser(driver)
+    closebrowser(driver)
 
 
 
