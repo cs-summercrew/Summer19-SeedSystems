@@ -1,25 +1,29 @@
 
+
 # NOTE: Installation Instructions
 # Use "pip install selenium" to install selenium for python
-# Go to https://addons.mozilla.org/en-US/firefox/addon/selenium-ide/ to install the Selenium add-on for Firefox
-# Go to https://github.com/mozilla/geckodriver/releases to install geckodriver
-# Make sure to choose the geckodriver file that corresponds to your OS
+# Go to the chrome web store to install the Selenium add-on for chrome (published by seliniumhq.org)
+# Go to https://sites.google.com/a/chromium.org/chromedriver/downloads to install chromedriver
+# Make sure to choose the chromedriver file that corresponds to your browser (check at whatismybrowser.com)
 # More helpful info at https://selenium-python.readthedocs.io/getting-started.html
 
 import time
 try:
     from selenium import webdriver
     from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.firefox.options import Options
+    from selenium.webdriver.chrome.options import Options
     from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait 
+    from selenium.webdriver.support import expected_conditions as EC 
+    from selenium.common.exceptions import TimeoutException
 except:
     print("please run 'pip install selenium' and try again")
 
 
 opts = Options()
-#opts.add_argument("—headless")     #Runs Firefox invisibly w/o a user interfaces
-#opts.add_argument("-incognito")     #Rusn Firefox in incognito mode
-driver = webdriver.Firefox(executable_path='/Users/summer19/Documents/geckodriver', options=opts)
+#opts.add_argument("—headless")     #Runs invisibly w/o a user interfaces
+#opts.add_argument("-incognito")     #Runs in incognito mode
+driver = webdriver.Chrome(executable_path='/Users/summer19/Downloads/chromedriver', options=opts)
 
 driver.get('https://duckduckgo.com')
 html1 = driver.page_source  #Gets the html of a webpage
