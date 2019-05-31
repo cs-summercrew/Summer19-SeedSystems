@@ -35,7 +35,7 @@ def savepage(driver):
 
 def screenshot(driver):
     "Takes a screenshot of the current page and save it as a png"
-    driver.save_screenshot("screenshot.png")
+    driver.save_screenshot("screenshot.png") 
     return
 
 def websearch(driver):
@@ -60,14 +60,14 @@ def websearch(driver):
     #     #time.sleep(3)
     # except:
     #     print("Your Internet must suck! The webpage took too long to load.")
-    
+
     #NOTE: The code runs faster than the page can load, so you need to make it wait
     time.sleep(2)
     search_form = driver.find_element_by_id('search_form_input')
     search_form.clear()
     search_form.send_keys("esoteric programming languages churro")
     search_form.submit()
-    
+
     # Checks that we're on the second search, and have results
     time.sleep(0.1)
     assert "No results found" not in driver.page_source
@@ -94,7 +94,7 @@ def main():
     # driver.get('https://www.w3.org/')
     # for a in driver.find_elements_by_xpath('.//a'):
     #     print(a.get_attribute('href'))
-    
+
     driver = createdriver('https://duckduckgo.com',
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
     closepopup(driver)
@@ -105,7 +105,7 @@ def main():
     # link = driver.find_element_by_link_text('Esoteric programming language - Esolang')
     # print(link.text)
     # print(link.get_attribute('href'))
-    
+
     # Closes the open web browser
     time.sleep(2)
     #closebrowser(driver)
