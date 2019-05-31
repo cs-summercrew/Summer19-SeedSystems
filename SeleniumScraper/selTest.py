@@ -15,6 +15,7 @@ try:
     from selenium.webdriver.firefox.options import Options
     from selenium.webdriver.common.by import By
     from selenium.webdriver.common.action_chains import ActionChains
+    from selenium.webdriver.support.ui import Select
 except:
     print("please run 'pip install selenium' and try again")
 
@@ -31,6 +32,7 @@ def createdriver(url, path):
 
 def savepage(driver):
     "Saves the current html page as an html file"
+    #TODO: Implement
     html = driver.page_source
     with open(".", 'w') as f:
         f.write(html)
@@ -50,6 +52,7 @@ def websearch(driver):
     search_form.send_keys("sdklfjgblsdkfjgblsdkjfgdfgadftgafdhdfhdfdag")
     search_form.submit() # Enters the current earch
 
+    #BUG
     # # If a page or some elements of it load slowly, then you can wait for
     # # it to load with code like below
     # try:
@@ -100,10 +103,44 @@ def closepopup(driver):
         actions.click(close_button)
         actions.perform()
     except:
-        print("Something went wrong here, you probably didn't use firefox, but if you did"+
-        "and the popup wasn't there, try without incognito mode or just comment out this function")
+        print("If the popup wasn't there, you probably didn't use firefox."+"\n"+
+        "If the popup wasn't there, try without incognito mode or just comment out this function")
     return
 
+def useform(driver):
+    "Opens a feedback form for our search, and interacts with it"
+    time.sleep(1.0)
+    sendfeedback_button = driver.find_element(By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/a")
+    actions = ActionChains(driver)
+    actions.move_to_element(sendfeedback_button)
+    actions.click(sendfeedback_button)
+    actions.perform()
+
+    good_button = driver.find_element(By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/div/a[1]")
+    actions = ActionChains(driver)
+    actions.move_to_element(good_button)
+    actions.click(good_button)
+    actions.perform()
+
+    select = Select(driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/div[2]/select"))
+    select.select_by_index(13)
+    textbox = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/textarea")
+    textbox.send_keys("I am testing the powers of automation with Selenium. Please ignore this feedback.")
+
+    close_button1 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/a[1]")
+    actions = ActionChains(driver)
+    actions.move_to_element(close_button1)
+    actions.click(close_button1)
+    actions.perform()
+
+    #BUG: The section of code below keeps throwing an error and I don't know why
+    close_button2 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[2]/a")
+    actions = ActionChains(driver)
+    actions.move_to_element(close_button2)
+    actions.click(close_button2)
+    actions.perform()
+
+    return
 def main():
     """ run this file as a script """
     # # Prints all the links on the webpage below
@@ -115,6 +152,7 @@ def main():
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
     closepopup(driver)
     websearch(driver)
+    useform(driver)
     #savepage(driver)
     #screenshot(driver)
 
@@ -124,7 +162,7 @@ def main():
 
     # Closes the open web browser
     time.sleep(2)
-    closebrowser(driver)
+    #closebrowser(driver)
 
 
 
