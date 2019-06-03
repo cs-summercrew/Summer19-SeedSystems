@@ -1,6 +1,9 @@
 
 # BeautifulSoup documentation:
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+# NOTE: Make sure that you have a parser installed, this program uses lxml,
+#       See https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser for more information
+
 try: 
     from bs4 import BeautifulSoup
 except:
@@ -20,7 +23,8 @@ except:
 
 import os.path
 import csv
-from bs4 import BeautifulSoup
+import re
+
 
 # If you get any of these except errors, 
 # installing Anaconda should ensure that 
@@ -51,8 +55,19 @@ def parseData(path):
         fpath = os.path.join(path, file)
         with open(fpath) as f:
             soup = BeautifulSoup(f, "lxml")
-            List1 = soup.findAll('p')
-        data.append([file, List1])
+            #print(soup.get_text())
+            catList = []
+            try:
+                tags = soup.find(class_="mw-normal-catlinks").ul.contents
+                for tag in tags:
+                    category = str(tag.contents[0].string)
+                    catList.append(category)
+                    # NOTE: If you don't convert a navigable string object with str, the original will carry around
+                    #       a very memory intensive copy of the entire tree in the soup variable
+            except:
+                print("ERROR: Page doesn't have any Categories")
+                catList.append("N/A")
+            data.append([soup.title.string[:-10], catList])
     return data
 
 
@@ -61,7 +76,7 @@ def main():
     currDir = os.getcwd()
     path = os.path.join(currDir, "Files_To_Parse")
     data = parseData(path)
-    print(data)
+    print("\n",data)
     #writeCSV(path, data)
 
     print("\nEnd of main()")
