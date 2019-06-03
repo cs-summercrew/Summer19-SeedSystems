@@ -37,11 +37,11 @@ def writeCSV(path, data):
     " Takes our data and writes it to a csv file"
     path = os.path.join(path, "EsoData.csv")
     with open(path, 'w') as myCSVfile:
+        print("Writing EsoData.csv")
         filewriter = csv.writer(myCSVfile, delimiter='\n', quoting=csv.QUOTE_NONE, escapechar='\\')
-        # for i in range(0,len(datalist)):
-            # print(datalist[i])
-            # filewriter.writerow([datalist[i][0] + ',' + datalist[i][1] + ',' + datalist[i][2]])
-    return path
+        for i in range(0,len(data)):
+                filewriter.writerow([data[i][0] + ',' + data[i][1] + ',' + data[i][2] + ',' + data[i][3] + ',' + data[i][4] + ',' + data[i][5]])
+    return
 
 def simplifyText(myString):
     "Strips the input text of all whitespace and punctuation, and changes it to all lowercase"
@@ -57,7 +57,7 @@ def parseData(path):
     AllFiles = list(os.walk(path))[0][2]
     data = []
     #Data Index Titles
-    data.append(["Title", "Article Last Edited", "Article is a Stub", "Article contains Hello World", "Is Turing Complete", "Has External Rescources"])
+    data.append(["Title", "Article Last Edited", "Article is a Stub", "Article contains Hello World", "Is Turing Complete", "Has External Resources"])
 
     for file in AllFiles:
         fpath = os.path.join(path, file)
@@ -91,7 +91,7 @@ def parseData(path):
 
             # Finds the time of the last edit
             lastEdit_tag = soup.find(id="footer-info-lastmod")
-            lastEdit = str(lastEdit_tag.string)[30:]
+            lastEdit = "("+str(lastEdit_tag.string)[30:-1]+")"
             
             # Checks if "hello world" is in the file's text
             fileText = simplifyText(str(soup.get_text()))
@@ -104,9 +104,9 @@ def parseData(path):
             isTuringComp = int(("Turing complete" in catList) or ("Turing tarpits" in catList))
 
             # Checks if the article has an external rescources header
-            hasExtResc = int("External resources" in headList)
+            hasExtRes = int("External resources" in headList)
 
-            data.append([soup.title.string[:-10], lastEdit, isStub, containsHelloWorld, isTuringComp, hasExtResc])
+            data.append([soup.title.string[:-10], lastEdit, str(isStub), str(containsHelloWorld), str(isTuringComp), str(hasExtRes)])
     print("Number of files:", len(data)-1)
     return data
 
@@ -116,8 +116,8 @@ def main():
     currDir = os.getcwd()
     path = os.path.join(currDir, "Files_To_Parse")
     data = parseData(path)
-    print("\n",data)
-    #writeCSV(path, data)
+    #print("\n",data)
+    writeCSV(currDir, data)
 
     print("\nEnd of main()")
 
