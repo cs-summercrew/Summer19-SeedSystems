@@ -67,7 +67,7 @@ def parseData(path):
                     #       a very memory intensive copy of the entire tree in the soup variable
             except:
                 print("ERROR: couldn't find header")
-                catList.append("N/A")
+                headList.append("N/A")
             try:
                 tags = soup.find(class_="mw-normal-catlinks").ul.contents
                 for tag in tags:
