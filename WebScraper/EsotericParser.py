@@ -24,6 +24,7 @@ except:
 import os.path
 import csv
 import re
+import string
 
 
 # If you get any of these except errors, 
@@ -47,6 +48,15 @@ def writeCSV(path, data):
             # filewriter.writerow([datalist[i][0] + ',' + datalist[i][1] + ',' + datalist[i][2]])
     return path
 
+def modifyText(myString):
+    "Strips the input text of all whitespace and punctuation, and changes it to all lowercase"
+    myString = myString.lower()
+    myString = myString.replace(" ", "")
+    translator = str.maketrans('', '', string.punctuation)
+    myString = myString.translate(translator)
+    #print(myString)
+    return myString
+
 def parseData(path):
     "Parses file directory"
     AllFiles = list(os.walk(path))[0][2]
@@ -55,7 +65,10 @@ def parseData(path):
         fpath = os.path.join(path, file)
         with open(fpath) as f:
             soup = BeautifulSoup(f, "lxml")
-            #print(soup.get_text())
+
+            # Finds the categories section and puts each category into catList
+            # NOTE: We use try and except because if a page doesn't have the Categories section, 
+            #       the parser can't find the class used below and will throw an error
             catList = []
             try:
                 tags = soup.find(class_="mw-normal-catlinks").ul.contents
@@ -65,9 +78,22 @@ def parseData(path):
                     # NOTE: If you don't convert a navigable string object with str, the original will carry around
                     #       a very memory intensive copy of the entire tree in the soup variable
             except:
-                print("ERROR: Page doesn't have any Categories")
                 catList.append("N/A")
-            data.append([soup.title.string[:-10], catList])
+            
+            # Finds the time of the last edit
+            lastEdit_tag = soup.find(id="footer-info-lastmod")
+            lastEdit = str(lastEdit_tag.string)[30:]
+            
+            # Checks if "hello world" is in the file's text
+            fileText = modifyText(str(soup.get_text()))
+            containsHelloWorld = int(('helloworld' in fileText))
+            
+            # Checks if the article is a stub
+            isStub = int(("stub" in fileText) or ("Stubs" in catList))
+
+            #data.append("Title", "Article Last Edited", Article is a Stub", "Article contains Hello World")
+            data.append([soup.title.string[:-10], catList]) #lastEdit, isStub, containsHelloWorld, ])
+    print("Number of files:", len(data))
     return data
 
 
