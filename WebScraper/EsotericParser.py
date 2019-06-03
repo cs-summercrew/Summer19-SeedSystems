@@ -18,6 +18,10 @@ try:
 except:
     print("Please install the shutil library and try again")
 
+import os.path
+import csv
+from bs4 import BeautifulSoup
+
 # If you get any of these except errors, 
 # installing Anaconda should ensure that 
 # you have all the proper libraries installed...
@@ -29,9 +33,8 @@ URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
 
-def writeCSV(currDir, data):
+def writeCSV(path, data):
     " Makes a folder to hold our html files, and return a path to that folder"
-    path = os.path.join(currDir, "Files_To_Parse")
     path = os.path.join(path, "EsoData.csv")
     with open(path, 'w') as myCSVfile:
         filewriter = csv.writer(myCSVfile, delimiter='\n', quoting=csv.QUOTE_NONE, escapechar='\\')
@@ -40,19 +43,22 @@ def writeCSV(currDir, data):
             # filewriter.writerow([datalist[i][0] + ',' + datalist[i][1] + ',' + datalist[i][2]])
     return path
 
-def parseData(currDir):
-    "Creates file directory"
-    
-    return "nothing"
+def parseData(path):
+    "Parses file directory"
+    AllFiles = list(os.walk(path))
+    #soup = BeautifulSoup()
+    return AllFiles
 
 
 def main():
     print("Start of main()\n")
     currDir = os.getcwd()
-    data = parseData()
-    writeCSV(currDir, data)
+    path = os.path.join(currDir, "Files_To_Parse")
+    data = parseData(path)
+    print(data[0])
+    #writeCSV(path, data)
 
-    print("End of main()\n")
+    print("\nEnd of main()")
 
 if __name__ == "__main__":
     main()
