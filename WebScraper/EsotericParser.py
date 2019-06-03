@@ -29,22 +29,28 @@ URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
 
-def setup(currDir):
+def writeCSV(currDir, data):
     " Makes a folder to hold our html files, and return a path to that folder"
     path = os.path.join(currDir, "Files_To_Parse")
     path = os.path.join(path, "EsoData.csv")
+    with open(path, 'w') as myCSVfile:
+        filewriter = csv.writer(myCSVfile, delimiter='\n', quoting=csv.QUOTE_NONE, escapechar='\\')
+        # for i in range(0,len(datalist)):
+            # print(datalist[i])
+            # filewriter.writerow([datalist[i][0] + ',' + datalist[i][1] + ',' + datalist[i][2]])
     return path
 
-def createfiles(listOflinks, path):
+def parseData(currDir):
     "Creates file directory"
     
-    return
+    return "nothing"
 
 
 def main():
     print("Start of main()\n")
     currDir = os.getcwd()
-    createCSV(currDir)
+    data = parseData()
+    writeCSV(currDir, data)
 
     print("End of main()\n")
 
