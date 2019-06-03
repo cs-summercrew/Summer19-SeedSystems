@@ -76,5 +76,10 @@ Ngrok Deployment:
         '''./ngrok http 5000'''
 
 3. Visit the website providing under forwarding header. This will take you to your webapp, which
-   is now accessible from any machine so long as the ngrok session is running. 
+   is now accessible from any machine so long as the ngrok session is running.
+
+If you would like to develop your own Flask App from scratch, be sure to check out this tutorial. 
+It provides an in depth tutorial that covers everything one might need to get started in creating
+web apps. 
+https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 
