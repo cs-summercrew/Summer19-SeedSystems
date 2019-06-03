@@ -34,7 +34,7 @@ baseURL = "https://esolangs.org"
 
 
 def writeCSV(path, data):
-    " Makes a folder to hold our html files, and return a path to that folder"
+    " Takes our data and writes it to a csv file"
     path = os.path.join(path, "EsoData.csv")
     with open(path, 'w') as myCSVfile:
         filewriter = csv.writer(myCSVfile, delimiter='\n', quoting=csv.QUOTE_NONE, escapechar='\\')
@@ -45,7 +45,7 @@ def writeCSV(path, data):
 
 def parseData(path):
     "Parses file directory"
-    AllFiles = list(os.walk(path))
+    AllFiles = list(os.walk(path))[0][2]
     #soup = BeautifulSoup()
     return AllFiles
 
@@ -55,7 +55,7 @@ def main():
     currDir = os.getcwd()
     path = os.path.join(currDir, "Files_To_Parse")
     data = parseData(path)
-    print(data[0][2])
+    print(data)
     #writeCSV(path, data)
 
     print("\nEnd of main()")

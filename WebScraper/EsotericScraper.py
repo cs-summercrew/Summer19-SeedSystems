@@ -61,6 +61,8 @@ def makesoup(Ourpath):
     result = requests.get(URL)
     pagesrc = result.text # Turns the html into a single string
     soup = BeautifulSoup(pagesrc,"lxml")
+    #TODO: Check that this works w/o lxml arg, it should parse it as an html
+    #TODO: Maybe add a function that checks the type of the doc, look specifically for: <!DOCTYPE html>
     return soup
 
 
