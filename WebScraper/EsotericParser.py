@@ -91,7 +91,8 @@ def parseData(path):
 
             # Finds the time of the last edit
             lastEdit_tag = soup.find(id="footer-info-lastmod")
-            lastEdit = "("+str(lastEdit_tag.string)[30:-1]+")"
+            lastEdit = str(lastEdit_tag.string)[30:-1]
+            lastEdit = lastEdit.replace(",","")
             
             # Checks if "hello world" is in the file's text
             fileText = simplifyText(str(soup.get_text()))
