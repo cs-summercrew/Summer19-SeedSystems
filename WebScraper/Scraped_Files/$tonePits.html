@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>$tonePits - Esolang</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"$tonePits","wgTitle":"$tonePits","wgCurRevisionId":62875,"wgRevisionId":62875,"wgArticleId":9150,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Languages"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"$tonePits","wgRelevantArticleId":9150,"wgRequestId":"cd83e6180a659954b3d8249e","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgWikiEditorEnabledModules":{"toolbar":true,"dialogs":true,"preview":false,"publish":false}});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"loading","user.tokens":"loading","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.options@0j3lz3q",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens@152c6tt",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.action.view.postEdit","site","mediawiki.page.startup","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.interface%7Cskins.vector.styles&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.29.2"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Esolang (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//esolangs.org/w/api.php?action=rsd"/>
+<link rel="copyright" href="/wiki/Esolang:Copyrights"/>
+<link rel="alternate" type="application/atom+xml" title="Esolang Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-_tonePits rootpage-_tonePits skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators mw-body-content">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">$tonePits</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From Esolang</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p><b>$tonePits</b>
+</p>
+<hr />
+<p><br />
+is based on the hundreds of Manqala or Sowing games. There are always stones , pits and rules. Well, I suppose maybe this can be used for computation, but it is unknown whether it is Turing complete. 
+</p><p>Programming in "$tonePits" is like designing an own Sowing game and creating a start configuration. Maybe on the beach or a similar recreational area, there will be the possibility to present your $tonePits program, just with sand pits and pebbles,
+shells or whatever is around. Maybe some kid will see it and become the next Euler, Newton or Perelman. 
+</p><p>Uy, maybe it's time for a sample to ease up the beginning: 
+</p><p><br />
+</p>
+<pre>(6) (71) (68) (75) (75) (78) (0)
+</pre>
+<p>() means a pit and the number in it is the number of stones in it;  we suppose sowing from the left to the right and then beginning from the left again; 
+</p><p>Sowing is like in all common known sowing games - take all stones in your  hands and then put in one stone , then going to next pit and so until  you have no stones ... if the last stone falls in an empty pit the sowing process ends just in this 
+sample (of course this is no essential rule of sowing games and could be changed), otherwise take out all other 
+stones of the pit your last stone fell in and sow again ...
+in our sample we will start with the stones from the first pit , which contains (6) pebbles 
+</p><p>No miracle , and hope you did not fall asleep , it should result in 
+</p>
+<pre>  (0) (72) (69) (76) (76) (79) (1) in decimal 
+  (0) (48) (45) (4C) (4C) (4F) (1) in Hex  
+</pre>
+<p>Thus maybe could a $tonePits HelloWorld program look like. 
+</p><p>Usually a pit can not hold an infinite number of stones, so a limit has to be set. Lets set it to 255 and we could have the equivalent of a byte. Also sowing must not be always in the same directions, because we maybe want some kind of control structures in our $tonePits game/system/program. 
+Maybe we want some additional pits created in the game (during program operation). Thus we define a rule like, well 
+"after passing the last pit, create another one and then go back to the first pit". 
+We could make the program multidimensional by defining sowing rules.
+</p><p><b>Multidimensional Sowing Rules</b>
+</p>
+<hr />
+<p>To have a simple sample just an idea to make it 2d. 
+</p>
+<pre> (1) (2) (3) (4) 
+ (5) (6) (7) (8) 
+ (9) (A) (B) (C)
+ (D) (E) (F) (0) 
+</pre>
+<p>if the last stone reaches a pit and its number gets 7 then sowing direction changes 
+by 90 degrees. Thus for up and down in our sample the next forth or the last forth pit. 
+</p><p><b>Parameters and Neighbours</b> 
+</p>
+<hr />
+<p>Well, personally I got this idea from Argh!, but it is used in cellular automata. Let 7 be our control structure and sowing direction be decided by the neighbouring pit above. We can check for emptiness , parity equality ... it's up to us. 
+We can include the pit below, to the left right ... and so on. Just some idea to make the whole thing more like a language and less like what it's commonly used now. 
+</p><p>Do you feel like a paleolithic caveman programmer now&#160;? 
+</p><p>Maybe you never will do .... however here are some kind of programs yet to be programmed. 
+</p><p><b>Towards the Oscillator</b>
+</p>
+<hr />
+<p>Taken this "Oscillator" word from Game Of Life. By accident I found a small oscillator.
+Here's how I got to it.
+</p>
+<pre>  (1) (2) (3)
+</pre>
+<p>if you continue sowing starting from the second pit you get after some turns
+</p>
+<pre>  (2) (0) (4) 
+  (0) (1) (5)  
+  (2) (3) (1) 
+  (3) (1) (2) which is a permutation of (1) (2) (3)  
+              (the last stone fell in an empty pit which was defined as halt) 
+</pre>
+<p>Also, every state occurred only once.
+</p><p>I wanted to know if it is possible to make an Oscillator out of it and tried
+</p>
+<pre> (1) (2) (4) and started sowing again from the second pit 
+ (2) (0) (5)
+ (0) (1) (6) 
+ (2) (3) (2) 
+ (3) (4) (0) 
+ (4) (1) (2) 
+ (5) (2) (0) 
+ (6) (0) (1) 
+ (2) (2) (3) 
+ (0) (3) (4) 
+ (2) (4) (1) 
+ (0) (5) (2) 
+ (1) (6) (0) 
+ (3) (2) (2) 
+ (4) (0) (3) 
+ (1) (2) (4) ooh, again our starting position after so much .... 
+             and again there's from the 2nd pit to be sowed , thus 
+             exactly the same starting position, thus it will repeat ,
+             thus we got an Oscillator 
+</pre>
+<p>Well, I count (maybe I did something wrong) 13 unique states and after that the initial state again, making 14. Maybe that could be used as a counter or incrementer. 
+</p><p><br />
+</p><p><i>To Be Programmed and Not Being Classical Quine, SelfInterpreter Esolang Stuff</i>
+</p>
+<hr />
+<pre>Oscillator (reaching the starting position periodically
+or better a program who finds Oscillators with the desired periode 
+SpaceShip ( possible&#160;?! what could it look like&#160;? ) 
+CheckingParity (finds the answer if an even or odd number of stones are used in the game) 
+Creatures (expanding and changing it's rules to show more complex behaviour) 
+</pre>
+<p>Well, a Quine and a Selfinterpreter would be cool too ....
+</p>
+<!-- 
+NewPP limit report
+Cached time: 20190529153308
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 0.004 seconds
+Real time usage: 0.001 seconds
+Preprocessor visited node count: 1/1000000
+Preprocessor generated node count: 4/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 1/40
+Expensive parser function count: 0/100
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+<!-- Saved in parser cache with key esolang_wiki:pcache:idhash:9150-0!*!*!*!*!*!* and timestamp 20190529153308 and revision id 62875
+ -->
+</div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://esolangs.org/w/index.php?title=$tonePits&amp;oldid=62875">https://esolangs.org/w/index.php?title=$tonePits&amp;oldid=62875</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="/wiki/Category:Languages" title="Category:Languages">Languages</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-createaccount"><a href="/w/index.php?title=Special:CreateAccount&amp;returnto=%24tonePits" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=%24tonePits" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/$tonePits"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+															<li  id="ca-talk"><span><a href="/wiki/Talk:$tonePits"  title="Discussion about the content page [t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label">
+							<span>Variants</span><a href="#"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="/wiki/$tonePits" >Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="/w/index.php?title=$tonePits&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=$tonePits&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<h3 id="p-cactions-label"><span>More</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input type="search" name="search" placeholder="Search Esolang" title="Search Esolang [f]" accesskey="f" id="searchInput"/><input type="hidden" value="Special:Search" name="title"/><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id='p-navigation' aria-labelledby='p-navigation-label'>
+			<h3 id='p-navigation-label'>Navigation</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-portal"><a href="/wiki/Esolang:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-Language-list"><a href="/wiki/Language_list">Language list</a></li><li id="n-Browse-by-category"><a href="/wiki/Esolang:Categorization">Browse by category</a></li><li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li><li id="n-help"><a href="/wiki/Esolang:Help" title="The place to find out">Help</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+			<h3 id='p-tb-label'>Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/$tonePits" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/$tonePits" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/w/index.php?title=$tonePits&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/w/index.php?title=$tonePits&amp;oldid=62875" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/w/index.php?title=$tonePits&amp;action=info" title="More information about this page">Page information</a></li>					</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last edited on 29 May 2019, at 12:55.</li>
+											<li id="footer-info-copyright">Content is available under <a href="/wiki/Esolang:Copyrights" title="Esolang:Copyrights">CC0 public domain dedication</a>.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-about"><a href="/wiki/Esolang:About" title="Esolang:About">About Esolang</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Esolang:General_disclaimer" title="Esolang:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="/w/resources/assets/licenses/cc-0.png" alt="CC0 public domain dedication" width="88" height="31"/></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="//www.mediawiki.org/"><img src="/w/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/w/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /w/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"/></a>						</li>
+											<li id="footer-hostedbyico">
+							<a href="https://www.bytemark.co.uk/r/esolangs"><img src="/w/images/hosting_bytemark_88x31.png" srcset="/w/images/hosting_bytemark_132x47.png 1.5x, /w/images/hosting_bytemark_176x62.png 2x" alt="Hosting donated by Bytemark" width="88" height="31"/></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.004","walltime":"0.001","ppvisitednodes":{"value":1,"limit":1000000},"ppgeneratednodes":{"value":4,"limit":1000000},"postexpandincludesize":{"value":0,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":1,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20190529153308","ttl":86400,"transientcontent":false}}});});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":47});});</script>
+	</body>
+<!-- Cached 20190529155952 -->
+</html>
