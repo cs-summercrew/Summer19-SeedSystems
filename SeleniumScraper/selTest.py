@@ -36,7 +36,7 @@ def createdriver(url, path):
 
 def savepage(driver):
     "Saves the current html page as an html file"
-    time.sleep(1.0)
+    #time.sleep(1.0)
     html = driver.page_source
     ourdir = os.getcwd()
     path = os.path.join(ourdir, "DuckDuckResults.html")
