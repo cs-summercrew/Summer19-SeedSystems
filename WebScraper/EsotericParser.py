@@ -7,7 +7,7 @@
 try: 
     from bs4 import BeautifulSoup
 except:
-    print("Please install the BeautifulSoup library and try again")
+    print("Please install the BeautifulSoup4 library and try again")
 try:
     import requests
 except:
@@ -33,11 +33,6 @@ import string
 # https://www.anaconda.com/distribution/
 
 
-# Global Variables
-URL = "https://esolangs.org/wiki/Language_list"
-baseURL = "https://esolangs.org"
-
-
 def writeCSV(path, data):
     " Takes our data and writes it to a csv file"
     path = os.path.join(path, "EsoData.csv")
@@ -60,7 +55,10 @@ def simplifyText(myString):
 def parseData(path):
     "Parses file directory"
     AllFiles = list(os.walk(path))[0][2]
-    data = [["Title", "Article Last Edited", "Article is a Stub", "Article contains Hello World", "List of Matching Categories"]]    #Data Index Titles
+    data = []
+    #Data Index Titles
+    data.append(["Title", "Article Last Edited", "Article is a Stub", "Article contains Hello World", "Is Turing Complete", "Has External Rescources"])
+
     for file in AllFiles:
         fpath = os.path.join(path, file)
         with open(fpath) as f:
@@ -75,11 +73,22 @@ def parseData(path):
                 for tag in tags:
                     category = str(tag.contents[0].string)  # Important Step!!! See NOTE below
                     catList.append(category)
-                    # NOTE: If you don't convert a navigable string object with str(), the original will act like a normal string, but
-                    #       carry around a very memory intensive copy of the entire tree in the soup variable
+                    # NOTE: .string does not return a python string, convert it with str() or it will act like a normal string,
+                    #       but carry around a memory intensive copy of the entire BeautifulSoup tree
             except:
                 catList.append("N/A")
             
+            # Finds each header and puts it into a list
+            headList = []
+            try:
+                headers = soup.find_all("h2")
+                for header in headers:
+                    OurHeader = str(header.string)
+                    headList.append(OurHeader)
+                headList = headList[:-1]    # The last header is non-unique
+            except:
+                headList.append("N/A")
+
             # Finds the time of the last edit
             lastEdit_tag = soup.find(id="footer-info-lastmod")
             lastEdit = str(lastEdit_tag.string)[30:]
@@ -91,8 +100,14 @@ def parseData(path):
             # Checks if the article is a stub
             isStub = int(("stub" in fileText) or ("Stubs" in catList))
 
-            data.append([soup.title.string[:-10], lastEdit, isStub, containsHelloWorld, "catList"])
-    print("Number of files:", len(data))
+            # Checks if article's subject language is Turing Complete by searching catList
+            isTuringComp = int(("Turing complete" in catList) or ("Turing tarpits" in catList))
+
+            # Checks if the article has an external rescources header
+            hasExtResc = int("External resources" in headList)
+
+            data.append([soup.title.string[:-10], lastEdit, isStub, containsHelloWorld, isTuringComp, hasExtResc])
+    print("Number of files:", len(data)-1)
     return data
 
 
