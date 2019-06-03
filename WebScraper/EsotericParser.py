@@ -55,7 +55,7 @@ def main():
     currDir = os.getcwd()
     path = os.path.join(currDir, "Files_To_Parse")
     data = parseData(path)
-    print(data[0])
+    print(data[0][2])
     #writeCSV(path, data)
 
     print("\nEnd of main()")
