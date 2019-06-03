@@ -77,7 +77,7 @@ Running the App Locally:
 
 4. Run the following commands 
 
-        "export FLASK_APP=microblog.py"
+        "export FLASK_APP=example-app.py"
         "flask run"
 
 5. Visit the website:
