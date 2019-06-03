@@ -23,19 +23,19 @@ ExampleApp:
             -textResults.html
             -image.html
             -imageResults.html
-            -README.md
+            -README
 
         static
         -__init__.py
         -routes.py
         -piglatin.py
-        -README.md
+        -README
 
     -example-app.py
 
     -config.py
 
-    -README.md
+    -README
 
 config.py:
 
@@ -56,8 +56,8 @@ Running the App Locally:
 
    if the first command does not working
    Activate your virtual enviroment using the command
-        '''source venv/bin/activate''' for Mac/Linux Users
-        '''venv\Scripts\activate''' for Windows
+        "source venv/bin/activate" for Mac/Linux Users
+        "venv\Scripts\activate" for Windows
     For any trouble with virtual environments, visit the website below
 
     https://docs.python-guide.org/dev/virtualenvs/
