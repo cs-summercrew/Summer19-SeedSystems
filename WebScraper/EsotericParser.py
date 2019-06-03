@@ -51,8 +51,9 @@ def parseData(path):
         fpath = os.path.join(path, file)
         with open(fpath) as f:
             soup = BeautifulSoup(f, "lxml")
-            List1 = soup.findAll('li') 
-    return List1
+            List1 = soup.findAll('p')
+        data.append([file, List1])
+    return data
 
 
 def main():
