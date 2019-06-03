@@ -24,6 +24,7 @@ except:
 import os.path
 import csv
 import re
+import string
 
 
 # If you get any of these except errors, 
@@ -47,38 +48,51 @@ def writeCSV(path, data):
             # filewriter.writerow([datalist[i][0] + ',' + datalist[i][1] + ',' + datalist[i][2]])
     return path
 
+def simplifyText(myString):
+    "Strips the input text of all whitespace and punctuation, and changes it to all lowercase"
+    myString = myString.lower()
+    myString = myString.replace(" ", "")
+    translator = str.maketrans('', '', string.punctuation)
+    myString = myString.translate(translator)
+    #print(myString)
+    return myString
+
 def parseData(path):
     "Parses file directory"
     AllFiles = list(os.walk(path))[0][2]
-    data = []
+    data = [["Title", "Article Last Edited", "Article is a Stub", "Article contains Hello World", "List of Matching Categories"]]    #Data Index Titles
     for file in AllFiles:
         fpath = os.path.join(path, file)
         with open(fpath) as f:
             soup = BeautifulSoup(f, "lxml")
-            #print(soup.get_text())
+
+            # Finds the categories section and puts each category into catList
+            # NOTE: We use try and except because if a page doesn't have the Categories section, 
+            #       and thus the respective html class used below, then soup.find() will throw an error
             catList = []
-            headList=[]
-            try:
-                tags = soup.find(class_="firstHeading").ul.contents
-                for tag in tags:
-                    header = str(tag.contents[0].string)
-                    headList.append(header)
-                    # NOTE: If you don't convert a navigable string object with str, the original will carry around
-                    #       a very memory intensive copy of the entire tree in the soup variable
-            except:
-                print("ERROR: couldn't find header")
-                headList.append("N/A")
             try:
                 tags = soup.find(class_="mw-normal-catlinks").ul.contents
                 for tag in tags:
-                    category = str(tag.contents[0].string)
+                    category = str(tag.contents[0].string)  # Important Step!!! See NOTE below
                     catList.append(category)
-                    # NOTE: If you don't convert a navigable string object with str, the original will carry around
-                    #       a very memory intensive copy of the entire tree in the soup variable
+                    # NOTE: If you don't convert a navigable string object with str(), the original will act like a normal string, but
+                    #       carry around a very memory intensive copy of the entire tree in the soup variable
             except:
-                print("ERROR: Page doesn't have any Categories")
                 catList.append("N/A")
-            data.append([soup.title.string[:-10], catList])
+            
+            # Finds the time of the last edit
+            lastEdit_tag = soup.find(id="footer-info-lastmod")
+            lastEdit = str(lastEdit_tag.string)[30:]
+            
+            # Checks if "hello world" is in the file's text
+            fileText = simplifyText(str(soup.get_text()))
+            containsHelloWorld = int(('helloworld' in fileText))
+            
+            # Checks if the article is a stub
+            isStub = int(("stub" in fileText) or ("Stubs" in catList))
+
+            data.append([soup.title.string[:-10], lastEdit, isStub, containsHelloWorld, "catList"])
+    print("Number of files:", len(data))
     return data
 
 
