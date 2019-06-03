@@ -57,7 +57,7 @@ def parseData(path):
     AllFiles = list(os.walk(path))[0][2]
     data = []
     #Data Index Titles
-    data.append(["Title", "Article Last Edited", "Article is a Stub", "Article contains Hello World", "Is Turing Complete", "Has External Resources"])
+    data.append(["Title", "Page Last Edited", "Page is a Stub", "Page contains Hello World", "Is Turing Complete", "Has External Resources"])
 
     for file in AllFiles:
         fpath = os.path.join(path, file)
@@ -97,13 +97,13 @@ def parseData(path):
             fileText = simplifyText(str(soup.get_text()))
             containsHelloWorld = int(('helloworld' in fileText))
             
-            # Checks if the article is a stub
+            # Checks if the page is a stub
             isStub = int(("stub" in fileText) or ("Stubs" in catList))
 
-            # Checks if article's subject language is Turing Complete by searching catList
+            # Checks if page's subject language is Turing Complete by searching catList
             isTuringComp = int(("Turing complete" in catList) or ("Turing tarpits" in catList))
 
-            # Checks if the article has an external rescources header
+            # Checks if the page has an external rescources header
             hasExtRes = int("External resources" in headList)
 
             data.append([soup.title.string[:-10], lastEdit, str(isStub), str(containsHelloWorld), str(isTuringComp), str(hasExtRes)])
