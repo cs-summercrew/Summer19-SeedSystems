@@ -29,11 +29,10 @@ URL = "https://esolangs.org/wiki/Language_list"
 baseURL = "https://esolangs.org"
 
 
-def setup():
+def setup(currDir):
     " Makes a folder to hold our html files, and return a path to that folder"
-    original_dir = os.getcwd()
-    dirContents = os.listdir(original_dir)
-    path = os.path.join(original_dir, "Scraped_Files_Example")
+    path = os.path.join(currDir, "Files_To_Parse")
+    path = os.path.join(path, "EsoData.csv")
     return path
 
 def createfiles(listOflinks, path):
@@ -44,8 +43,8 @@ def createfiles(listOflinks, path):
 
 def main():
     print("Start of main()\n")
-    
-    setup()
+    currDir = os.getcwd()
+    createCSV(currDir)
 
     print("End of main()\n")
 

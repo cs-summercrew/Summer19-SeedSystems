@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>((?)?)? - Esolang</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"((?)?)?","wgTitle":"((?)?)?","wgCurRevisionId":61621,"wgRevisionId":61621,"wgArticleId":12297,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Languages","Unimplemented","Usability unknown"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"((?)?)?","wgRelevantArticleId":12297,"wgRequestId":"dffe7930ea1be029ca53b9aa","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgWikiEditorEnabledModules":{"toolbar":true,"dialogs":true,"preview":false,"publish":false}});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"loading","user.tokens":"loading","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.options@0j3lz3q",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens@152c6tt",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","site","mediawiki.page.startup","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.interface%7Cskins.vector.styles&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.29.2"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Esolang (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//esolangs.org/w/api.php?action=rsd"/>
+<link rel="copyright" href="/wiki/Esolang:Copyrights"/>
+<link rel="alternate" type="application/atom+xml" title="Esolang Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page- rootpage- skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators mw-body-content">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">((?)?)?</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From Esolang</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p><b>((?)?)?</b> is an esoteric programing language made by <a href="/w/index.php?title=User:Mipinggfxgbtftybfhfyhfn&amp;action=edit&amp;redlink=1" class="new" title="User:Mipinggfxgbtftybfhfyhfn (page does not exist)">User:Mipinggfxgbtftybfhfyhfn</a>.
+</p>
+<div id="toc" class="toc"><div id="toctitle" class="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Memory_Structure"><span class="tocnumber">1</span> <span class="toctext">Memory Structure</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Concepts"><span class="tocnumber">2</span> <span class="toctext">Concepts</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#Groups"><span class="tocnumber">2.1</span> <span class="toctext">Groups</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#Nor_operator"><span class="tocnumber">2.2</span> <span class="toctext">Nor operator</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-5"><a href="#Sintax"><span class="tocnumber">3</span> <span class="toctext">Sintax</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#Symbols"><span class="tocnumber">3.1</span> <span class="toctext">Symbols</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-7"><a href="#Examples"><span class="tocnumber">4</span> <span class="toctext">Examples</span></a>
+<ul>
+<li class="toclevel-2 tocsection-8"><a href="#Cat"><span class="tocnumber">4.1</span> <span class="toctext">Cat</span></a></li>
+<li class="toclevel-2 tocsection-9"><a href="#Half_adder"><span class="tocnumber">4.2</span> <span class="toctext">Half adder</span></a></li>
+<li class="toclevel-2 tocsection-10"><a href="#Code_snipets"><span class="tocnumber">4.3</span> <span class="toctext">Code snipets</span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Memory_Structure">Memory Structure</span></h2>
+<p>In ((?)?)? there are three loctaions to store data:
+</p>
+<ul><li> The bit (a bit used for all the operations are made)</li>
+<li> The stack (a group of bits used to store more complex data)</li>
+<li> The variable system (a group of bits, each asigned to its own name, used for saving data in a structured way)</li></ul>
+<p>All the data is stored as a bit.
+</p>
+<h2><span class="mw-headline" id="Concepts">Concepts</span></h2>
+<h3><span class="mw-headline" id="Groups">Groups</span></h3>
+<p>A group is a code block wich is executed with its own bit (initialized at 0). After the group ends, its bit is stored into the main bit, or if the croup is nested, the bit is stored in the bit of the outer group. A program can be coinsedered a group were all the instructions are executed.
+</p>
+<h3><span class="mw-headline" id="Nor_operator">Nor operator</span></h3>
+<p>The only operator in ((?)?)? is nor. Nor is an universal logical operator, in other words, you can simulate any other logical gate by using just it:
+</p>
+<table class="wikitable">
+
+<tr>
+<th> Normal </th>
+<th> Using just nor
+</th></tr>
+<tr>
+<td> not a </td>
+<td> false nor a
+</td></tr>
+<tr>
+<td> a or b </td>
+<td> false nor (a nor b)
+</td></tr>
+<tr>
+<td> a and b </td>
+<td> (a nor false) nor (b nor false)
+</td></tr>
+<tr>
+<td> a xor b </td>
+<td> ((a nor false) nor (b nor false)) nor (a nor b)
+</td></tr></table>
+<h2><span class="mw-headline" id="Sintax">Sintax</span></h2>
+<h3><span class="mw-headline" id="Symbols">Symbols</span></h3>
+<table class="wikitable">
+
+<tr>
+<th> Symbol </th>
+<th> Name </th>
+<th> Function
+</th></tr>
+<tr>
+<td>&#160;? </td>
+<td> nor </td>
+<td> Creates two new groups (one for its left and one for its right). Execs them and sets the outer bit to the result of "noring" the group bits.
+</td></tr>
+<tr>
+<td> ( </td>
+<td> start group </td>
+<td> Creates a group.
+</td></tr>
+<tr>
+<td> ) </td>
+<td> end group </td>
+<td> Deletes the current gruop and stors its bit in the outer bit.
+</td></tr>
+<tr>
+<td>&#160;! </td>
+<td> toggle </td>
+<td> Deprecated. If the bit is 1, it changes it 0 and viseversa.
+</td></tr>
+<tr>
+<td>&#160;:<i>name</i> </td>
+<td> set <i>name</i> </td>
+<td> Sets the variable <i>name</i> to the current bit value. The name can only contain one character.
+</td></tr>
+<tr>
+<td>&#160;;<i>name</i> </td>
+<td> get <i>name</i> </td>
+<td> Sets the current bit to the variable <i>name</i> value.
+</td></tr>
+<tr>
+<td> @ </td>
+<td> push </td>
+<td> Pushes the current bit value into the stack.
+</td></tr>
+<tr>
+<td> # </td>
+<td> pop </td>
+<td> Pops the top value of the stack and sets the current bit to it.
+</td></tr>
+<tr>
+<td> _ </td>
+<td> has elements </td>
+<td> Sets the current bit to 1 if the stack has elements, 0 otherwise.
+</td></tr>
+<tr>
+<td> [ </td>
+<td> start while </td>
+<td> Goes to the next ].
+</td></tr>
+<tr>
+<td> ] </td>
+<td> end while </td>
+<td> If the bit is 1, returns the caracter after the previous [.
+</td></tr>
+<tr>
+<td> = </td>
+<td> out num </td>
+<td> Asumes the stack is a binary number and prints it in the decimal system.
+</td></tr>
+<tr>
+<td> ~ </td>
+<td> out char </td>
+<td> Asumes the stack is an ascii code in binary and prints its corresponding character.
+</td></tr>
+<tr>
+<td> - </td>
+<td> out bit </td>
+<td> Prints the current bit.
+</td></tr>
+<tr>
+<td> $ </td>
+<td> input num </td>
+<td> Gets a number from user input. Translates it to binary and pushes its bits into the stack
+</td></tr>
+<tr>
+<td>&#160;% </td>
+<td> input char </td>
+<td> Gets a character from user input. Gets its ascii code in binary and pushes its bits into the stack.
+</td></tr>
+<tr>
+<td> &amp; </td>
+<td> input bit </td>
+<td> Gets a bit (t/f, y/n, 1/0) from the user and sets the current bit to it.
+</td></tr>
+<tr>
+<td> / </td>
+<td> break </td>
+<td> Prints "\n".
+</td></tr></table>
+<p>Any non-valid symbol is a comment
+</p>
+<h2><span class="mw-headline" id="Examples">Examples</span></h2>
+<h3><span class="mw-headline" id="Cat">Cat</span></h3>
+<p>With a number:
+</p>
+<pre>$=
+</pre>
+<p>With a character:
+</p>
+<pre>%~
+</pre>
+<p>With a bit:
+</p>
+<pre>&amp;-
+</pre>
+<h3><span class="mw-headline" id="Half_adder">Half adder</span></h3>
+<pre>Get two bits
+&amp;:a &amp;:b
+Add them
+((;a?)?(;b?):c)?(;a?;b):s
+Print the result
+;c-&#160;;s-
+End the line
+/
+</pre>
+<h3><span class="mw-headline" id="Code_snipets">Code snipets</span></h3>
+<pre>set the bit to 0
+()
+set the bit to 1
+(?)
+not a
+(;a?)
+a or b
+((;a?;b)?)
+a and b
+(;a?)?(;b?)
+a xor b
+((;a?)?(;b?))?(;a?;b)
+switch the two first stack elements
+#:1 #:2&#160;;1@&#160;;2@
+do something without changing the bit
+using the stack
+@ your code here #
+using the variable sistem
+:i your code here&#160;;i
+do something until stack is empty
+_[:i your code here&#160;;i]
+</pre>
+<!-- 
+NewPP limit report
+Cached time: 20190503212000
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 0.004 seconds
+Real time usage: 0.004 seconds
+Preprocessor visited node count: 39/1000000
+Preprocessor generated node count: 44/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+<!-- Saved in parser cache with key esolang_wiki:pcache:idhash:12297-0!*!0!!en!*!* and timestamp 20190503212000 and revision id 61621
+ -->
+</div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://esolangs.org/w/index.php?title=((%3F)%3F)%3F&amp;oldid=61621">https://esolangs.org/w/index.php?title=((%3F)%3F)%3F&amp;oldid=61621</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:Languages" title="Category:Languages">Languages</a></li><li><a href="/wiki/Category:Unimplemented" title="Category:Unimplemented">Unimplemented</a></li><li><a href="/wiki/Category:Usability_unknown" title="Category:Usability unknown">Usability unknown</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-createaccount"><a href="/w/index.php?title=Special:CreateAccount&amp;returnto=%28%28%3F%29%3F%29%3F" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=%28%28%3F%29%3F%29%3F" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/((%3F)%3F)%3F"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+															<li  id="ca-talk" class="new"><span><a href="/w/index.php?title=Talk:((%3F)%3F)%3F&amp;action=edit&amp;redlink=1"  title="Discussion about the content page [t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label">
+							<span>Variants</span><a href="#"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="/wiki/((%3F)%3F)%3F" >Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="/w/index.php?title=((%3F)%3F)%3F&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=((%3F)%3F)%3F&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<h3 id="p-cactions-label"><span>More</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input type="search" name="search" placeholder="Search Esolang" title="Search Esolang [f]" accesskey="f" id="searchInput"/><input type="hidden" value="Special:Search" name="title"/><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id='p-navigation' aria-labelledby='p-navigation-label'>
+			<h3 id='p-navigation-label'>Navigation</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-portal"><a href="/wiki/Esolang:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-Language-list"><a href="/wiki/Language_list">Language list</a></li><li id="n-Browse-by-category"><a href="/wiki/Esolang:Categorization">Browse by category</a></li><li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li><li id="n-help"><a href="/wiki/Esolang:Help" title="The place to find out">Help</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+			<h3 id='p-tb-label'>Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/((%3F)%3F)%3F" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/((%3F)%3F)%3F" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/w/index.php?title=((%3F)%3F)%3F&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/w/index.php?title=((%3F)%3F)%3F&amp;oldid=61621" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/w/index.php?title=((%3F)%3F)%3F&amp;action=info" title="More information about this page">Page information</a></li>					</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last edited on 3 May 2019, at 21:20.</li>
+											<li id="footer-info-copyright">Content is available under <a href="/wiki/Esolang:Copyrights" title="Esolang:Copyrights">CC0 public domain dedication</a>.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-about"><a href="/wiki/Esolang:About" title="Esolang:About">About Esolang</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Esolang:General_disclaimer" title="Esolang:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="/w/resources/assets/licenses/cc-0.png" alt="CC0 public domain dedication" width="88" height="31"/></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="//www.mediawiki.org/"><img src="/w/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/w/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /w/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"/></a>						</li>
+											<li id="footer-hostedbyico">
+							<a href="https://www.bytemark.co.uk/r/esolangs"><img src="/w/images/hosting_bytemark_88x31.png" srcset="/w/images/hosting_bytemark_132x47.png 1.5x, /w/images/hosting_bytemark_176x62.png 2x" alt="Hosting donated by Bytemark" width="88" height="31"/></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.004","walltime":"0.004","ppvisitednodes":{"value":39,"limit":1000000},"ppgeneratednodes":{"value":44,"limit":1000000},"postexpandincludesize":{"value":0,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":2,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20190503212000","ttl":86400,"transientcontent":false}}});});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":25});});</script>
+	</body>
+<!-- Cached 20190503215852 -->
+</html>

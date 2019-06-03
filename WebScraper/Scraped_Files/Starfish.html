@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Starfish - Esolang</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Starfish","wgTitle":"Starfish","wgCurRevisionId":50717,"wgRevisionId":50717,"wgArticleId":11056,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Languages","Two-dimensional languages","2016","Stack-based","Cell-based","Self-modifying","Turing complete","Implemented"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Starfish","wgRelevantArticleId":11056,"wgRequestId":"7f47133a30f2aa3c802bf330","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgWikiEditorEnabledModules":{"toolbar":true,"dialogs":true,"preview":false,"publish":false}});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"loading","user.tokens":"loading","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.options@0j3lz3q",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens@152c6tt",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","site","mediawiki.page.startup","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.interface%7Cskins.vector.styles&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.29.2"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Esolang (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//esolangs.org/w/api.php?action=rsd"/>
+<link rel="copyright" href="/wiki/Esolang:Copyrights"/>
+<link rel="alternate" type="application/atom+xml" title="Esolang Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Starfish rootpage-Starfish skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators mw-body-content">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">Starfish</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From Esolang</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><dl><dd><i>The title of this article is incorrect because of technical limitations.  The correct title is <b>*&gt;&lt;&gt;</b></i>.</dd></dl>
+<p><b>*&gt;&lt;&gt;</b> (pronounced as "starfish") is a <a href="/wiki/Push-down_automaton" title="Push-down automaton">stack-based</a>, reflective, two-dimensional esoteric programming language based directly off of <a href="/wiki/Fish" title="Fish">&gt;&lt;&gt;</a>. It was created by <a href="/w/index.php?title=User:Redstarcoder&amp;action=edit&amp;redlink=1" class="new" title="User:Redstarcoder (page does not exist)">redstarcoder</a> in 2016.
+</p>
+<div id="toc" class="toc"><div id="toctitle" class="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Concepts"><span class="tocnumber">1</span> <span class="toctext">Concepts</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#Code_execution"><span class="tocnumber">1.1</span> <span class="toctext">Code execution</span></a>
+<ul>
+<li class="toclevel-3 tocsection-3"><a href="#Functions_.28call.2Fret.29"><span class="tocnumber">1.1.1</span> <span class="toctext">Functions (call/ret)</span></a></li>
+<li class="toclevel-3 tocsection-4"><a href="#Dive_.2F_rise"><span class="tocnumber">1.1.2</span> <span class="toctext">Dive / rise</span></a></li>
+<li class="toclevel-3 tocsection-5"><a href="#Fisherman"><span class="tocnumber">1.1.3</span> <span class="toctext">Fisherman</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-6"><a href="#Stacks"><span class="tocnumber">1.2</span> <span class="toctext">Stacks</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#Input.2Foutput"><span class="tocnumber">1.3</span> <span class="toctext">Input/output</span></a></li>
+<li class="toclevel-2 tocsection-8"><a href="#Errors"><span class="tocnumber">1.4</span> <span class="toctext">Errors</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-9"><a href="#Instructions"><span class="tocnumber">2</span> <span class="toctext">Instructions</span></a>
+<ul>
+<li class="toclevel-2 tocsection-10"><a href="#Movement_and_execution"><span class="tocnumber">2.1</span> <span class="toctext">Movement and execution</span></a></li>
+<li class="toclevel-2 tocsection-11"><a href="#Literals_and_operators"><span class="tocnumber">2.2</span> <span class="toctext">Literals and operators</span></a></li>
+<li class="toclevel-2 tocsection-12"><a href="#Stack_manipulation"><span class="tocnumber">2.3</span> <span class="toctext">Stack manipulation</span></a></li>
+<li class="toclevel-2 tocsection-13"><a href="#Input.2Foutput_2"><span class="tocnumber">2.4</span> <span class="toctext">Input/output</span></a></li>
+<li class="toclevel-2 tocsection-14"><a href="#Reflection.2Fmiscellaneous"><span class="tocnumber">2.5</span> <span class="toctext">Reflection/miscellaneous</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-15"><a href="#Examples"><span class="tocnumber">3</span> <span class="toctext">Examples</span></a>
+<ul>
+<li class="toclevel-2 tocsection-16"><a href="#Hello.2C_world.21"><span class="tocnumber">3.1</span> <span class="toctext">Hello, world!</span></a></li>
+<li class="toclevel-2 tocsection-17"><a href="#File_i.2Fo"><span class="tocnumber">3.2</span> <span class="toctext">File i/o</span></a></li>
+<li class="toclevel-2 tocsection-18"><a href="#Digital_clock"><span class="tocnumber">3.3</span> <span class="toctext">Digital clock</span></a></li>
+<li class="toclevel-2 tocsection-19"><a href="#Functions"><span class="tocnumber">3.4</span> <span class="toctext">Functions</span></a></li>
+<li class="toclevel-2 tocsection-20"><a href="#Selecting_Stacks"><span class="tocnumber">3.5</span> <span class="toctext">Selecting Stacks</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-21"><a href="#Interpreters"><span class="tocnumber">4</span> <span class="toctext">Interpreters</span></a>
+<ul>
+<li class="toclevel-2 tocsection-22"><a href="#go-starfish"><span class="tocnumber">4.1</span> <span class="toctext">go-starfish</span></a></li>
+<li class="toclevel-2 tocsection-23"><a href="#.2A.3E.3C.3E"><span class="tocnumber">4.2</span> <span class="toctext">*&gt;&lt;&gt;</span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Concepts">Concepts</span></h2>
+<p>*&gt;&lt;&gt; is a two-dimensional language, meaning the code is not necessarily executed in a linear manner. Using various instructions, the direction the code is read can be changed to either up, down, left or right. It is also a stack-based language, so all operations are performed on a stack. You can also store and retrieve values in the codebox, so making a proper compiler is very hard, if not impossible.
+</p><p>The goal of *&gt;&lt;&gt; is to make &gt;&lt;&gt; more useful, while still keeping the language in the spirit of &gt;&lt;&gt;. Currently *&gt;&lt;&gt; adds file i/o, the ability to keep track of time, and a new dive/rise concept. If feasible, some sort of graphical output may be within the scope too.
+</p><p><i>See <a href="/wiki/Fish#Concepts" title="Fish">&gt;&lt;&gt;#Concepts</a> for more information.</i>
+</p>
+<h3><span class="mw-headline" id="Code_execution">Code execution</span></h3>
+<p><i>See <a href="/wiki/Fish#Code_Execution" title="Fish">&gt;&lt;&gt;#Code Execution</a> for more information.</i>
+</p>
+<h4><span class="mw-headline" id="Functions_.28call.2Fret.29">Functions (call/ret)</span></h4>
+<p>Functions in *&gt;&lt;&gt; work similar to <a rel="nofollow" class="external text" href="http://www.c-jump.com/CIS77/ASM/Procedures/P77_0010_call_ret.htm">call and ret in asm</a>. To use them, put the codebox coordinate for where you want to jump to on the stack (See <code>.</code> usage for details), and call <code>C</code>. This will cause the IP to jump to the desired location, saving the previous location on the stack below the current one. So you could actually jump back using <code>.</code>, but you'd lose the current register:
+</p>
+<pre>&lt;;o&amp;C10&amp;a
+.{{]
+</pre>
+<p>Results in:
+</p>
+<pre> &lt; &#160;;  o *&amp;* C  1  0  &amp;  a 
+ .  {  {  ]                
+                           
+Stack: []
+something smells fishy...
+</pre>
+<p><code>R</code> or "ret", solves this problem by simply jumping to the coordinates on the stack below the current one, then moving the current stack down:
+</p>
+<pre>&lt;;o&amp;C10&amp;a
+R
+</pre>
+<p>And this code results in a newline being outputted (<code>a</code> == <code>10</code> == <code>\n</code>), instead of an error. See "<a href="#Functions">Functions</a>" for a complete example.
+</p>
+<h4><span class="mw-headline" id="Dive_.2F_rise">Dive / rise</span></h4>
+<p>Dive and rise are special instructions which manipulate the IP's ability to execute most instructions, they are <code>u</code> and <code>O</code>, respectively. Dive causes the IP to ignore all instructions except movement and mirror instructions (<code>&gt;</code> <code>&lt;</code> <code>^</code> <code>v</code> <code>/</code> <code>\</code> <code>|</code> <code>_</code> <code>#</code> <code>`</code> <code>x</code>). Rise causes the IP to behave normally again.
+</p>
+<h4><span class="mw-headline" id="Fisherman">Fisherman</span></h4>
+<p>The fisherman instruction is the backtick <code>`</code>. The first time any fisherman instruction is executed while the IP is moving horizontally, the IP is instructed to move down, the next time, the IP is is instructed to move up. When the IP executes the instruction moving vertically, it is instructed to move in the last horizontal direction it moved in. This allows a swap in the flow of logic, allowing you to more easily do work on a lower line, and have the IP continue back on the line it was originally. Here's a basic program demonstrating that concept to output "Hi" without using the fisherman instruction:
+</p>
+<pre>"Hi"rv&gt;;
+   lo&lt;^!?
+</pre>
+<p>You can see that to output "Hi" and still execute <code>;</code> to exit on the same line uses four instructions. One to instruct the IP in moving each direction (Down, left, up, then right). With the fisherman instruction, this becomes two:
+</p>
+<pre>"Hi"r`;
+  l?!`o
+</pre>
+<p>The IP here, using just two fisherman instructions, still moves in 4 directions (Down, right, up, then right again).
+</p>
+<h3><span class="mw-headline" id="Stacks">Stacks</span></h3>
+<p><i>See <a href="/wiki/Fish#Stacks" title="Fish">&gt;&lt;&gt;#Stacks</a> for more information.</i>
+</p>
+<h3><span class="mw-headline" id="Input.2Foutput">Input/output</span></h3>
+<p>*&gt;&lt;&gt; has three input/output instructions: <code>i</code> for input and <code>o</code>/<code>n</code> for output. The <code>i</code> instruction simply reads a character from stdin or a file opened with <code>F</code>. If no more input is available, <code>i</code> pushes <code>-1</code>. Note that there is no instruction to input a number, you will have to parse the characters yourself.
+</p><p>While parsing numbers is not very hard, it makes for slow and possibly glitchy programs. Most programs requiring number input reads it from the stack at program start. This is done with an interpreter that supports pre-populating the stack with values. Doing so with the starfish interpreter looks like this:
+</p>
+<pre>$ starfish -i 10 -code "2*n;"
+20
+</pre>
+<p>Output is a bit easier, as you have two instructions: <code>o</code> and <code>n</code>. They will pop a value and output it as a character and a number, respectively. The output is naturally written to stdout.
+</p>
+<h3><span class="mw-headline" id="Errors">Errors</span></h3>
+<p>The following events will cause an error in *&gt;&lt;&gt;:
+</p>
+<ul><li> Division by zero</li>
+<li> Reaching an invalid instruction</li>
+<li> Trying to pop or modify on the stack when it is empty or has too few values</li>
+<li> If the interpreter does not support arbitrary-precision numbers, an overflow results in an error</li></ul>
+<p>Although there are multiple reasons an error may occur, there is only one error message: <i>something smells fishy...</i>
+</p>
+<h2><span class="mw-headline" id="Instructions">Instructions</span></h2>
+<p>The following is merely a draft of the instructions in *&gt;&lt;&gt;, and is subject to change. Instructions are case-sensitive.
+</p>
+<h3><span class="mw-headline" id="Movement_and_execution">Movement and execution</span></h3>
+<table>
+
+<tr>
+<td width="50px"> <code>&gt;</code> <code>&lt;</code> <code>^</code> <code>v</code>
+</td>
+<td> Change the direction of the instruction pointer (right, left, up, down respectively)
+</td></tr>
+<tr>
+<td width="58px"> <code>/</code> <code>\</code> <code>|</code> <code>_</code> <code>#</code>
+</td>
+<td> <a href="/wiki/Fish#Mirrors" title="Fish">Mirrors</a>; the IP will change direction depending on what direction it already has.
+</td></tr>
+<tr>
+<td width="58px"> <code>`</code>
+</td>
+<td> <a href="#Fisherman">Fisherman</a>; the IP will change direction depending on what direction it already has, and what direction it had previously.
+</td></tr>
+<tr>
+<td width="50px"> <code>x</code>
+</td>
+<td> Random direction.
+</td></tr>
+<tr>
+<td width="50px"> <code>!</code>
+</td>
+<td> Trampoline - skip the following instruction.
+</td></tr>
+<tr>
+<td width="50px"> <code>?</code>
+</td>
+<td> Conditional trampoline - pop one value off the stack. The next instruction is only executed if the popped value is non-zero.
+</td></tr>
+<tr>
+<td width="50px"> <code>.</code>
+</td>
+<td> Jump - pop <code>y</code> and <code>x</code> off the stack, and move the IP to <code>(x,y)</code> in the codebox. The current direction is retained. Note that you have to jump to the cell before the instructions you want to execute, as the IP will move one position next tick before executing.
+</td></tr>
+<tr>
+<td width="50px"> <code>C</code> <code>R</code>
+</td>
+<td> Call and ret, respectively. Call jumps like <code>.</code>, but stores the current IP location on a stack below the current one. Ret jumps back to the IP's previous location, consuming the stack below, retaining the current register and stack.
+</td></tr>
+<tr>
+<td width="50px"> <code>u</code> <code>O</code>
+</td>
+<td> Dive and rise, respectively. Dive causes all instructions, except directional ones, to be skipped until rise is executed.
+</td></tr>
+</table>
+<h3><span class="mw-headline" id="Literals_and_operators">Literals and operators</span></h3>
+<table>
+
+<tr>
+<td width="58px"> <code>0-9</code> <code>a-f</code>
+</td>
+<td> Push the corresponding value onto the stack. a = 10, ..., f = 15
+</td></tr>
+<tr>
+<td width="58px"> <code>+</code> <code>-</code> <code>*</code> <code>,</code> <code>%</code>
+</td>
+<td> Addition, subtraction, multiplication, division and modulo, respectively. Pop <code>x</code> and <code>y</code> off the stack, and push <code>y</code> <i>operator</i> <code>x</code>. Division is float division (meaning <code>94,n;</code> outputs <code>2.25</code> and not <code>2</code>). Division by 0 raises an error.
+</td></tr>
+<tr>
+<td width="50px"> <code>=</code>
+</td>
+<td> Equals. Pop <code>x</code> and <code>y</code> off the stack, and push <code>1</code> if <code>y = x</code>, and <code>0</code> otherwise.
+</td></tr>
+<tr>
+<td width="50px"> <code>)</code> <code>(</code>
+</td>
+<td> Greater than and less than, respectively. Pop <code>x</code> and <code>y</code> off the stack, and push <code>1</code> if <code>y</code> <i>operator</i> <code>x</code>, and <code>0</code> otherwise.
+</td></tr>
+<tr>
+<td width="50px"> <code>'</code> <code>"</code>
+</td>
+<td> Single and double quote - enable string parsing. String parsing pushes every character found to the stack until it finds a closing quote.
+</td></tr>
+</table>
+<h3><span class="mw-headline" id="Stack_manipulation">Stack manipulation</span></h3>
+<table>
+
+<tr>
+<td width="50px"> <code>:</code>
+</td>
+<td> Duplicate the top value on the stack.
+</td></tr>
+<tr>
+<td width="50px"> <code>~</code>
+</td>
+<td> Remove the top value from the stack.
+</td></tr>
+<tr>
+<td width="50px"> <code>$</code>
+</td>
+<td> Swap the top two values on the stack
+</td></tr>
+<tr>
+<td width="50px"> <code>@</code>
+</td>
+<td> Swap the top three values on the stack, shifting them rightwards (e.g. if your stack is <code>1,2,3,4</code>, calling <code>@</code> results in <code>1,4,2,3</code>)
+</td></tr>
+<tr>
+<td width="50px"> <code>}</code> <code>{</code>
+</td>
+<td> Shift the entire stack to the right and left, respectively. (e.g. when having <code>1,2,3,4</code>, calling <code>}</code> results in <code>4,1,2,3</code> while <code>{</code> results in <code>2,3,4,1</code>)
+</td></tr>
+<tr>
+<td width="50px"> <code>r</code>
+</td>
+<td> Reverse the stack.
+</td></tr>
+<tr>
+<td width="50px"> <code>l</code>
+</td>
+<td> Push the length of the stack onto the stack.
+</td></tr>
+<tr>
+<td width="50px"> <code>[</code>
+</td>
+<td> Pop <code>x</code> off the stack and create a new stack, moving <code>x</code> values from the old stack onto the new one. See <a href="/wiki/Fish#Stacks" title="Fish">Stacks</a>.
+</td></tr>
+<tr>
+<td width="50px"> <code>]</code>
+</td>
+<td> Remove the current stack, moving its values to the top of the underlying stack.
+</td></tr>
+<tr>
+<td width="50px"> <code>I</code> <code>D</code>
+</td>
+<td> Increment and decrement, respectively. Changed the selected stack, with <code>I</code> selecting a stack above, and <code>D</code> selecting a stack below. If there is no stack, most operations will cause an error.
+</td></tr>
+</table>
+<h3><span class="mw-headline" id="Input.2Foutput_2">Input/output</span></h3>
+<p>See <a href="#Input.2Foutput">Input/output</a>.
+</p>
+<table>
+
+<tr>
+<td width="50px"> <code>o</code> <code>n</code>
+</td>
+<td> Pop and output as a character and a number, respectively. Output is written to stdout.
+</td></tr>
+<tr>
+<td width="50px"> <code>i</code>
+</td>
+<td> Read one character from stdin or a file, if open, and push it to the stack. The character should not be shown when read from console. When no more input is available, <code>-1</code> is pushed.
+</td></tr>
+<tr>
+<td width="50px"> <code>F</code>
+</td>
+<td> Open file. Pop <code>x</code> from the stack and then read <code>x</code> values from the stack. If a file isn't open, the values determine the file name. If a file is open, the values are written to the file and the file is closed.
+</td></tr>
+</table>
+<h3><span class="mw-headline" id="Reflection.2Fmiscellaneous">Reflection/miscellaneous</span></h3>
+<table>
+
+<tr>
+<td width="50px"> <code>&amp;</code>
+</td>
+<td> Pop the top value off the stack and put it in the <i>register</i>. Calling <code>&amp;</code> again will take the value in the register and put it back on the stack. See <a href="/wiki/Fish#The_register" title="Fish">The register</a>.
+</td></tr>
+<tr>
+<td width="50px"> <code>g</code>
+</td>
+<td> Pop <code>y</code> and <code>x</code> off the stack, and push the value at <code>x,y</code> in the codebox. Empty cells are equal to <code>0</code>.
+</td></tr>
+<tr>
+<td width="50px"> <code>p</code>
+</td>
+<td> Pop <code>y</code>, <code>x</code>, and <code>v</code> off the stack, and change the value at <code>x,y</code> to <code>v</code>. E.g. <code>123p</code> puts <code>1</code> at <code>2,3</code> in the codebox.
+</td></tr>
+<tr>
+<td width="50px"> <code>S</code>
+</td>
+<td> Sleep. Pop <code>x</code> off the stack and sleep for 100ms*x.
+</td></tr>
+<tr>
+<td width="50px"> <code>h</code> <code>m</code> <code>s</code>
+</td>
+<td> Hour, minute, and second, respectively. Using the current time push either the hour, minute, or second it currently is to the stack.
+</td></tr>
+<tr>
+<td width="50px"> <code>;</code>
+</td>
+<td> End execution.
+</td></tr>
+</table>
+<p>The space character is simply a <a href="/wiki/Nop" title="Nop">NOP</a> and is allowed anywhere.
+</p>
+<h2><span class="mw-headline" id="Examples">Examples</span></h2>
+<p>All the examples are executed using the go-starfish interpreter.
+</p>
+<h3><span class="mw-headline" id="Hello.2C_world.21"><a href="/wiki/Hello,_world!" title="Hello, world!">Hello, world!</a></span></h3>
+<pre>"Hello, world!"r&gt;Ool?u!|;
+</pre>
+<pre>$ starfish helloworld.sf 
+Hello, world!
+</pre>
+<h3><span class="mw-headline" id="File_i.2Fo">File i/o</span></h3>
+<p>Opens "hello.txt", outputs its contents, and clears it.
+</p>
+<pre>"hello.txt"lF\
+      v!?+1:i&lt;
+      ~
+      r
+ ov!?l&lt;
+F0&lt;;
+</pre>
+<pre>$ starfish fileio.sf 
+Hello *&gt;&lt;&gt;!
+</pre>
+<h3><span class="mw-headline" id="Digital_clock">Digital clock</span></h3>
+<pre>&gt;s":"m":"hnonon"   "ooo1S\
+\                &#160;;?+1iod/
+</pre>
+<pre>$ starfish clock.sf
+16:34:33 
+</pre>
+<h3><span class="mw-headline" id="Functions">Functions</span></h3>
+<p>Calls the function at <code>0, 1</code>, and exits.
+</p>
+<pre>&lt;;C10
+v"It works!"
+&lt;oR!?l
+</pre>
+<pre>$ starfish function.sf
+It works!
+</pre>
+<h3><span class="mw-headline" id="Selecting_Stacks">Selecting Stacks</span></h3>
+<pre>"Hello "r0["World"rDv
+ov!?l               &lt;
+ I
+o&gt;l?!;
+</pre>
+<pre>$ starfish stackselect.sf 
+Hello World
+</pre>
+<p>See a more in-depth example <a rel="nofollow" class="external text" href="http://codegolf.stackexchange.com/a/103250/62670">here</a>.
+</p><p>See the <a href="/wiki/Fish#Examples" title="Fish">&gt;&lt;&gt;</a> page for more examples.
+</p>
+<h2><span class="mw-headline" id="Interpreters">Interpreters</span></h2>
+<h3><span class="mw-headline" id="go-starfish">go-starfish</span></h3>
+<p>The "official" interpreter, or the one written by the author. The latest release is available <a rel="nofollow" class="external text" href="https://github.com/redstarcoder/go-starfish/releases">here</a>. For usage information, run it with the -h switch.
+</p>
+<h3><span class="mw-headline" id=".2A.3E.3C.3E">*&gt;&lt;&gt;</span></h3>
+<p>An online interpreter written by the author. It's currently hosted <a rel="nofollow" class="external text" href="https://starfish.000webhostapp.com">here</a> (<a rel="nofollow" class="external text" href="http://starfish.byethost24.com/">mirror</a> (outdated)).
+</p>
+<!-- 
+NewPP limit report
+Cached time: 20171209044756
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 0.008 seconds
+Real time usage: 0.009 seconds
+Preprocessor visited node count: 115/1000000
+Preprocessor generated node count: 162/1000000
+Post‐expand include size: 112/2097152 bytes
+Template argument size: 4/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.327      1 Template:Wrongtitle
+100.00%    0.327      1 -total
+-->
+
+<!-- Saved in parser cache with key esolang_wiki:pcache:idhash:11056-0!*!0!!en!*!* and timestamp 20171209044756 and revision id 50717
+ -->
+</div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://esolangs.org/w/index.php?title=Starfish&amp;oldid=50717">https://esolangs.org/w/index.php?title=Starfish&amp;oldid=50717</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:Languages" title="Category:Languages">Languages</a></li><li><a href="/wiki/Category:Two-dimensional_languages" title="Category:Two-dimensional languages">Two-dimensional languages</a></li><li><a href="/wiki/Category:2016" title="Category:2016">2016</a></li><li><a href="/wiki/Category:Stack-based" title="Category:Stack-based">Stack-based</a></li><li><a href="/wiki/Category:Cell-based" title="Category:Cell-based">Cell-based</a></li><li><a href="/wiki/Category:Self-modifying" title="Category:Self-modifying">Self-modifying</a></li><li><a href="/wiki/Category:Turing_complete" title="Category:Turing complete">Turing complete</a></li><li><a href="/wiki/Category:Implemented" title="Category:Implemented">Implemented</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-createaccount"><a href="/w/index.php?title=Special:CreateAccount&amp;returnto=Starfish" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=Starfish" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/Starfish"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+															<li  id="ca-talk" class="new"><span><a href="/w/index.php?title=Talk:Starfish&amp;action=edit&amp;redlink=1"  title="Discussion about the content page [t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label">
+							<span>Variants</span><a href="#"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="/wiki/Starfish" >Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="/w/index.php?title=Starfish&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=Starfish&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<h3 id="p-cactions-label"><span>More</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input type="search" name="search" placeholder="Search Esolang" title="Search Esolang [f]" accesskey="f" id="searchInput"/><input type="hidden" value="Special:Search" name="title"/><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id='p-navigation' aria-labelledby='p-navigation-label'>
+			<h3 id='p-navigation-label'>Navigation</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-portal"><a href="/wiki/Esolang:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-Language-list"><a href="/wiki/Language_list">Language list</a></li><li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li><li id="n-help"><a href="/wiki/Esolang:Help" title="The place to find out">Help</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+			<h3 id='p-tb-label'>Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/Starfish" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/Starfish" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/w/index.php?title=Starfish&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/w/index.php?title=Starfish&amp;oldid=50717" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/w/index.php?title=Starfish&amp;action=info" title="More information about this page">Page information</a></li>					</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last edited on 10 January 2017, at 19:33.</li>
+											<li id="footer-info-copyright">Content is available under <a href="/wiki/Esolang:Copyrights" title="Esolang:Copyrights">CC0 public domain dedication</a>.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-about"><a href="/wiki/Esolang:About" title="Esolang:About">About Esolang</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Esolang:General_disclaimer" title="Esolang:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="/w/resources/assets/licenses/cc-0.png" alt="CC0 public domain dedication" width="88" height="31"/></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="//www.mediawiki.org/"><img src="/w/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/w/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /w/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"/></a>						</li>
+											<li id="footer-hostedbyico">
+							<a href="https://www.bytemark.co.uk/r/esolangs"><img src="/w/images/hosting_bytemark_88x31.png" srcset="/w/images/hosting_bytemark_132x47.png 1.5x, /w/images/hosting_bytemark_176x62.png 2x" alt="Hosting donated by Bytemark" width="88" height="31"/></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.008","walltime":"0.009","ppvisitednodes":{"value":115,"limit":1000000},"ppgeneratednodes":{"value":162,"limit":1000000},"postexpandincludesize":{"value":112,"limit":2097152},"templateargumentsize":{"value":4,"limit":2097152},"expansiondepth":{"value":2,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"timingprofile":["100.00%    0.327      1 Template:Wrongtitle","100.00%    0.327      1 -total"]},"cachereport":{"timestamp":"20171209044756","ttl":86400,"transientcontent":false}}});});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":32});});</script>
+	</body>
+<!-- Cached 20171209044756 -->
+</html>

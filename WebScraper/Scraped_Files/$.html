@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>$ - Esolang</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"$","wgTitle":"$","wgCurRevisionId":58729,"wgRevisionId":58729,"wgArticleId":11721,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Turing tarpits","Cell-based","Turing complete","Output only","Brainfuck derivatives","Languages"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"$","wgRelevantArticleId":11721,"wgRequestId":"636046769d0eeac5727f584b","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgWikiEditorEnabledModules":{"toolbar":true,"dialogs":true,"preview":false,"publish":false}});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"loading","user.tokens":"loading","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.options@0j3lz3q",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens@152c6tt",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","site","mediawiki.page.startup","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.interface%7Cskins.vector.styles&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.29.2"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Esolang (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//esolangs.org/w/api.php?action=rsd"/>
+<link rel="copyright" href="/wiki/Esolang:Copyrights"/>
+<link rel="alternate" type="application/atom+xml" title="Esolang Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page- rootpage- skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators mw-body-content">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">$</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From Esolang</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p><a class="mw-selflink selflink">$</a>
+</p>
+<div id="toc" class="toc"><div id="toctitle" class="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Explanation"><span class="tocnumber">1</span> <span class="toctext">Explanation</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Instructions"><span class="tocnumber">2</span> <span class="toctext">Instructions</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Turing-Completeness"><span class="tocnumber">3</span> <span class="toctext">Turing-Completeness</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Examples"><span class="tocnumber">4</span> <span class="toctext">Examples</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Explanation">Explanation</span></h2>
+<p>There is only 1 command, $.
+A place only has numbers.
+If anything is assigned to cell number 0, print its ASCII value out.
+Like:
+</p>
+<pre>2313132
+</pre>
+<p>A number has "+" before it.
+Like:
+</p>
+<pre>+1321
+</pre>
+<h2><span class="mw-headline" id="Instructions">Instructions</span></h2>
+<table class="wikitable">
+
+<tr>
+<th> commands </th>
+<th> if the thing being assigned is a place </th>
+<th> if the thing being assigned is a value
+</th></tr>
+<tr>
+<td> $ </td>
+<td> assign place with value(dec)/place value. </td>
+<td> See next table
+</td></tr></table>
+<table class="wikitable">
+
+<tr>
+<th> if the place value assigned recently equals to the first decimal number </th>
+<th> Else
+</th></tr>
+<tr>
+<td> jump backward the number of the second decimal number commands </td>
+<td> continue running
+</td></tr></table>
+<h2><span class="mw-headline" id="Turing-Completeness">Turing-Completeness</span></h2>
+<p>It is Turing-complete, as Brainfuck's commands can be individually implemented in it.
+</p><p>+
+</p>
+<pre>1$+0
+1$+1
+</pre>
+<p>-
+</p>
+<pre>1$+1
+1$+0
+</pre>
+<p>&lt;
+</p>
+<pre>2$+0
+1$+0
+</pre>
+<p>&gt;
+</p>
+<pre>1$+0
+2$+0
+</pre>
+<p>[]
+</p>
+<pre>1$+1
++$`+1
++1$+1
+</pre>
+<p>This is an infinite loop.
+Also:
+</p>
+<pre>1$+1
++2$+2
+1$+2
++2$+1
+</pre>
+<p>which assigns 1 to +2.
+</p><p>,
+</p>
+<pre>0$1
+</pre>
+<p>It prints anything assigned to 0.
+</p>
+<h2><span class="mw-headline" id="Examples">Examples</span></h2>
+<p>Print "Hello,world".
+</p>
+<pre>1$+72
+2$+101
+3$+108
+4$+108
+5$+44
+6$+70
+7$+119
+8$+111
+9$+114
+10$+108
+11$+100
+0$1
+0$2
+0$3
+0$4
+0$5
+0$6
+0$7
+0$8
+0$9
+0$10
+0$11
+</pre>
+<p>This is a simpler version.
+</p>
+<pre>0$+72
+0$+101
+0$+108
+0$+108
+0$+44
+0$+70
+0$+119
+0$+111
+0$+114
+0$+108
+0$+100
+</pre>
+<!-- 
+NewPP limit report
+Cached time: 20181213221557
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 0.000 seconds
+Real time usage: 0.002 seconds
+Preprocessor visited node count: 15/1000000
+Preprocessor generated node count: 20/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+<!-- Saved in parser cache with key esolang_wiki:pcache:idhash:11721-0!*!*!!en!*!* and timestamp 20181213221607 and revision id 58729
+ -->
+</div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://esolangs.org/w/index.php?title=$&amp;oldid=58729">https://esolangs.org/w/index.php?title=$&amp;oldid=58729</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:Turing_tarpits" title="Category:Turing tarpits">Turing tarpits</a></li><li><a href="/wiki/Category:Cell-based" title="Category:Cell-based">Cell-based</a></li><li><a href="/wiki/Category:Turing_complete" title="Category:Turing complete">Turing complete</a></li><li><a href="/wiki/Category:Output_only" title="Category:Output only">Output only</a></li><li><a href="/wiki/Category:Brainfuck_derivatives" title="Category:Brainfuck derivatives">Brainfuck derivatives</a></li><li><a href="/wiki/Category:Languages" title="Category:Languages">Languages</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-createaccount"><a href="/w/index.php?title=Special:CreateAccount&amp;returnto=%24" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=%24" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/$"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+															<li  id="ca-talk" class="new"><span><a href="/w/index.php?title=Talk:$&amp;action=edit&amp;redlink=1"  title="Discussion about the content page [t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label">
+							<span>Variants</span><a href="#"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="/wiki/$" >Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="/w/index.php?title=$&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=$&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<h3 id="p-cactions-label"><span>More</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input type="search" name="search" placeholder="Search Esolang" title="Search Esolang [f]" accesskey="f" id="searchInput"/><input type="hidden" value="Special:Search" name="title"/><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id='p-navigation' aria-labelledby='p-navigation-label'>
+			<h3 id='p-navigation-label'>Navigation</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-portal"><a href="/wiki/Esolang:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-Language-list"><a href="/wiki/Language_list">Language list</a></li><li id="n-Browse-by-category"><a href="/wiki/Esolang:Categorization">Browse by category</a></li><li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li><li id="n-help"><a href="/wiki/Esolang:Help" title="The place to find out">Help</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+			<h3 id='p-tb-label'>Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/$" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/$" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/w/index.php?title=$&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/w/index.php?title=$&amp;oldid=58729" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/w/index.php?title=$&amp;action=info" title="More information about this page">Page information</a></li>					</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last edited on 13 December 2018, at 22:16.</li>
+											<li id="footer-info-copyright">Content is available under <a href="/wiki/Esolang:Copyrights" title="Esolang:Copyrights">CC0 public domain dedication</a>.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-about"><a href="/wiki/Esolang:About" title="Esolang:About">About Esolang</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Esolang:General_disclaimer" title="Esolang:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="/w/resources/assets/licenses/cc-0.png" alt="CC0 public domain dedication" width="88" height="31"/></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="//www.mediawiki.org/"><img src="/w/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/w/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /w/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"/></a>						</li>
+											<li id="footer-hostedbyico">
+							<a href="https://www.bytemark.co.uk/r/esolangs"><img src="/w/images/hosting_bytemark_88x31.png" srcset="/w/images/hosting_bytemark_132x47.png 1.5x, /w/images/hosting_bytemark_176x62.png 2x" alt="Hosting donated by Bytemark" width="88" height="31"/></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.000","walltime":"0.002","ppvisitednodes":{"value":15,"limit":1000000},"ppgeneratednodes":{"value":20,"limit":1000000},"postexpandincludesize":{"value":0,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":2,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20181213221557","ttl":86400,"transientcontent":false}}});});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":23});});</script>
+	</body>
+<!-- Cached 20181213230800 -->
+</html>
