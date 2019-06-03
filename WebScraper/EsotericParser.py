@@ -46,8 +46,13 @@ def writeCSV(path, data):
 def parseData(path):
     "Parses file directory"
     AllFiles = list(os.walk(path))[0][2]
-    #soup = BeautifulSoup()
-    return AllFiles
+    data = []
+    for file in AllFiles:
+        fpath = os.path.join(path, file)
+        with open(fpath) as f:
+            soup = BeautifulSoup(f, "lxml")
+            List1 = soup.findAll('li') 
+    return List1
 
 
 def main():
