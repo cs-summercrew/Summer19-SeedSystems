@@ -76,13 +76,21 @@ def main():
     
     LinkList = soup.findAll('a')
 
-    # NOTE: Experiment with looking at different languages
-    #       Our list includes the first 16 or so as well as some favorites and interesting languages
+    # NOTE: Experiment & Look at different languages!
+    #       Our list includes the first 16 as well as some favorites and interesting languages
     #       LinkList[34] is the first link in the list of languages: !!!
     LinkList_Subset = LinkList[34:50]
     LinkList_Subset.append(LinkList[174])
     LinkList_Subset.append(LinkList[282])
     LinkList_Subset.append(LinkList[361])
+    LinkList_Subset.append(LinkList[453])
+    LinkList_Subset.append(LinkList[457])
+    LinkList_Subset.append(LinkList[973])
+    LinkList_Subset.append(LinkList[977])
+    LinkList_Subset.append(LinkList[980])
+    LinkList_Subset.append(LinkList[1357])
+    LinkList_Subset.append(LinkList[1435])
+   
     # LinkList[1441] is the last link in the list of languages: ZZZ
     
     #TODO: Maybe add a function that checks the type of the doc, look specifically for: <!DOCTYPE html>
