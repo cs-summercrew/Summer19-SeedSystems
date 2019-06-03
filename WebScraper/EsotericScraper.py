@@ -1,6 +1,10 @@
 
 # BeautifulSoup documentation:
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
+# NOTE: For BeautifulSoup to work, Make sure that you have a parser installed, this program uses lxml,
+#       See https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser for more information
+
 try: 
     from bs4 import BeautifulSoup
 except:
