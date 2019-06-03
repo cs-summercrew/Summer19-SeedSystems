@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <!doctype html>
+    <title>Image Pixel Inverter</title>
+    <h1>Your Inverted Image!</h1>
+    {% if filename %}
+		<img src="{{url_for('get_file', filename=filename) }}">
+		<p>{{ filename }}</p>
+        </div>
+	{% endif %}
+{% endblock %}
