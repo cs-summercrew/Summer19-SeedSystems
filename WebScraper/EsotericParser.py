@@ -57,6 +57,17 @@ def parseData(path):
             soup = BeautifulSoup(f, "lxml")
             #print(soup.get_text())
             catList = []
+            headList=[]
+            try:
+                tags = soup.find(class_="firstHeading").ul.contents
+                for tag in tags:
+                    header = str(tag.contents[0].string)
+                    headList.append(header)
+                    # NOTE: If you don't convert a navigable string object with str, the original will carry around
+                    #       a very memory intensive copy of the entire tree in the soup variable
+            except:
+                print("ERROR: couldn't find header")
+                catList.append("N/A")
             try:
                 tags = soup.find(class_="mw-normal-catlinks").ul.contents
                 for tag in tags:
