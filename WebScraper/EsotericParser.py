@@ -73,7 +73,7 @@ def parseData(path):
                 for tag in tags:
                     category = str(tag.contents[0].string)  # Important Step!!! See NOTE below
                     catList.append(category)
-                    # NOTE: .string does not return a python string, convert it with str() or it will act like a normal string,
+                    # NOTE: .string does not return a python string! Convert it with str() or it will act like a normal string,
                     #       but carry around a memory intensive copy of the entire BeautifulSoup tree
             except:
                 catList.append("N/A")
