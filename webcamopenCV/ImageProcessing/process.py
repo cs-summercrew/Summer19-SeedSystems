@@ -18,16 +18,18 @@ def videoCapture(path):
     os.chdir(path)  # Changes the cwd to the path we print files to
     while True:
         ret, frame = cap.read()
+        frame = cv.resize(frame, None, fx=.5, fy=.5)   # Resizes the frame (smaller runs faster)
         if not ret:
             # if frame is read correctly ret is True
             print("Can't receive frame (stream end?). Exiting ...")
             break
         
-        print(currFrame)
+        # print(currFrame)
         currFrame +=1
         # Our SAVED operations on the frame go here
         k = cv.waitKey(20) & 0xFF
         # NOTE: "& 0xFF" is used because NumLock does weird things to keycodes according to StackOverflow
+        # NOTE: If you use more than one waitKey, your program will slow down significantly...
         k_char = chr(k)
         if k_char == 's':
             color = not color
