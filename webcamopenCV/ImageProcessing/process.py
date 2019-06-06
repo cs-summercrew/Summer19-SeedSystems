@@ -1,31 +1,35 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
+import os
+import os.path
+import shutil
 
-def videoCapture():
+
+def videoCapture(path):
     cap = cv.VideoCapture(0)    
-    #NOTE: Use as an arg 0 to capture video with the default camera, using a filename as an arg plays the file
-    #      If you have more than one camera device, selects the second by passing 1, 2, and so on...
+    #NOTE: Using 0 as an arg captures video with the default camera, using a filename as an arg plays the file
+    #      If you have more than one camera device, use the these other cameras by passing 1, 2, and so on...
     if not cap.isOpened():
         print("Cannot open camera")
         exit()
     currFrame = 0
     color = True
+    os.chdir(path)  # Changes the cwd to the path we print files to
     while True:
-        # Capture frame-by-frame
         ret, frame = cap.read()
-        # if frame is read correctly ret is True
         if not ret:
+            # if frame is read correctly ret is True
             print("Can't receive frame (stream end?). Exiting ...")
             break
         
         print(currFrame)
         currFrame +=1
         # Our SAVED operations on the frame go here
-        k = cv.waitKey(20) & 0xFF # NumLock does weird things to keycodes apparently so we use "& 0xFF"
+        k = cv.waitKey(20) & 0xFF
+        # NOTE: "& 0xFF" is used because NumLock does weird things to keycodes according to StackOverflow
         k_char = chr(k)
         if k_char == 's':
-            # NOTE: Go to https://keycode.info and press any key on your keyboard to get its key code
             color = not color
             print("You switched color modes!")
         if not color:
@@ -50,13 +54,26 @@ def videoCapture():
         if cv.waitKey(1) == 27: # ESC key
             print("End of Video Capture")
             break
+
     # When everything done, release the capture
     cap.release()
     cv.destroyAllWindows()
+    return
 
+def setup(original_dir):
+    " Makes a folder to hold our frame files, and return a path to that folder"
+    path = os.path.join(original_dir, "temp")
+    try:
+        os.mkdir(path)
+    except:
+        print("Folder already exists!")
+    return path
 
 def main():
-    videoCapture()
+    original_dir = os.getcwd()
+    path = setup(original_dir)
+    videoCapture(path)
+    os.chdir(original_dir)  #Changes back to the correct directory
 
 if __name__ == "__main__":
     main()
