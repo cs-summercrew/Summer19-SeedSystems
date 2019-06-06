@@ -37,7 +37,7 @@ def videoCapture(path):
         if k_char == ' ':
             cv.imwrite("frame"+str(currFrame)+".png", frame)
             print("You saved frame "+str(currFrame)+"!")
-        
+        # TODO: Add a mode that saves continuously
         # Our UNSAVED operations on the frame go here
         cv.rectangle(frame,(0,0),(320,105),(0,0,0),-1)   #Setting the last arg (pixel width) fills the rectangle
         cv.putText(frame,'Frame:'+str(currFrame),(10,45),cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
@@ -51,7 +51,7 @@ def videoCapture(path):
         # Display the resulting frame
         cv.imshow('frame', frame)
         # End the Video Capture
-        if cv.waitKey(1) == 27: # ESC key
+        if k == 27: # ESC key
             print("End of Video Capture")
             break
 
