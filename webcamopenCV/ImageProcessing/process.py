@@ -10,7 +10,7 @@ def videoCapture():
     if not cap.isOpened():
         print("Cannot open camera")
         exit()
-    currFrame = 0
+    currFrame = 980
     while True:
         # Capture frame-by-frame
         ret, frame = cap.read()
@@ -26,12 +26,13 @@ def videoCapture():
         if cv.waitKey(50) == ord('s'):
             cv.imwrite("frame"+str(currFrame)+".png", frame)
         # Our UNSAVED operations on the frame go here
-            #TODO: This is where we write text
-        
+        cv.rectangle(frame,(0,0),(320,60),(0,0,0),-1)
+        cv.putText(frame,'Frame:'+str(currFrame),(20,45) ,cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
         # Display the resulting frame
         cv.imshow('frame', frame)
         # End the Video Capture
         if cv.waitKey(1) == ord('q'):
+            print("End of Video Capture")
             break
     # When everything done, release the capture
     cap.release()
