@@ -10,7 +10,7 @@ def videoCapture():
         print("Cannot open camera")
         exit()
     currFrame = 0
-    currMode = 'Gray'
+    color = True
     while True:
         # Capture frame-by-frame
         ret, frame = cap.read()
@@ -22,18 +22,26 @@ def videoCapture():
         print(currFrame)
         currFrame +=1
         # Our SAVED operations on the frame go here
-        if cv.waitKey(25) == 83: # S key
+        k = cv.waitKey(20) & 0xFF # NumLock does weird things to keycodes apparently so we use "& 0xFF"
+        k_char = chr(k)
+        if k_char == 's':
             # NOTE: Go to https://keycode.info and press any key on your keyboard to get its key code
-            frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+            color = not color
             print("You switched color modes!")
-        # Save the current frame to a file
-        if cv.waitKey(25) == 32: # SPACEBAR
+        if not color:
+            frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        if k_char == ' ':
             cv.imwrite("frame"+str(currFrame)+".png", frame)
             print("You saved frame "+str(currFrame)+"!")
+        
         # Our UNSAVED operations on the frame go here
         cv.rectangle(frame,(0,0),(320,105),(0,0,0),-1)   #Setting the last arg (pixel width) fills the rectangle
         cv.putText(frame,'Frame:'+str(currFrame),(10,45),cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
-        cv.putText(frame,'Mode: '+str(currMode),(10,90),cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
+        if color:
+            temp = "Color"
+        else:
+            temp = "Gray"
+        cv.putText(frame,'Mode: '+temp,(10,90),cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
         # NOTE: See avaliable fonts at: https://www.docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#ga0f9314ea6e35f99bb23f29567fc16e11
         
         # Display the resulting frame
