@@ -23,10 +23,12 @@
 '''
 Simply display the contents of the webcam with optional mirroring using OpenCV 
 via the new Pythonic cv2 interface.  Press <esc> to quit.
-Key bindings:
+NOTE: Key bindings:
 g: BGR->RGB
 f: vertical flip
 d: horizontal flip
+
+esc: quit
 '''
 
 import cv2
