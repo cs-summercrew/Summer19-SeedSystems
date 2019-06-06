@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
-import argparse
 
 def videoCapture():
     cap = cv.VideoCapture(0)    
@@ -10,7 +9,8 @@ def videoCapture():
     if not cap.isOpened():
         print("Cannot open camera")
         exit()
-    currFrame = 980
+    currFrame = 0
+    currMode = 'Gray'
     while True:
         # Capture frame-by-frame
         ret, frame = cap.read()
@@ -18,20 +18,28 @@ def videoCapture():
         if not ret:
             print("Can't receive frame (stream end?). Exiting ...")
             break
+        
         print(currFrame)
         currFrame +=1
         # Our SAVED operations on the frame go here
-        frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-        # Write the current frame to a file
-        if cv.waitKey(50) == ord('s'):
+        if cv.waitKey(25) == 83: # S key
+            # NOTE: Go to https://keycode.info and press any key on your keyboard to get its key code
+            frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+            print("You switched color modes!")
+        # Save the current frame to a file
+        if cv.waitKey(25) == 32: # SPACEBAR
             cv.imwrite("frame"+str(currFrame)+".png", frame)
+            print("You saved frame "+str(currFrame)+"!")
         # Our UNSAVED operations on the frame go here
-        cv.rectangle(frame,(0,0),(320,60),(0,0,0),-1)
-        cv.putText(frame,'Frame:'+str(currFrame),(20,45) ,cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
+        cv.rectangle(frame,(0,0),(320,105),(0,0,0),-1)   #Setting the last arg (pixel width) fills the rectangle
+        cv.putText(frame,'Frame:'+str(currFrame),(10,45),cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
+        cv.putText(frame,'Mode: '+str(currMode),(10,90),cv.FONT_HERSHEY_PLAIN,3,(255,255,255),2,cv.LINE_AA)
+        # NOTE: See avaliable fonts at: https://www.docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#ga0f9314ea6e35f99bb23f29567fc16e11
+        
         # Display the resulting frame
         cv.imshow('frame', frame)
         # End the Video Capture
-        if cv.waitKey(1) == ord('q'):
+        if cv.waitKey(1) == 27: # ESC key
             print("End of Video Capture")
             break
     # When everything done, release the capture
