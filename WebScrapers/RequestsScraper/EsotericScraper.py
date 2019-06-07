@@ -2,8 +2,9 @@
 # BeautifulSoup documentation:
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
-# NOTE: For BeautifulSoup to work, Make sure that you have a parser installed, this program uses lxml,
-#       See https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser for more information
+# NOTE: For BeautifulSoup to work, make sure that you have a parser installed, this program uses lxml,
+#       which should already be installed if you're using anaconda python.
+#       See https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser for more information.
 
 try: 
     from bs4 import BeautifulSoup
@@ -38,7 +39,7 @@ def setup():
     original_dir = os.getcwd()
     dirContents = os.listdir(original_dir)
     path = os.path.join(original_dir, "Scraped_Files")
-    if "Scraped_Files" in dirContents:  # We check&delete the directory because there is an error if the directory already exists
+    if "Scraped_Files" in dirContents:  # We check and delete the directory because there is an error if the directory already exists
             shutil.rmtree(path) # Removes directories regardless of if they're empty
     os.mkdir(path)
     return path
@@ -48,7 +49,7 @@ def createfiles(listOflinks, path):
     for link in listOflinks:
         # Make the paths for each file
         name = link.get('href')
-        file_name = name[6:]+".html"    #NOTE: name[6:] works for the important links, but not all of them
+        file_name = name[6:]+".html"    # NOTE: name[6:] works for the important links, but not all of them
         filePath = os.path.join(path, file_name)
         # Get the info that will be written to the files
         URLtoLoop = baseURL + name
@@ -93,7 +94,7 @@ def main():
    
     # LinkList[1441] is the last link in the list of languages: ZZZ
     
-    #TODO: Maybe add a function that checks the type of the doc, look specifically for: <!DOCTYPE html>
+    # TODO: Maybe add a function that checks the type of the doc, look specifically for: <!DOCTYPE html>
     createfiles(LinkList_Subset, Ourpath)
 
     print("End of main()\n")

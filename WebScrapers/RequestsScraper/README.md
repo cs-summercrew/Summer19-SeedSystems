@@ -1,4 +1,8 @@
-Running EsotericScraper.py should create the file Scraped_Files containing the html files for input links from https://esolangs.org/wiki/Language_list
+Please read the instructions we have added in comments in each .py file to ensure that you have the proper libriaries installed, and for helpful information.
 
-Files_To_Parse should be the same as Scraped_Files after it is created by EsotericScraper.py. 
-Files_To_Parse is used by EsotericParser.py to output EsoData.csv which summarizes some of the information in each file.
+EsotericScraper.py uses the requests library to scrape the html from links at https://esolangs.org/wiki/Language_list.
+EsotericScraper.py creates and outputs to the file Scraped_Files.
+
+Files_To_Parse is an exact copy of Scraped_Files, and is used as input for EsotericParser.py.
+EsotericParser.py parses the html files in Files_To_Parse using the BeautifulSoup Library, and outputs EsoData.csv 
+EsoData.csv contains summary data for each html file in Files_To_Parse
