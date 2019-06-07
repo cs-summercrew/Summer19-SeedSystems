@@ -73,7 +73,8 @@ def demo1():
             img = cv2.flip(img, 0)
         if BGR: 
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        
+        if k == 27: 
+            break  # esc to quit
         #facial recognition handling
         faces = faceCascade.detectMultiScale(
         img,
@@ -91,8 +92,7 @@ def demo1():
 
         
         cv2.imshow('my webcam', img)
-        if cv2.waitKey(1) == 27: 
-            break  # esc to quit
+        
     cv2.destroyAllWindows()
 
 
