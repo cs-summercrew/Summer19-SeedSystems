@@ -51,11 +51,13 @@ def demo1():
     BGR=False 
     while True:
         ret_val, orig = cam.read()
+
         #shrink image to half size (.5)
         #"None" argument refers to the size in pixels, which we don't care about since we're scaling
         img=cv2.resize(orig, None, fx=.5, fy=.5)
         #NOTE: if the image is original size, it will be very slow and laggy, and will miss some keypresses.
         #adjust size as desired if your machine is powerful enough
+        
         """ key-press handling """
         k = cv2.waitKey(20) & 0xFF
         k_char = chr(k)
