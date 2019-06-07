@@ -16,7 +16,7 @@ def videoCapture(path):
     currFrame = 0
     color = True
     contSave = False
-    limit = 0
+    savelimit = 0
     os.chdir(path)  # Changes the cwd to the path we print files to
     while True:
         ret, frame = cap.read()
@@ -27,7 +27,6 @@ def videoCapture(path):
             print("Can't receive frame (stream end?). Exiting ...")
             break
         
-        # print(currFrame)
         currFrame +=1
         # Our SAVED operations on the frame go here
         k = cv.waitKey(20) & 0xFF
@@ -44,13 +43,13 @@ def videoCapture(path):
             print("You saved frame "+str(currFrame)+"!")
         if (k_char == 'c'):
             contSave = not contSave
-            print("You saved frames "+str(currFrame)+"-"+str(currFrame+30)+"!")
         if contSave:
             cv.imwrite("frame"+str(currFrame)+".png", frame)
-            limit+=1
-            if(limit > 30):
+            print("You saved frame "+str(currFrame)+"!")
+            savelimit+=1
+            if(savelimit > 30):
                 contSave = not contSave
-                limit = 0
+                savelimit = 0
 
         # Our UNSAVED operations on the frame go here
         cv.rectangle(frame,(0,0),(300,105),(0,0,0),-1)   #Setting the last arg (pixel width) fills the rectangle
@@ -69,13 +68,12 @@ def videoCapture(path):
             print("End of Video Capture")
             break
 
-    # When everything done, release the capture
     cap.release()
     cv.destroyAllWindows()
     return
 
 def setup(original_dir):
-    " Makes a folder to hold our frame files, and return a path to that folder"
+    " Makes a folder to hold our frame files, and returns a path to that folder"
     path = os.path.join(original_dir, "temp")
     try:
         os.mkdir(path)
