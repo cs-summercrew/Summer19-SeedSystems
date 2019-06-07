@@ -9,7 +9,7 @@
 
 import os
 import time
-# NOTE: We use sleep from the time library to make it easier to watch what is happening (It is not necessary)
+# NOTE: We used .sleep() from the time library to make it easier to watch what is happening (It is not necessary for the scraper)
 
 try:
     from selenium import webdriver
