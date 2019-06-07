@@ -12,29 +12,32 @@ import shutil
 # initialize the list of reference points and boolean indicating
 # whether cropping is being performed or not
 refPt = []
+sel_rect_endpoint = []
 cropping = False
 
 def click_and_crop(event, x, y, flags, param):
 	# grab references to the global variables
-	global refPt, cropping
+    global refPt, cropping, sel_rect_endpoint
  
 	# if the left mouse button was clicked, record the starting
 	# (x, y) coordinates and indicate that cropping is being
 	# performed
-	if event == cv.EVENT_LBUTTONDOWN:
-		refPt = [(x, y)]
-		cropping = True
+    if event == cv.EVENT_LBUTTONDOWN:
+        refPt = [(x, y)]
+        cropping = True
  
 	# check to see if the left mouse button was released
-	elif event == cv.EVENT_LBUTTONUP:
-		# record the ending (x, y) coordinates and indicate that
-		# the cropping operation is finished
-		refPt.append((x, y))
-		cropping = False
+    elif event == cv.EVENT_LBUTTONUP:
+	    # record the ending (x, y) coordinates and indicate that
+	    # the cropping operation is finished
+        refPt.append((x, y))
+        cropping = False
  
 		# draw a rectangle around the region of interest
-		cv.rectangle(image, refPt[0], refPt[1], (0, 255, 0), 2)
-		cv.imshow(FILE_NAME, image)
+        cv.rectangle(image, refPt[0], refPt[1], (0, 255, 0), 2)
+        cv.imshow(FILE_NAME, image)
+    elif event == cv.EVENT_MOUSEMOVE and cropping:
+        sel_rect_endpoint = [(x, y)]
     
 
 original_dir = os.getcwd()
@@ -48,7 +51,12 @@ cv.namedWindow(FILE_NAME)
 cv.setMouseCallback(FILE_NAME, click_and_crop)
 while True:
     # display the image and wait for a keypress
-    cv.imshow(FILE_NAME, image)
+    if not cropping:
+        cv.imshow(FILE_NAME, image)
+    elif cropping and sel_rect_endpoint:
+        rect_cpy = image.copy()
+        cv.rectangle(rect_cpy,refPt[0],sel_rect_endpoint[0],(0,255,0), 1)
+        cv.imshow(FILE_NAME, rect_cpy)
     key = cv.waitKey(1) & 0xFF
     # if the 'r' key is pressed, reset the cropping region
     if key == ord("r"):
@@ -77,7 +85,7 @@ if len(refPt) == 2:
             break
 
 
-
-cv.destroyAllWindows()
 os.chdir(original_dir)
+cv.destroyAllWindows()
+
 
