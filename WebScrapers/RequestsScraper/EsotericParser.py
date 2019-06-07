@@ -50,14 +50,13 @@ def simplifyText(myString):
     myString = myString.replace(" ", "")
     translator = str.maketrans('', '', string.punctuation)
     myString = myString.translate(translator)
-    #print(myString)
     return myString
 
 def parseData(path):
     "Parses file directory"
     AllFiles = list(os.walk(path))[0][2]
     data = []
-    #Data Index Titles
+    # Data Index Titles
     data.append(["Title", "Page Last Edited", "Page is a Stub", "Page contains Hello World", "Is Turing Complete", "Has External Resources"])
 
     for file in AllFiles:
@@ -118,7 +117,6 @@ def main():
     currDir = os.getcwd()
     path = os.path.join(currDir, "Files_To_Parse")
     data = parseData(path)
-    #print("\n",data)
     writeCSV(currDir, data)
 
     print("\nEnd of main()")

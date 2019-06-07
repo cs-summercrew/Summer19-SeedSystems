@@ -1,5 +1,3 @@
-Please read the instructions we have added in comments in each .py file to ensure that you have the proper libriaries installed, and for helpful information.
-
 EsotericScraper.py uses the requests library to scrape the html from links at https://esolangs.org/wiki/Language_list.
 EsotericScraper.py creates and outputs to the file Scraped_Files.
 

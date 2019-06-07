@@ -37,11 +37,18 @@ baseURL = "https://esolangs.org"
 def setup():
     " Makes a folder to hold our html files, and return a path to that folder"
     original_dir = os.getcwd()
-    dirContents = os.listdir(original_dir)
+    
     path = os.path.join(original_dir, "Scraped_Files")
-    if "Scraped_Files" in dirContents:  # We check and delete the directory because there is an error if the directory already exists
-            shutil.rmtree(path) # Removes directories regardless of if they're empty
-    os.mkdir(path)
+    try: 
+        os.mkdir(path)
+    except:
+        print("Folder already exists. Deleting contents of folder.")
+        contents = os.listdir(path)
+        for f in contents:
+            os.remove(os.path.join(path, f))
+    # NOTE: os.remove(path) deletes files
+    #       os.rmdir(path) deletes folders/directories but only if they're empty
+    #       shutil.rmtree(path) deletes folders regardless of if they're empty
     return path
 
 def createfiles(listOflinks, path):
