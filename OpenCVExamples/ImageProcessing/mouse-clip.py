@@ -5,9 +5,9 @@ import os
 import os.path
 import shutil
 
-# NOTE: The code used in this file is heavily based off of the tutorial code in the following link:
+# NOTE: The code used in this file is heavily based off of the tutorial code in the following link, and contains more detail:
 #       https://www.pyimagesearch.com/2015/03/09/capturing-mouse-click-events-with-python-and-opencv/
-#       See the link for more detail
+#       Some of the comment suggestions in the link were used too!
 
 # initialize the list of reference points and boolean indicating
 # whether cropping is being performed or not
@@ -53,21 +53,24 @@ while True:
     # if the 'r' key is pressed, reset the cropping region
     if key == ord("r"):
         image = clone.copy()
+        print("You reset the image!")
     # if the esc key is pressed, break from the loop
     elif key == 27:
         cv.destroyWindow(FILE_NAME)
+        print("You chose your clipping!")
         break
 
 # if there are two reference points, then crop the region of interest
 # from the image and display it
 if len(refPt) == 2:
-	clip = clone[refPt[0][1]:refPt[1][1], refPt[0][0]:refPt[1][0]]
+    clip = clone[refPt[0][1]:refPt[1][1], refPt[0][0]:refPt[1][0]]
     while True:
         cv.imshow("Clipping", clip)
         key = cv.waitKey(1) & 0xFF
         # if the 's' key is pressed, save the cropped region as a new image
         if key == ord("s"):
-            cv.imwrite(FILE_NAME[:-4]+"_crop"+".png", frame)
+            cv.imwrite(FILE_NAME[:-4]+"_crop"+".png", clip)
+            print("You saved a clip!")
         # if the esc key is pressed, break from the loop
         elif key == 27:
             cv.destroyWindow('Clipping')
