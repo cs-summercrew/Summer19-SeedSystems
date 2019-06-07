@@ -97,10 +97,6 @@ def demo1():
 
 
 
-
-
-
-
 def demo3():
     """
         to demo:  click to bring focus to the messi image
