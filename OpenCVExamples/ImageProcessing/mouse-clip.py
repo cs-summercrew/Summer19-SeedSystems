@@ -33,6 +33,32 @@ def click_and_crop(event, x, y, flags, param):
         refPt.append((x, y))
         cropping = False
  
+        # These if statements adjust the refPt list to get it into the TopLeft to BotRight format
+        # required for the rectangle() function
+        # print("x1:",refPt[0][0],"y1:",refPt[0][1])
+        # print("x2:",refPt[1][0],"y2:",refPt[1][1])
+        if (refPt[0][0] > refPt[1][0]) and (refPt[0][1] > refPt[1][1]):
+            # Bottom Right to Top Left Case
+            temp0 = refPt[0]
+            temp1 = refPt[1]
+            refPt[0] = temp1
+            refPt[1] = temp0
+        if (refPt[0][0] < refPt[1][0]) and (refPt[0][1] > refPt[1][1]):
+            # Bottom Left to Top Right Case
+            x1 = refPt[0][0]
+            x2 = refPt[1][0]
+            y1 = refPt[0][1]
+            y2 = refPt[1][1]
+            refPt[0] = (x1,y2)
+            refPt[1] = (x2,y1)
+        if (refPt[0][0] > refPt[1][0]) and (refPt[0][1] < refPt[1][1]):
+            # Top Right to Bottom Left Case
+            x1 = refPt[0][0]
+            x2 = refPt[1][0]
+            y1 = refPt[0][1]
+            y2 = refPt[1][1]
+            refPt[0] = (x2,y1)
+            refPt[1] = (x1,y2)
 		# draw a rectangle around the region of interest
         cv.rectangle(image, refPt[0], refPt[1], (0, 255, 0), 2)
         cv.imshow(FILE_NAME, image)
@@ -55,7 +81,7 @@ while True:
         cv.imshow(FILE_NAME, image)
     elif cropping and sel_rect_endpoint:
         rect_cpy = image.copy()
-        cv.rectangle(rect_cpy,refPt[0],sel_rect_endpoint[0],(0,255,0), 1)
+        cv.rectangle(rect_cpy,refPt[0],sel_rect_endpoint[0],(0,255,0), 2)
         cv.imshow(FILE_NAME, rect_cpy)
     key = cv.waitKey(1) & 0xFF
     # if the 'r' key is pressed, reset the cropping region
