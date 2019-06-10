@@ -51,7 +51,7 @@ def labeler(path, label):
                 if (not has_attr) and (not hasNo_attr):
                     labelList.append([file, "N/A"])
                     print("You did not choose a label for "+file+"!")
-                print("Moving on to the next Image!")
+                print("Moving on to the next Image!\n")
                 break
         cv.destroyWindow(file)
     return labelList
