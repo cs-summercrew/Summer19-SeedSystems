@@ -5,7 +5,7 @@ import os
 import os.path
 import shutil
 
-# NOTE: The code used in this file is heavily based off of the tutorial code in the following link, and contains more detail:
+# NOTE: The code used in this file is heavily based off of the tutorial code in the following link, which contains more detail:
 #       https://www.pyimagesearch.com/2015/03/09/capturing-mouse-click-events-with-python-and-opencv/
 #       Some of the comment suggestions in the link were used too!
 
