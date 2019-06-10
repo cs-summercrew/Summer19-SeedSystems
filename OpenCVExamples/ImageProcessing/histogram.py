@@ -61,7 +61,10 @@ def histEqual(file):
     cv.destroyWindow("EQ_"+file)
     return EQimage
 
-histColorMatch()
+def histColorMatch():
+    #https://docs.opencv.org/2.4.13.6/doc/tutorials/imgproc/histograms/histogram_comparison/histogram_comparison.html?highlight=histogram
+    # Do something showing off these functions
+    cv.compareHist(x,x,CV_COMP_CORREL) # Show off the different metrics
 
 def main():
     # histBGR("messi5.jpg")
