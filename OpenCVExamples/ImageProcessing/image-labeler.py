@@ -8,7 +8,7 @@ import csv
 
 
 def labeler(path, label):
-    "Takes the path to a folder of images, loops through displaying iamges, and ask for human input, which is outputted as a list"
+    "Takes the path to a folder of images, loops through displaying images, and ask for human input, which is outputted as a list"
     os.chdir(path)  # Changes the cwd
     labelList = []
     AllFiles = list(os.walk(path))[0][2]
@@ -19,7 +19,7 @@ def labeler(path, label):
     for file in AllFiles:
         has_attr = False
         hasNo_attr = False
-        currImage = cv.imread(file)
+        currImage = cv.imread(file, -1)
         while True:
             cv.rectangle(currImage,(0,0),(310,40),(0,0,0),-1)   #Setting the last arg (pixel width) fills the rectangle
             if (not has_attr) and (not hasNo_attr):
