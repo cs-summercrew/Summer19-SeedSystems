@@ -9,6 +9,9 @@ import shutil
 #       https://www.pyimagesearch.com/2015/03/09/capturing-mouse-click-events-with-python-and-opencv/
 #       Some of the comment suggestions in the link were used too!
 
+# TODO: It may be more useful to be able loop through a folder of images, cropping each one, instead of only cropping a single file
+#       at a time as is currently implemented. If you think so, then look at image-labeler.py for inspiration...
+
 # initialize the list of reference points and boolean indicating
 # whether cropping is being performed or not
 refPt = []
