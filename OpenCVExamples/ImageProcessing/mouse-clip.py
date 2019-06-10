@@ -74,7 +74,7 @@ path = os.path.join(original_dir, "Bananna")
 os.chdir(path)
 
 FILE_NAME = "frame448.png"
-image = cv.imread(FILE_NAME)
+image = cv.imread(FILE_NAME, -1)
 clone = image.copy()
 cv.namedWindow(FILE_NAME)
 cv.setMouseCallback(FILE_NAME, click_and_crop)
