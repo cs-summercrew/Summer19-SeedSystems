@@ -40,7 +40,7 @@ def labeler(path, label):
                 print("You marked "+file+" as having "+label)
             # Display the resulting frame
             cv.imshow(file, currImage)
-            # End the Video Capture
+            # Close the current image window
             if k == 27: # ESC key, See https://keycode.info for other keycodes
                 if has_attr:
                     labelList.append([file, "1"])
