@@ -55,6 +55,10 @@ def simplifyText(myString):
 def parseData(path):
     "Parses file directory"
     AllFiles = list(os.walk(path))[0][2]
+    if '.DS_Store' in AllFiles:
+        # DS_Store files are an annoying Mac feature, if you aren't using MacOS you can delete this if statement
+        ind = AllFiles.index('.DS_Store')
+        AllFiles = AllFiles[:ind] + AllFiles[ind+1:]
     data = []
     # Data Index Titles
     data.append(["Title", "Page Last Edited", "Page is a Stub", "Page contains Hello World", "Is Turing Complete", "Has External Resources"])
