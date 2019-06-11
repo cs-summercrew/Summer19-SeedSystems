@@ -16,7 +16,8 @@ def histCompare():
     return
 
 def main():
-    # histCompare()
+    #histCompare()
+    pass
 
 if __name__ == "__main__":
     main()
