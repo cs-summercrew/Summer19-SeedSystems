@@ -5,8 +5,12 @@ import os
 import os.path
 import shutil
 import csv
+from prettytable import PrettyTable
+# NOTE: prettytable is only used to print the data so that it is more readable. It is otherwise unnecessary.
+#       If you don't want to pip install prettytable then just comment out the respecitve code, it should all be in writeCSV()
 
 def histCompare(baseFile, folderName, path):
+    os.chdir(path)
     AllFiles = list(os.walk(path))[0][2]
     data = []
     # Take out the files we don't want to parse
@@ -34,28 +38,31 @@ def histCompare(baseFile, folderName, path):
         result2 = cv.compareHist(histBase,histToComp,cv.HISTCMP_INTERSECT)
         result3 = cv.compareHist(histBase,histToComp,cv.HISTCMP_BHATTACHARYYA)
         result4 = cv.compareHist(histBase,histToComp,cv.HISTCMP_KL_DIV)
-        data.append([file, ["Correlation",result0], ["Chi-square",result1], ["Intersection",result2], ["BHATTACHARYYA",result3],
-        ["Kullback-Leibler",result4]])
+        data.append([file, str(round(result0,4)), str(round(result1,4)), str(round(result2,4)), str(round(result3,4)), str(round(result4,4))])
     return data
 
 def writeCSV(path, data):
     " Takes our data and writes it to a csv file"
-    path = os.path.join(path, "Hist-CompareData.csv")
+    path = os.path.join(path, "HistogramData.csv")
     with open(path, 'w') as myCSVfile:
-        print("Writing BanannaData.csv")
+        print("Writing HistogramData.csv")
         filewriter = csv.writer(myCSVfile, delimiter='\n', quoting=csv.QUOTE_NONE, escapechar='\\')
-        filewriter.writerow(["File_Name,Has_Attribute"])
+        filewriter.writerow(["File_Name,Correlation,Chi-square,Intersection,BHATTACHARYYA,Kullback-Leibler"])
+        t = PrettyTable(["File_Name", "Correlation", "Chi-square", "Intersection", "BHATTACHARYYA", "Kullback-Leibler"])
         for i in range(0,len(data)):
-                filewriter.writerow([data[i][0] + ',' + data[i][1]])
+            filewriter.writerow([data[i][0] + ',' + data[i][1] + ',' + data[i][2] + ',' + data[i][3] + ',' + data[i][4] + ',' + data[i][5]])
+            t.add_row([data[i][0], data[i][1], data[i][2], data[i][3][0], data[i][4], data[i][5]])
+        print(t)
     return
 
 def main():
     original_dir = os.getcwd()
-    folderName = "960x640"
+    folderName = "960x640 Flowers"
     compFile = "f1.jpg"
     path = os.path.join(original_dir, folderName)
     data = histCompare(compFile, folderName, path)
-    print(data)
+    os.chdir(original_dir)
+    writeCSV(original_dir, data)
 
 if __name__ == "__main__":
     main()

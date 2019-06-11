@@ -125,10 +125,10 @@ def hist_match(source, template):
     return interp_t_values[bin_idx].reshape(oldshape)
 
 def main():
-    # histBGR("messi5.jpg")
-    # histEqual("treelc.jpg")
-    # histColorMatch("f1.jpg", "f5.jpg")
-    # histCompare()
+    histBGR("messi5.jpg")
+    histEqual("treelc.jpg")
+    histColorMatch("f1.jpg", "f5.jpg")
+
 
 if __name__ == "__main__":
     main()
