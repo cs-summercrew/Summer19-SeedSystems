@@ -16,8 +16,6 @@ import shutil
 def histBGR(file):
     "Press space for color-intensity histogram of the image's bgr values"
     image = cv.imread(file, 1) # -1 alpha, 0 gray, 1 color
-    # hist = cv.calcHist([image],[0],None,[256],[0,255])
-    # plt.hist(image.ravel(),256,[0,256])
     while True:
         k = cv.waitKey(10) & 0xFF
         k_char = chr(k)
@@ -68,17 +66,8 @@ def histEqual(file):
     cv.destroyWindow("EQ_"+file)
     return EQimage
 
-def histCompare():
-    #https://docs.opencv.org/2.4.13.6/doc/tutorials/imgproc/histograms/histogram_comparison/histogram_comparison.html?highlight=histogram
-    # Do something showing off these functions
-    cv.compareHist(x,x,CV_COMP_CORREL)
-    # cv2.HISTCMP_CHISQR
-    # cv2.HISTCMP_INTERSECT
-    # cv2.HISTCMP_BHATTACHARYYA
-    # TODO: use the different metrics on a folder of images to compare to a single image
-    return
-
 def histColorMatch(srcFile, tempFile):
+    "Only works on grayscale, matches the color histogram of srcFile to tempFile's color histogram"
     # NOTE: See https://en.wikipedia.org/wiki/Histogram_matching for a description of this algorithm
     imageSrc = cv.imread(srcFile, 0) # -1 alpha, 0 gray, 1 color
     imageTemp = cv.imread(tempFile, 0) # -1 alpha, 0 gray, 1 color
@@ -111,7 +100,7 @@ def histColorMatch(srcFile, tempFile):
     return
 
 def hist_match(source, template):
-    # NOTE: This function was taken from the stake overflow post
+    # NOTE: This function was taken from the stack overflow post
     oldshape = source.shape
     source = source.ravel()
     template = template.ravel()
