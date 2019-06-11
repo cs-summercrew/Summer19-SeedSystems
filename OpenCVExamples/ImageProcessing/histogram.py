@@ -64,7 +64,14 @@ def histEqual(file):
 def histCompare():
     #https://docs.opencv.org/2.4.13.6/doc/tutorials/imgproc/histograms/histogram_comparison/histogram_comparison.html?highlight=histogram
     # Do something showing off these functions
-    cv.compareHist(x,x,CV_COMP_CORREL) # Show off the different metrics
+    file1="pug.png"
+    img1= cv.imread(file1, 0)
+    file2="/Banana/frame600.png"
+    img2= cv.imread(file2, 0)
+    hist1 = cv.calcHist([img1],[0],None,[256],[0,256])
+    hist2 = cv.calcHist([img2],[0],None,[256],[0,256])
+    results = cv.compareHist(hist1,hist2,cv.HISTCMP_CORREL) # Show off the different metrics
+    print (results)
     return
 
 def histColorMatch():
@@ -73,7 +80,7 @@ def histColorMatch():
 def main():
     # histBGR("messi5.jpg")
     # histEqual("treelc.jpg")
-    # histCompare()
+    histCompare()
     # histColorMatch()
 
 if __name__ == "__main__":
