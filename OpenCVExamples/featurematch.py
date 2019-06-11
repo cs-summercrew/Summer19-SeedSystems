@@ -2,6 +2,10 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
+#this is the number of connections made between the two images
+NUM_EDGES=5
+NUM_NODES=NUM_EDGES*2
+
 img1 = cv2.imread('pillow.jpg',0)
 img2 = cv2.imread('objects.jpg',0)
 
@@ -16,6 +20,6 @@ matches = bf.match(des1,des2)
 matches = sorted(matches, key = lambda x:x.distance)
 
 #change the 10 in matches[:10] to change the number of connections drawn
-img3 = cv2.drawMatches(img1,kp1,img2,kp2,matches[:10],None, flags=2)
+img3 = cv2.drawMatches(img1,kp1,img2,kp2,matches[:NUM_NODES],None, flags=2)
 plt.imshow(img3)
 plt.show()

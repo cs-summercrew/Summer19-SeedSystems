@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
+
 img = cv2.imread("messi5.jpg", cv2.IMREAD_GRAYSCALE)
 
 sift = cv2.xfeatures2d.SIFT_create()
@@ -13,7 +15,8 @@ keypoints_orb, descriptors = orb.detectAndCompute(img, None)
 
 #change keypoints_orb to any of the above
 img = cv2.drawKeypoints(img, keypoints_orb, None)
-cv2.imshow("Image", img)
+plt.imshow(img)
+plt.show()
 
 #press any key to close image window
 cv2.waitKey(0)
