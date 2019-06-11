@@ -56,13 +56,13 @@ def labeler(path, label):
         cv.destroyWindow(file)
     return labelList
 
-def writeCSV(path, data):
+def writeCSV(path, data, attribute):
     " Takes our data and writes it to a csv file"
     path = os.path.join(path, "BanannaData.csv")
     with open(path, 'w') as myCSVfile:
         print("Writing BanannaData.csv")
         filewriter = csv.writer(myCSVfile, delimiter='\n', quoting=csv.QUOTE_NONE, escapechar='\\')
-        filewriter.writerow(["File_Name,Has_Attribute"])
+        filewriter.writerow(["File_Name,Has_"+attribute])
         for i in range(0,len(data)):
                 filewriter.writerow([data[i][0] + ',' + data[i][1]])
     return
@@ -73,7 +73,7 @@ def main():
     path = os.path.join(original_dir, folderName)
     labelList = labeler(path, "Bannana")
     os.chdir(original_dir)  # Changes cwd back to original_dir
-    writeCSV(original_dir, labelList)
+    writeCSV(original_dir, labelList, "Bannana")
     cv.destroyAllWindows() # Deletes any opened windows just in case
 
 if __name__ == "__main__":
