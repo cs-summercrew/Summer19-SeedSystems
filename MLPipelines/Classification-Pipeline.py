@@ -1,4 +1,5 @@
 import numpy as np
+import math
 from sklearn import datasets
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,14 +20,27 @@ from sklearn.svm import SVC
 # The "answers" to the 20 unknown digits, labeled -1:
 answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
 
+def visualizeData():
+    pass
 
-def boxPlot(results, names):
+def boxPlot(results, names, metric):
+    """ The box extends from the lower to upper quartile values of the data, with a line at the median. 
+        The whiskers extend from the box to show the range of the data. 
+        This box plot shows the spread of the data NOT the confidence interval!!!"""
     fig = plt.figure()
-    fig.suptitle('Algorithm Comparison')
+    fig.suptitle('Algorithm '+metric+' Comparison')
     ax = fig.add_subplot(111)
     plt.boxplot(results)
     ax.set_xticklabels(names)
     plt.show()
+
+def metricRanking(names, acc, prc, f1):
+    "Assigns a ranking based on each score, prints the name of the metric with the (best) lowest cumulative ranking"
+    print(names)
+    print(acc)
+    print(prc)
+    print(f1)
+    return
 
 def crossValidation(X_known, y_known):
     # Make a list of our models:
@@ -43,25 +57,32 @@ def crossValidation(X_known, y_known):
     # evaluate each model in turn
     AccResults = []
     PrcResults = []
+    F1Results = []
     names = []
+    # NOTE: If you don't want to bother with confidence intervals, you can just compare the standard deviations
+    splits = 10      # If you change the number of splits, you must also change the t-score 
+    tscore = 2.262   # Two sided t-score for 95% confidence interval (splits-1 degrees of freedom)
+    calc95 = (tscore / math.sqrt(splits))
     # NOTE: See different scoring params: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     scoring = ['accuracy','f1_weighted', 'precision_weighted']
     # BUG: Check that I am using the right type of scoring params
-    #      Also check the confidence interval calculation
-    
     print("\nAlgorithm : Accuracy, Weighted f1 score, Weighted Precision")
-    print("*** Results show means for each scoring metric, with 95% Confidence Intervals in parenthesis\n")    
+    print("*** Results show means for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
     for name, model in models:
-        kfold = model_selection.KFold(n_splits=10, random_state=None)
+        kfold = model_selection.KFold(n_splits=splits, random_state=None)
         cv_scores = model_selection.cross_validate(model, X_known, y_known, cv=kfold, scoring=scoring)
         AccResults.append(cv_scores["test_accuracy"])
         PrcResults.append(cv_scores["test_precision_weighted"])
-        names.append(name)
-        print( "%s: %0.3f (+/- %0.3f)," % (name, cv_scores["test_accuracy"].mean(), cv_scores["test_accuracy"].std() * 2),
-        "%.3f (+/- %0.3f)," % (cv_scores["test_f1_weighted"].mean(), cv_scores["test_f1_weighted"].std() * 2),
-        "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * 2) )
-    boxPlot(AccResults, names)
-    boxPlot(PrcResults, names)
+        F1Results.append(cv_scores["test_f1_weighted"])
+        names.append(name.strip())
+        print( "%s: %0.3f (+/- %0.3f)," % (name, cv_scores["test_accuracy"].mean(), cv_scores["test_accuracy"].std() * calc95),
+        "%.3f (+/- %0.3f)," % (cv_scores["test_f1_weighted"].mean(), cv_scores["test_f1_weighted"].std() * calc95),
+        "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
+
+    # Function Calls
+    # metricRanking(names, AccResults, PrcResults, F1Results)
+    boxPlot(AccResults, names, "Accuracy")
+    boxPlot(PrcResults, names, "Precision")
     return
 
 def main():
@@ -78,7 +99,7 @@ def main():
     y_unknown = y_all[:20]
     X_known = X_all[20:]
     y_known = y_all[20:]
-    # It is good practice to scramble your data!
+    # It's good practice to scramble your data!
     indices = np.random.permutation(len(X_known))
     X_known = X_known[indices]
     y_known = y_known[indices]
@@ -91,6 +112,7 @@ def main():
     y_train = y_known[TEST_SIZE:]
 
     # Function Calls
+    visualizeData()
     crossValidation(X_known, y_known)
 
 if __name__ == "__main__":
