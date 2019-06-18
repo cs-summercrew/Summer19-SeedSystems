@@ -66,7 +66,7 @@ def metricRanking(allList):
 
 def crossValidation(X_known, y_known):
     "Do cross validation tests on your data to help determine the best model and the best params"
-    print("+++ Starting cross-validation! +++")
+    print("\n\n+++ Starting algorithm comparison through cross-validation! +++")
     # Make a list of our models
     # NOTE: Realistically, you will want to tune the params of these functions, I am only using the defaults
     #       You will get warnings by leaving some of the function params empty as the defaults
@@ -114,9 +114,9 @@ def crossValidation(X_known, y_known):
 def trainModel(X_train, y_train, X_test, y_test):
     """Run the best model from the cross validation on the test/training data.
        It is a good idea to fine-tune your chosen algorithm in this function."""
+    print("\n\n+++ Starting the fine-tuning of test and train data for the best model! +++")
     svc_train = SVC(gamma="scale")
     svc_train.fit(X_train, y_train)
-    print("\nCreated and trained an svc classifier")
     predictions = svc_train.predict(X_test)
     # Print more summary data for the model
     print("\nConfusion matrix:")
@@ -131,11 +131,11 @@ def trainModel(X_train, y_train, X_test, y_test):
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     "Runs the model on the unknown data"
+    print("\n\n+++ Starting the prediction of unknown data! +++")
     svc_final = KNeighborsClassifier(n_neighbors=5)
     svc_final.fit(X_known, y_known)
-    print("\nCreated and trained a svc classifier")
     predictions = svc_final.predict(X_unknown)
-    print("The predicted categories for the unkown data are:")
+    print("\nThe predicted categories vs actual:")
     print(predictions)
     
     # The "answers" to the 20 unknown digits, labeled -1:
