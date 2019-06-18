@@ -92,10 +92,10 @@ def crossValidation(X_known, y_known):
 def trainModel(X_train, y_train, X_test, y_test):
     """Run the best model from the cross validation on the test/training data.
        It is a good idea to fine-tune your chosen algorithm in this function."""
-    knn_train = KNeighborsClassifier(n_neighbors=5)
-    knn_train.fit(X_train, y_train)
-    print("\nCreated and trained a knn classifier with k =", 5)
-    predictions = knn_train.predict(X_test)
+    svc_train = SVC(gamma="scale")
+    svc_train.fit(X_train, y_train)
+    print("\nCreated and trained an svc classifier")
+    predictions = svc_train.predict(X_test)
     # Print more summary data for the model
     print("\nConfusion matrix:")
     print(confusion_matrix(y_test,predictions))
@@ -109,15 +109,18 @@ def trainModel(X_train, y_train, X_test, y_test):
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     "Runs the model on the unknown data"
-    knn_train = KNeighborsClassifier(n_neighbors=5)
-    knn_train.fit(X_known, y_known)
-    print("\nCreated and trained a knn classifier with k =", 5)
-    predictions = knn_train.predict(X_unknown)
+    svc_final = KNeighborsClassifier(n_neighbors=5)
+    svc_final.fit(X_known, y_known)
+    print("\nCreated and trained a svc classifier")
+    predictions = svc_final.predict(X_unknown)
     print("The predicted categories for the unkown data are:")
     print(predictions)
+    
     # The "answers" to the 20 unknown digits, labeled -1:
     answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
     print(np.array(answers))
+    accuracy = svc_final.score(X_unknown, answers)
+    print("Accuracy: "+str(accuracy))
     return
 
 
@@ -151,7 +154,7 @@ def main():
     # Function Calls
     fileSpecificOps()                                       # Gets the data into a nice useable format
     visualizeData()
-    #crossValidation(X_known, y_known)                      # Comapare different algorithms
+    crossValidation(X_known, y_known)                      # Comapare different algorithms
     trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
     predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
