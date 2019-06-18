@@ -1,3 +1,5 @@
+# Authors: CS-World Domination Summer19
+# Dylan McGarvey
 import numpy as np
 import math
 from sklearn import datasets
@@ -25,9 +27,9 @@ def visualizeData():
     pass
 
 def boxPlot(results, names, metric):
-    """ The box extends from the lower to upper quartile values of the data, with a line at the median. 
-        The whiskers extend from the box to show the range of the data. 
-        This box plot shows the spread of the data NOT the confidence interval!!!"""
+    """ This box plot shows the spread of the data, NOT the confidence interval!!! 
+        The box extends from the lower to upper quartile values of the data, with a line at the median. 
+        The whiskers extend from the box to show the range of the data. """
     fig = plt.figure()
     fig.suptitle('Algorithm '+metric+' Comparison')
     ax = fig.add_subplot(111)
@@ -35,12 +37,9 @@ def boxPlot(results, names, metric):
     ax.set_xticklabels(names)
     plt.show()
 
-def metricRanking(names, acc, prc, f1):
+def metricRanking(allList):
     "Assigns a ranking based on each score, prints the name of the metric with the (best) lowest cumulative ranking"
-    print(names)
-    print(acc)
-    print(prc)
-    print(f1)
+    print(allList)
     return
 
 def crossValidation(X_known, y_known):
@@ -61,6 +60,7 @@ def crossValidation(X_known, y_known):
     PrcResults = []
     F1Results = []
     names = []
+    allList = []
     # NOTE: If you don't want to bother with confidence intervals, you can just compare the standard deviations
     splits = 10      # If you change the number of splits, you must also change the t-score 
     tscore = 2.262   # Two sided t-score for 95% confidence interval (splits-1 degrees of freedom)
@@ -77,14 +77,16 @@ def crossValidation(X_known, y_known):
         PrcResults.append(cv_scores["test_precision_weighted"])
         F1Results.append(cv_scores["test_f1_weighted"])
         names.append(name.strip())
+        allList.append([name.strip(), cv_scores["test_accuracy"].mean(), cv_scores["test_f1_weighted"].mean(), cv_scores["test_precision_weighted"].mean()])
         print( "%s: %0.3f (+/- %0.3f)," % (name, cv_scores["test_accuracy"].mean(), cv_scores["test_accuracy"].std() * calc95),
         "%.3f (+/- %0.3f)," % (cv_scores["test_f1_weighted"].mean(), cv_scores["test_f1_weighted"].std() * calc95),
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
 
     # Function Calls
-    # metricRanking(names, AccResults, PrcResults, F1Results)
-    boxPlot(AccResults, names, "Accuracy")
-    boxPlot(PrcResults, names, "Precision")
+    metricRanking(allList)
+    # boxPlot(AccResults, names, "Accuracy")
+    # boxPlot(PrcResults, names, "Precision")
+    # boxPlot(F1Results, names, "F1 score")
     return
 
 def main():
