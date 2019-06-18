@@ -17,6 +17,98 @@ from sklearn.svm import SVC
 # NOTE: See this link for a description of algorithms: https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/ 
 #       SciKit Documentation of its algorithms:        https://scikit-learn.org/stable/supervised_learning.html#supervised-learning
 
+def loadTitanic(size):
+    """Loads data from titanic.csv and gets it into a workable format.
+       The size param specifies how much of the data you want split into testing/training"""    
+    
+    df = pd.read_csv('titanic.csv', header=0) # read the file w/header as row 0
+    # df.head()                               # first five lines
+    # df.info()                               # column details
+
+    # Drop the useless columns from the data
+    df = df.drop('ticket', axis=1)
+    df = df.drop('home.dest', axis=1)
+    df = df.drop('name', axis=1)
+    df = df.drop('cabin', axis=1)
+    df = df.drop('embarked', axis=1)
+
+    # One important one is the conversion from string to numeric datatypes!
+    # You need to define a function, to help out...
+    def tr_mf(s):
+        """ from string to number
+        """
+        d = { 'male':0, 'female':1 }
+        return d[s]
+
+    df['sex'] = df['sex'].map(tr_mf)  # apply the function to the column
+    #
+    # end of conversion to numeric data...
+    # drop rows with missing data!
+    df = df.dropna()
+
+    # Organizing data into training/testing
+    # .values converts df to numpy array
+    X_all = df.drop('survived', axis=1).values       # iloc == "integer locations" of rows/cols
+    y_all = df[ 'survived' ].values                  # individually addressable columns (by name)
+    X_unknown = X_all[:30]
+    y_unknown = y_all[:30]
+    X_known = X_all[30:]
+    y_known = y_all[30:]
+
+    # It's good practice to scramble your data!
+    indices = np.random.permutation(len(X_known))
+    X_known = X_known[indices]
+    y_known = y_known[indices]
+
+    # Splitting test and training data
+    TEST_SIZE = int(len(X_known)*size)
+    X_test = X_known[0:TEST_SIZE]
+    y_test = y_known[0:TEST_SIZE]
+    X_train = X_known[TEST_SIZE:]
+    y_train = y_known[TEST_SIZE:]
+    
+    return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
+
+def loadIris(size):
+    """Loads data from iris.csv and gets it into a workable format.
+       The size param specifies how much of the data you want split into testing/training"""
+    
+    df = pd.read_csv('iris.csv', header=0)   # read the file w/header as row 0
+    # df.head()                              # first five lines
+    # df.info()                              # column details
+
+    def transform(s):
+        """ from string to number
+            setosa -> 0
+            versicolor -> 1
+            virginica -> 2
+            unknown -> -1
+        """
+        d = { 'unknown':-1, 'setosa':0, 'versicolor':1, 'virginica':2 }
+        return d[s]
+    df['irisname'] = df['irisname'].map(transform)  # apply the function to the column
+
+    X_all = df.iloc[:,0:4].values         # iloc == "integer locations" of rows/cols
+    y_all = df[ 'irisname' ].values       # individually addressable columns (by name)
+
+    X_unknown = X_all[:9,:]
+    y_unknown = y_all[:9]
+
+    X_known = X_all[9:,:]
+    y_known = y_all[9:]
+    # It's good practice to scramble your data!
+    indices = np.random.permutation(len(X_known))
+    X_known = X_known[indices]
+    y_known = y_known[indices]
+
+    # Splitting test and training data
+    TEST_SIZE = int(len(X_known)*size)
+    X_test = X_known[0:TEST_SIZE]
+    y_test = y_known[0:TEST_SIZE]
+    X_train = X_known[TEST_SIZE:]
+    y_train = y_known[TEST_SIZE:]
+    return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
+
 def loadDigits(size):
     """Loads data from digits.csv and gets it into a workable format.
        The size param specifies how much of the data you want split into testing/training"""
@@ -85,7 +177,7 @@ def metricRanking(allList):
         allList[i] = [allList[i][0]]
         allList[i].append(cumulative_score)
     print("The best algorithm after ranking is: "+allList[0][0])
-    print("However, do note that our basic ranking does not handle ties...")
+    print("However, do note that the ranking is very basic and does not handle ties...")
     return
 
 def crossValidation(X_known, y_known):
@@ -114,7 +206,7 @@ def crossValidation(X_known, y_known):
     calc95 = (tscore / math.sqrt(splits))
     # NOTE: See different scoring params: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     scoring = ['accuracy','f1_weighted', 'precision_weighted']
-    # BUG: Unsure if I am using the right type of scoring params (was getting errors using the non-weighted, probs need some kind of if-statement check)
+    # BUG: Unsure if I am using the right type of scoring params (was getting errors using the non-weighted for digits data)
     print("\nAlgorithm : Accuracy, Weighted f1 score, Weighted Precision")
     print("*** Results show means for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
     for name, model in models:
@@ -130,9 +222,9 @@ def crossValidation(X_known, y_known):
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
     # Function Calls
     metricRanking(allList)
-    # boxPlot(AccResults, names, "Accuracy")
-    # boxPlot(PrcResults, names, "Precision")
-    # boxPlot(F1Results, names, "F1 score")
+    boxPlot(AccResults, names, "Accuracy")
+    boxPlot(PrcResults, names, "Precision")
+    boxPlot(F1Results, names, "F1 score")
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
@@ -140,7 +232,7 @@ def trainModel(X_train, y_train, X_test, y_test):
        It is a good idea to fine-tune your chosen algorithm in this function."""
     # NOTE: https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline
     #       The pipeline function in the link above may help in your fine-tuning
-    print("\n\n+++ Starting the fine-tuning of test and train data for the best model! +++")
+    print("\n\n+++ Starting fine-tuning with svm! +++")
     svc_train = SVC(gamma="scale")
     svc_train.fit(X_train, y_train)
     predictions = svc_train.predict(X_test)
@@ -164,24 +256,35 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     print("\nThe predicted categories vs actual:")
     print(predictions)
     
-    # The "answers" to the 20 unknown digits, labeled -1:
-    answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
-    print(np.array(answers))
-    accuracy = svc_final.score(X_unknown, answers)
-    print("Accuracy: "+str(accuracy))
+    try:
+        # The "answers" for digits.csv:
+        answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
+        # The "answers" for iris.csv:
+        # answers = [2,2,1,1,0,0,2,1,0]
+        # The "answers" for titanic.csv:
+        # answers = [0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,1,
+        #         1,0,1,1,1,1,0,0,0,1,1,0,1,0]
+        print(np.array(answers))
+        accuracy = svc_final.score(X_unknown, answers)
+        print("Accuracy: "+str(accuracy))
+    except:
+        print("You didn't uncomment the correct answers list for the file you're reading!")
+    
     return
 
 
 def main():
 
+    # NOTE: Uncomment to load different csv files. SVM was the best algorithm for digits.csv, and is used as the default
+    #       example for testing the iris and titanic data.
     # (X_known, y_known, X_unknown, y_unknown,
-    # X_train, y_train, X_test, y_test) = loadDigits(0.85)  # Loads the file iris.csv, and sets important data variables
+    # X_train, y_train, X_test, y_test) = loadIris(0.85)    # Loads the file iris.csv, and sets important data variables
 
     # (X_known, y_known, X_unknown, y_unknown,
-    # X_train, y_train, X_test, y_test) = loadDigits(0.85)  # Loads the file titanic.csv, and sets important data variables
+    # X_train, y_train, X_test, y_test) = loadTitanic(0.80) # Loads the file titanic.csv, and sets important data variables
 
     (X_known, y_known, X_unknown, y_unknown,
-    X_train, y_train, X_test, y_test) = loadDigits(0.85)    # Loads the file digits.csv, and sets important data variables
+    X_train, y_train, X_test, y_test) = loadDigits(0.85)  # Loads the file digits.csv, and sets important data variables
     
     visualizeData()                                         # An optional function to be filled out by the user of this code
     crossValidation(X_known, y_known)                       # Comapare different algorithms
