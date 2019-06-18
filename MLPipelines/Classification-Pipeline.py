@@ -42,15 +42,15 @@ def metricRanking(allList):
     "Assigns a ranking based on each score, prints the name of the metric with the (best) lowest cumulative ranking"
     print()
     # Rank the metric performance for each algorithm
-    # First ranked is accuracy
+    # First to be ranked is accuracy
     allList = sorted( allList, key=lambda x: x[1], reverse=True )
     for i in range(len(allList)):
         allList[i][1] = i+1
-    # Second ranked is precision
+    # Second to be ranked is precision
     allList = sorted( allList, key=lambda x: x[2], reverse=True )
     for i in range(len(allList)):
         allList[i][2] = i+1
-    # Third ranked is f1 score
+    # Third to be ranked is f1 score
     allList = sorted( allList, key=lambda x: x[3], reverse=True )
     for i in range(len(allList)):
         allList[i][3] = i+1
@@ -66,6 +66,7 @@ def metricRanking(allList):
 
 def crossValidation(X_known, y_known):
     "Do cross validation tests on your data to help determine the best model and the best params"
+    print("+++ Starting cross-validation! +++")
     # Make a list of our models
     # NOTE: Realistically, you will want to tune the params of these functions, I am only using the defaults
     #       You will get warnings by leaving some of the function params empty as the defaults
@@ -175,9 +176,9 @@ def main():
     # Function Calls
     fileSpecificOps()                                       # Gets the data into a nice useable format
     visualizeData()
-    crossValidation(X_known, y_known)                      # Comapare different algorithms
-    # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
-    # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
+    crossValidation(X_known, y_known)                       # Comapare different algorithms
+    trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
+    predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
 if __name__ == "__main__":
     main()
