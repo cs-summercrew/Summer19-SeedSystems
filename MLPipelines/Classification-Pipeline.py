@@ -1,5 +1,5 @@
 # Authors: CS-World Domination Summer19
-# Dylan McGarvey
+# Dylan, Chris
 import numpy as np
 import math
 from sklearn import datasets
@@ -83,12 +83,21 @@ def crossValidation(X_known, y_known):
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
 
     # Function Calls
-    metricRanking(allList)
+    # metricRanking(allList)
     # boxPlot(AccResults, names, "Accuracy")
     # boxPlot(PrcResults, names, "Precision")
     # boxPlot(F1Results, names, "F1 score")
     return
 
+def trainModel():
+    "Runs the best model from the cross validation on the test/training data"
+    pass
+
+def predictUnknown():
+    "Runs the model on the unknown data"
+    pass
+
+    
 def main():
     FILE_NAME = 'digits5.csv'
     df = pd.read_csv(FILE_NAME, header=0)    # read the file w/header as row 0
@@ -99,8 +108,8 @@ def main():
     # .values converts df to numpy array
     X_all = df.iloc[:,0:64].values        # iloc == "integer locations" of rows/cols
     y_all = df[ '64' ].values             # individually addressable columns (by name)
-    X_unknown = X_all[:20]
-    y_unknown = y_all[:20]
+    X_unknown = X_all[0:20]
+    y_unknown = y_all[0:20]
     X_known = X_all[20:]
     y_known = y_all[20:]
     # It's good practice to scramble your data!
@@ -110,14 +119,15 @@ def main():
 
     # Splitting test and training data
     TEST_SIZE = (len(X_known) // 5) # A fifth (20%) of the data is for testing
-    X_test = X_known[:TEST_SIZE]
-    y_test = y_known[:TEST_SIZE]
+    X_test = X_known[0:TEST_SIZE]
+    y_test = y_known[0:TEST_SIZE]
     X_train = X_known[TEST_SIZE:]
     y_train = y_known[TEST_SIZE:]
-
     # Function Calls
     visualizeData()
-    crossValidation(X_known, y_known)
+    crossValidation(X_known, y_known)   # Comapare different algorithms
+    trainModel()                        # Run the best algorithm on the test/train data
+    predictUnknown()                    # Run the best algorithm on the unknown data
 
 if __name__ == "__main__":
     main()
