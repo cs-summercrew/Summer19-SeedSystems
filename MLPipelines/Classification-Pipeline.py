@@ -13,7 +13,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 # NOTE: See this link for a description of algorithms: https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/ 
-#       SciKit Documentation for algorithms:          https://scikit-learn.org/stable/supervised_learning.html#supervised-learning
+#       SciKit Documentation of its algorithms:        https://scikit-learn.org/stable/supervised_learning.html#supervised-learning
 
 # NOTE: Partially based off of the following tutorial: https://machinelearningmastery.com/compare-machine-learning-algorithms-python-scikit-learn/
 
@@ -21,6 +21,7 @@ from sklearn.svm import SVC
 answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
 
 def visualizeData():
+    "It is often a good idea to visualize your data before you start working with it"
     pass
 
 def boxPlot(results, names, metric):
@@ -43,9 +44,10 @@ def metricRanking(names, acc, prc, f1):
     return
 
 def crossValidation(X_known, y_known):
-    # Make a list of our models:
+    "Do cross validation tests on your data to help determine the best model and the best params"
+    # Make a list of our models
     # NOTE: Realistically, you will want to tune the params of these functions, I am only using the defaults
-    #       You will get warnings by leaving some of these functions' params entirely as the defaults
+    #       You will get warnings by leaving some of the function params empty as the defaults
     models = []
     models.append( ("Logistic Regression    ",LogisticRegression(solver="liblinear", multi_class="auto")))
     models.append( ("Decision Tree          ",DecisionTreeClassifier()) )
@@ -54,7 +56,7 @@ def crossValidation(X_known, y_known):
     models.append( ("Gaussian Naive Bayes   ",GaussianNB()) )
     models.append( ("Support Vector Machine ",SVC(gamma="scale")) )
 
-    # evaluate each model in turn
+    # Evaluate each model in turn
     AccResults = []
     PrcResults = []
     F1Results = []
@@ -65,7 +67,7 @@ def crossValidation(X_known, y_known):
     calc95 = (tscore / math.sqrt(splits))
     # NOTE: See different scoring params: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     scoring = ['accuracy','f1_weighted', 'precision_weighted']
-    # BUG: Check that I am using the right type of scoring params
+    # BUG: Unsure if I am using the right type of scoring params (was getting errors using the non-weighted, probs need some kind of if-statement check)
     print("\nAlgorithm : Accuracy, Weighted f1 score, Weighted Precision")
     print("*** Results show means for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
     for name, model in models:
