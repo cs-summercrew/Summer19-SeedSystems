@@ -20,9 +20,6 @@ from sklearn.svm import SVC
 
 # NOTE: Partially based off of the following tutorial: https://machinelearningmastery.com/compare-machine-learning-algorithms-python-scikit-learn/
 
-# The "answers" to the 20 unknown digits, labeled -1:
-answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
-
 def fileSpecificOps():
     pass
 
@@ -110,13 +107,23 @@ def trainModel(X_train, y_train, X_test, y_test):
     print(y_test[:30])
     return
 
-def predictUnknown():
+def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     "Runs the model on the unknown data"
-    pass
+    knn_train = KNeighborsClassifier(n_neighbors=5)
+    knn_train.fit(X_known, y_known)
+    print("\nCreated and trained a knn classifier with k =", 5)
+    predictions = knn_train.predict(X_unknown)
+    print("The predicted categories for the unkown data are:")
+    print(predictions)
+    # The "answers" to the 20 unknown digits, labeled -1:
+    answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
+    print(np.array(answers))
+    return
 
 
 def main():
     FILE_NAME = 'digits5.csv'
+    
     df = pd.read_csv(FILE_NAME, header=0)    # read the file w/header as row 0
     # df.head()                              # first five lines
     # df.info()                              # column details
@@ -142,11 +149,11 @@ def main():
     y_train = y_known[TEST_SIZE:]
 
     # Function Calls
-    fileSpecificOps()                               # Gets the data into a nice useable format
+    fileSpecificOps()                                       # Gets the data into a nice useable format
     visualizeData()
-    #crossValidation(X_known, y_known)               # Comapare different algorithms
-    trainModel(X_train, y_train, X_test, y_test)    # Run the best algorithm on the test/train data
-    predictUnknown()                                # Run the best algorithm on the unknown data
+    #crossValidation(X_known, y_known)                      # Comapare different algorithms
+    trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
+    predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
 if __name__ == "__main__":
     main()
