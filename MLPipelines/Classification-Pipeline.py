@@ -1,5 +1,5 @@
 # Authors: CS-World Domination Summer19
-# Dylan, Chris
+# Dylan
 import numpy as np
 import math
 from sklearn import datasets
@@ -40,7 +40,28 @@ def boxPlot(results, names, metric):
 
 def metricRanking(allList):
     "Assigns a ranking based on each score, prints the name of the metric with the (best) lowest cumulative ranking"
-    print(allList)
+    print()
+    # Rank the metric performance for each algorithm
+    # First ranked is accuracy
+    allList = sorted( allList, key=lambda x: x[1], reverse=True )
+    for i in range(len(allList)):
+        allList[i][1] = i+1
+    # Second ranked is precision
+    allList = sorted( allList, key=lambda x: x[2], reverse=True )
+    for i in range(len(allList)):
+        allList[i][2] = i+1
+    # Third ranked is f1 score
+    allList = sorted( allList, key=lambda x: x[3], reverse=True )
+    for i in range(len(allList)):
+        allList[i][3] = i+1
+    # Combine the scores of each metric for each algorithm
+    # The best algorithm is the one with the lowest ranking
+    for i in range(len(allList)):
+        cumulative_score = allList[i][1] + allList[i][2] + allList[i][3]
+        allList[i] = [allList[i][0]]
+        allList[i].append(cumulative_score)
+    print("The best algorithm after ranking is: "+allList[0][0])
+    print("However, do note that our basic ranking does not handle ties...")
     return
 
 def crossValidation(X_known, y_known):
@@ -83,7 +104,7 @@ def crossValidation(X_known, y_known):
         "%.3f (+/- %0.3f)," % (cv_scores["test_f1_weighted"].mean(), cv_scores["test_f1_weighted"].std() * calc95),
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
     # Function Calls
-    # metricRanking(allList)
+    metricRanking(allList)
     # boxPlot(AccResults, names, "Accuracy")
     # boxPlot(PrcResults, names, "Precision")
     # boxPlot(F1Results, names, "F1 score")
@@ -155,8 +176,8 @@ def main():
     fileSpecificOps()                                       # Gets the data into a nice useable format
     visualizeData()
     crossValidation(X_known, y_known)                      # Comapare different algorithms
-    trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
-    predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
+    # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
+    # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
 if __name__ == "__main__":
     main()
