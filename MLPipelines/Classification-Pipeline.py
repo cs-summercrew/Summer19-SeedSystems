@@ -1,5 +1,4 @@
-# Authors: CS-World Domination Summer19
-# Dylan
+# Authors: CS-World Domination Summer19 - DM
 import numpy as np
 import math
 from sklearn import datasets
@@ -18,10 +17,35 @@ from sklearn.svm import SVC
 # NOTE: See this link for a description of algorithms: https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/ 
 #       SciKit Documentation of its algorithms:        https://scikit-learn.org/stable/supervised_learning.html#supervised-learning
 
-# NOTE: Partially based off of the following tutorial: https://machinelearningmastery.com/compare-machine-learning-algorithms-python-scikit-learn/
+def loadDigits(size):
+    """Loads data from digits.csv and gets it into a workable format.
+       The size param specifies how much of the data you want split into testing/training"""
+    
+    df = pd.read_csv('digits.csv', header=0) # read the file w/header as row 0
+    # df.head()                              # first five lines
+    # df.info()                              # column details
 
-def fileSpecificOps():
-    pass
+    # Organizing data into training/testing
+    # .values converts df to numpy array
+    X_all = df.iloc[:,0:64].values           # iloc == "integer locations" of rows/cols
+    y_all = df[ '64' ].values                # individually addressable columns (by name)
+    X_unknown = X_all[0:20]
+    y_unknown = y_all[0:20]
+    X_known = X_all[20:]
+    y_known = y_all[20:]
+    # It's good practice to scramble your data!
+    indices = np.random.permutation(len(X_known))
+    X_known = X_known[indices]
+    y_known = y_known[indices]
+
+    # Splitting test and training data
+    TEST_SIZE = int(len(X_known)*size)
+    X_test = X_known[0:TEST_SIZE]
+    y_test = y_known[0:TEST_SIZE]
+    X_train = X_known[TEST_SIZE:]
+    y_train = y_known[TEST_SIZE:]
+    
+    return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
 def visualizeData():
     "It is often a good idea to visualize your data before you start working with it"
@@ -78,7 +102,7 @@ def crossValidation(X_known, y_known):
     models.append( ("Gaussian Naive Bayes   ",GaussianNB()) )
     models.append( ("Support Vector Machine ",SVC(gamma="scale")) )
 
-    # Evaluate each model in turn
+    # Loop through and evaluate each model
     AccResults = []
     PrcResults = []
     F1Results = []
@@ -114,6 +138,8 @@ def crossValidation(X_known, y_known):
 def trainModel(X_train, y_train, X_test, y_test):
     """Run the best model from the cross validation on the test/training data.
        It is a good idea to fine-tune your chosen algorithm in this function."""
+    # NOTE: https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline
+    #       The pipeline function in the link above may help in your fine-tuning
     print("\n\n+++ Starting the fine-tuning of test and train data for the best model! +++")
     svc_train = SVC(gamma="scale")
     svc_train.fit(X_train, y_train)
@@ -147,35 +173,17 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
 
 
 def main():
-    FILE_NAME = 'digits5.csv'
+
+    # (X_known, y_known, X_unknown, y_unknown,
+    # X_train, y_train, X_test, y_test) = loadDigits(0.85)  # Loads the file iris.csv, and sets important data variables
+
+    # (X_known, y_known, X_unknown, y_unknown,
+    # X_train, y_train, X_test, y_test) = loadDigits(0.85)  # Loads the file titanic.csv, and sets important data variables
+
+    (X_known, y_known, X_unknown, y_unknown,
+    X_train, y_train, X_test, y_test) = loadDigits(0.85)    # Loads the file digits.csv, and sets important data variables
     
-    df = pd.read_csv(FILE_NAME, header=0)    # read the file w/header as row 0
-    # df.head()                              # first five lines
-    # df.info()                              # column details
-
-    # Organizing data into training/testing
-    # .values converts df to numpy array
-    X_all = df.iloc[:,0:64].values           # iloc == "integer locations" of rows/cols
-    y_all = df[ '64' ].values                # individually addressable columns (by name)
-    X_unknown = X_all[0:20]
-    y_unknown = y_all[0:20]
-    X_known = X_all[20:]
-    y_known = y_all[20:]
-    # It's good practice to scramble your data!
-    indices = np.random.permutation(len(X_known))
-    X_known = X_known[indices]
-    y_known = y_known[indices]
-
-    # Splitting test and training data
-    TEST_SIZE = (len(X_known) // 5)          # A fifth (20%) of the data is for testing
-    X_test = X_known[0:TEST_SIZE]
-    y_test = y_known[0:TEST_SIZE]
-    X_train = X_known[TEST_SIZE:]
-    y_train = y_known[TEST_SIZE:]
-
-    # Function Calls
-    fileSpecificOps()                                       # Gets the data into a nice useable format
-    visualizeData()
+    visualizeData()                                         # An optional function to be filled out by the user of this code
     crossValidation(X_known, y_known)                       # Comapare different algorithms
     trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
     predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
