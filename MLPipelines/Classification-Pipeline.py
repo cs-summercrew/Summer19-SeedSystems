@@ -7,6 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score
 from sklearn import model_selection
+from sklearn.metrics import classification_report,confusion_matrix
 # Importing various ML algorithms
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -21,6 +22,9 @@ from sklearn.svm import SVC
 
 # The "answers" to the 20 unknown digits, labeled -1:
 answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
+
+def fileSpecificOps():
+    pass
 
 def visualizeData():
     "It is often a good idea to visualize your data before you start working with it"
@@ -81,7 +85,6 @@ def crossValidation(X_known, y_known):
         print( "%s: %0.3f (+/- %0.3f)," % (name, cv_scores["test_accuracy"].mean(), cv_scores["test_accuracy"].std() * calc95),
         "%.3f (+/- %0.3f)," % (cv_scores["test_f1_weighted"].mean(), cv_scores["test_f1_weighted"].std() * calc95),
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
-
     # Function Calls
     # metricRanking(allList)
     # boxPlot(AccResults, names, "Accuracy")
@@ -89,25 +92,39 @@ def crossValidation(X_known, y_known):
     # boxPlot(F1Results, names, "F1 score")
     return
 
-def trainModel():
-    "Runs the best model from the cross validation on the test/training data"
-    pass
+def trainModel(X_train, y_train, X_test, y_test):
+    """Run the best model from the cross validation on the test/training data.
+       It is a good idea to fine-tune your chosen algorithm in this function."""
+    knn_train = KNeighborsClassifier(n_neighbors=5)
+    knn_train.fit(X_train, y_train)
+    print("\nCreated and trained a knn classifier with k =", 5)
+    predictions = knn_train.predict(X_test)
+    # Print more summary data for the model
+    print("\nConfusion matrix:")
+    print(confusion_matrix(y_test,predictions))
+    print("\nClassification report:")
+    print(classification_report(y_test,predictions, digits=3))
+    print("The first 30 predicted categories for X_test are:")
+    print(predictions[:30])
+    print("The first 30 actual categories are:")
+    print(y_test[:30])
+    return
 
 def predictUnknown():
     "Runs the model on the unknown data"
     pass
 
-    
+
 def main():
     FILE_NAME = 'digits5.csv'
     df = pd.read_csv(FILE_NAME, header=0)    # read the file w/header as row 0
-    # df.head()                                  # first five lines
-    # df.info()                                  # column details
+    # df.head()                              # first five lines
+    # df.info()                              # column details
 
     # Organizing data into training/testing
     # .values converts df to numpy array
-    X_all = df.iloc[:,0:64].values        # iloc == "integer locations" of rows/cols
-    y_all = df[ '64' ].values             # individually addressable columns (by name)
+    X_all = df.iloc[:,0:64].values           # iloc == "integer locations" of rows/cols
+    y_all = df[ '64' ].values                # individually addressable columns (by name)
     X_unknown = X_all[0:20]
     y_unknown = y_all[0:20]
     X_known = X_all[20:]
@@ -118,16 +135,18 @@ def main():
     y_known = y_known[indices]
 
     # Splitting test and training data
-    TEST_SIZE = (len(X_known) // 5) # A fifth (20%) of the data is for testing
+    TEST_SIZE = (len(X_known) // 5)          # A fifth (20%) of the data is for testing
     X_test = X_known[0:TEST_SIZE]
     y_test = y_known[0:TEST_SIZE]
     X_train = X_known[TEST_SIZE:]
     y_train = y_known[TEST_SIZE:]
+
     # Function Calls
+    fileSpecificOps()                               # Gets the data into a nice useable format
     visualizeData()
-    crossValidation(X_known, y_known)   # Comapare different algorithms
-    trainModel()                        # Run the best algorithm on the test/train data
-    predictUnknown()                    # Run the best algorithm on the unknown data
+    #crossValidation(X_known, y_known)               # Comapare different algorithms
+    trainModel(X_train, y_train, X_test, y_test)    # Run the best algorithm on the test/train data
+    predictUnknown()                                # Run the best algorithm on the unknown data
 
 if __name__ == "__main__":
     main()
