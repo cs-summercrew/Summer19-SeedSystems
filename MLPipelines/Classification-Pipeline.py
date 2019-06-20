@@ -278,13 +278,13 @@ def main():
     # NOTE: Uncomment to load different csv files. SVM was the best algorithm for digits.csv, and is used as the default
     #       example for testing the iris and titanic data.
     # (X_known, y_known, X_unknown, y_unknown,
-    # X_train, y_train, X_test, y_test) = loadIris(0.85)    # Loads the file iris.csv, and sets important data variables
+    # X_train, y_train, X_test, y_test) = loadIris(0.25)    # Loads the file iris.csv, and sets important data variables
 
     # (X_known, y_known, X_unknown, y_unknown,
-    # X_train, y_train, X_test, y_test) = loadTitanic(0.80) # Loads the file titanic.csv, and sets important data variables
+    # X_train, y_train, X_test, y_test) = loadTitanic(0.20) # Loads the file titanic.csv, and sets important data variables
 
     (X_known, y_known, X_unknown, y_unknown,
-    X_train, y_train, X_test, y_test) = loadDigits(0.85)  # Loads the file digits.csv, and sets important data variables
+    X_train, y_train, X_test, y_test) = loadDigits(0.25)  # Loads the file digits.csv, and sets important data variables
     
     visualizeData()                                         # An optional function to be filled out by the user of this code
     crossValidation(X_known, y_known)                       # Comapare different algorithms
