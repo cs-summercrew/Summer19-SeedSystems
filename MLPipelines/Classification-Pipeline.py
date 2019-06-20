@@ -276,7 +276,8 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
 def main():
 
     # NOTE: Uncomment to load different csv files. SVM was the best algorithm for digits.csv, and is used as the default
-    #       example for testing the iris and titanic data.
+    #       example for testing the iris and titanic data. For the load functions, generally use a value from 0.10-0.30
+
     # (X_known, y_known, X_unknown, y_unknown,
     # X_train, y_train, X_test, y_test) = loadIris(0.25)    # Loads the file iris.csv, and sets important data variables
 

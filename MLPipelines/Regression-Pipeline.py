@@ -4,8 +4,10 @@ import math
 from sklearn import datasets
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
 from sklearn import model_selection
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report,confusion_matrix
 # Importing various ML algorithms
 from sklearn.linear_model import LogisticRegression
@@ -13,20 +15,16 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
-# NOTE: See this link for a description of algorithms: https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/ 
-#       SciKit Documentation of its algorithms:        https://scikit-learn.org/stable/supervised_learning.html#supervised-learning
-
 def loadAuto(size):
     """Loads data from auto-mpg.csv and gets it into a workable format.
        The size param specifies how much of the data you want split into testing/training"""
     
     df = pd.read_csv('auto.csv', header=0)   # read the file w/header as row 0
-    # df.head()                                # first five lines
-    # df.info()                                # column details
-
     df = df.drop('origin', axis=1)
     df = df.drop('model year', axis=1)
     df = df.drop('car name', axis=1)
+    df.head()
+    df.info()
 
     # TODO: Repalce this with the data loaded from the other files
     X_unknown = [0]

@@ -15,9 +15,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
-# NOTE: See this link for a description of algorithms: https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/ 
-#       SciKit Documentation of its algorithms:        https://scikit-learn.org/stable/supervised_learning.html#supervised-learning
-
 def loadAuto(size):
     """Loads data from auto-mpg.csv and gets it into a workable format.
        The size param specifies how much of the data you want split into testing/training"""
@@ -39,12 +36,11 @@ def loadAuto(size):
     # It's good practice to shuffle your data!
     X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True)
     # Data needs scaling
-    scalerX = StandardScaler().fit(X_train)
+    # scalerX = StandardScaler().fit(X_train)
     # scalery = StandardScaler().fit(y_train)
-
-    X_train = scalerX.transform(X_train)
+    # X_train = scalerX.transform(X_train)
     # y_train = scalery.transform(y_train)
-    X_test = scalerX.transform(X_test)
+    # X_test = scalerX.transform(X_test)
     # y_test = scalery.transform(y_test)
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
