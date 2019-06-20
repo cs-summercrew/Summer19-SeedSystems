@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score
 from sklearn import model_selection
 from sklearn.metrics import classification_report,confusion_matrix
+from sklearn.model_selection import train_test_split
 # Importing various ML algorithms
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -126,17 +127,19 @@ def loadDigits(size):
     X_known = X_all[20:]
     y_known = y_all[20:]
     # It's good practice to scramble your data!
-    indices = np.random.permutation(len(X_known))
-    X_known = X_known[indices]
-    y_known = y_known[indices]
+    # indices = np.random.permutation(len(X_known))
+    # X_known = X_known[indices]
+    # y_known = y_known[indices]
 
-    # Splitting test and training data
-    TEST_SIZE = int(len(X_known)*size)
-    X_test = X_known[0:TEST_SIZE]
-    y_test = y_known[0:TEST_SIZE]
-    X_train = X_known[TEST_SIZE:]
-    y_train = y_known[TEST_SIZE:]
+    # # Splitting test and training data
+    # TEST_SIZE = int(len(X_known)*size)
+    # X_test = X_known[0:TEST_SIZE]
+    # y_test = y_known[0:TEST_SIZE]
+    # X_train = X_known[TEST_SIZE:]
+    # y_train = y_known[TEST_SIZE:]
     
+    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=3)
+
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
 def visualizeData():
@@ -176,7 +179,9 @@ def metricRanking(allList):
         cumulative_score = allList[i][1] + allList[i][2] + allList[i][3]
         allList[i] = [allList[i][0]]
         allList[i].append(cumulative_score)
+    allList = sorted( allList, key=lambda x: x[1], reverse=False)
     print("The best algorithm after ranking is: "+allList[0][0])
+    print(allList)
     print("However, do note that the ranking is very basic and does not handle ties...")
     return
 
@@ -222,9 +227,9 @@ def crossValidation(X_known, y_known):
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
     # Function Calls
     metricRanking(allList)
-    boxPlot(AccResults, names, "Accuracy")
-    boxPlot(PrcResults, names, "Precision")
-    boxPlot(F1Results, names, "F1 score")
+    # boxPlot(AccResults, names, "Accuracy")
+    # boxPlot(PrcResults, names, "Precision")
+    # boxPlot(F1Results, names, "F1 score")
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
@@ -289,8 +294,8 @@ def main():
     
     visualizeData()                                         # An optional function to be filled out by the user of this code
     crossValidation(X_known, y_known)                       # Comapare different algorithms
-    trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
-    predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
+    # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
+    # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
 if __name__ == "__main__":
     main()
