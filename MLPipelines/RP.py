@@ -23,9 +23,9 @@ def loadAuto(size):
     df = df.drop('origin', axis=1)
     df = df.drop('model year', axis=1)
     df = df.drop('car name', axis=1)
-    # df.head()                                # first five lines
-    # df.info()                                # column details
-
+    # df.head()
+    # df.info()
+    # print(df.describe())
     # TODO: Replace this with the data loaded from the other files
     X_unknown = [0]
     y_unknown = [0]
@@ -33,9 +33,35 @@ def loadAuto(size):
     # .values converts df to numpy array
     X_known = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
     y_known = df[ 'mpg' ].values             # individually addressable columns (by name)
+        
+    #     # It's good practice to scramble your data!
+    # indices = np.random.permutation(len(X_known))
+    tst = X_known[0]
+    print("In X_known",tst in X_known)
+    print(tst)
+    # X_known = X_known[indices]
+    # print(tst in X_known)
+    # y_known = y_known[indices]
+
+    # # Splitting test and training data
+    TEST_SIZE = int(len(X_known)*size)
+    X_test = X_known[0:TEST_SIZE]
+    y_test = y_known[0:TEST_SIZE]
+    X_train = X_known[TEST_SIZE:]
+    y_train = y_known[TEST_SIZE:]
+    print("In X_test (T)",tst in X_test, X_test.mean())
+    print("In X_train (F)",tst in X_train, X_train.mean())
+    print(type(X_test[0][0]))
+
     # It's good practice to shuffle your data!
-    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True)
-    # Data needs scaling
+    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=False)
+    print("In X_test (?)",tst in X_test, X_test.mean())
+    print("In X_train (?)",tst in X_train, X_train.mean())
+    print(type(X_test[0][0]))
+    # Normalizing vs Standardizing Data
+    # Whether or not to standardize/normalize data can get pretty tricky, included are some links with more info
+    # https://stats.stackexchange.com/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia
+    # https://stats.stackexchange.com/questions/189652/is-it-a-good-practice-to-always-scale-normalize-data-for-machine-learning
     # scalerX = StandardScaler().fit(X_train)
     # scalery = StandardScaler().fit(y_train)
     # X_train = scalerX.transform(X_train)

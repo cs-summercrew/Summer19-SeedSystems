@@ -23,8 +23,8 @@ def loadAuto(size):
     df = df.drop('origin', axis=1)
     df = df.drop('model year', axis=1)
     df = df.drop('car name', axis=1)
-    df.head()
-    df.info()
+    # df.head()
+    # df.info()
 
     # TODO: Repalce this with the data loaded from the other files
     X_unknown = [0]
