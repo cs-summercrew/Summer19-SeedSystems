@@ -179,24 +179,24 @@ def crossValidation(X_train, y_train):
     names = []
     allList = []
     # NOTE: If you don't want to bother with confidence intervals, you can just compare the standard deviations
-    splits = 10      # If you change the number of splits, you must also change the t-score 
-    tscore = 2.262   # Two sided t-score for 95% confidence interval (splits-1 degrees of freedom)
+    splits = 10
+    tscore = 2.262
     calc95 = (tscore / math.sqrt(splits))
     # NOTE: See different scoring params: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
-    scoring = ['accuracy','f1_weighted', 'precision_weighted']
+    scoring = ['accuracy','recall_weighted', 'precision_weighted']
     # BUG: Unsure if I am using the right type of scoring params (was getting errors using the non-weighted for digits data)
-    print("\nAlgorithm : Accuracy, Weighted f1 score, Weighted Precision")
+    print("\nAlgorithm : Accuracy, Weighted Recall, Weighted Precision")
     print("*** Results show means for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
     for name, model in models:
         kfold = model_selection.KFold(n_splits=splits, random_state=None)
         cv_scores = model_selection.cross_validate(model, X_train, y_train, cv=kfold, scoring=scoring)
         AccResults.append(cv_scores["test_accuracy"])
+        F1Results.append(cv_scores["test_recall_weighted"])
         PrcResults.append(cv_scores["test_precision_weighted"])
-        F1Results.append(cv_scores["test_f1_weighted"])
         names.append(name.strip())
-        allList.append([name.strip(), cv_scores["test_accuracy"].mean(), cv_scores["test_f1_weighted"].mean(), cv_scores["test_precision_weighted"].mean()])
+        allList.append([name.strip(), cv_scores["test_accuracy"].mean(), cv_scores["test_recall_weighted"].mean(), cv_scores["test_precision_weighted"].mean()])
         print( "%s: %0.3f (+/- %0.3f)," % (name, cv_scores["test_accuracy"].mean(), cv_scores["test_accuracy"].std() * calc95),
-        "%.3f (+/- %0.3f)," % (cv_scores["test_f1_weighted"].mean(), cv_scores["test_f1_weighted"].std() * calc95),
+        "%.3f (+/- %0.3f)," % (cv_scores["test_recall_weighted"].mean(), cv_scores["test_recall_weighted"].std() * calc95),
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
     # Function Calls
     metricRanking(allList)
