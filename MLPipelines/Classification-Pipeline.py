@@ -56,17 +56,8 @@ def loadTitanic(size):
     X_known = X_all[30:]
     y_known = y_all[30:]
 
-    # It's good practice to scramble your data!
-    indices = np.random.permutation(len(X_known))
-    X_known = X_known[indices]
-    y_known = y_known[indices]
-
-    # Splitting test and training data
-    TEST_SIZE = int(len(X_known)*size)
-    X_test = X_known[0:TEST_SIZE]
-    y_test = y_known[0:TEST_SIZE]
-    X_train = X_known[TEST_SIZE:]
-    y_train = y_known[TEST_SIZE:]
+    # It's good practice to scramble/shuffle your data!
+    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
     
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
@@ -97,17 +88,10 @@ def loadIris(size):
 
     X_known = X_all[9:,:]
     y_known = y_all[9:]
-    # It's good practice to scramble your data!
-    indices = np.random.permutation(len(X_known))
-    X_known = X_known[indices]
-    y_known = y_known[indices]
 
-    # Splitting test and training data
-    TEST_SIZE = int(len(X_known)*size)
-    X_test = X_known[0:TEST_SIZE]
-    y_test = y_known[0:TEST_SIZE]
-    X_train = X_known[TEST_SIZE:]
-    y_train = y_known[TEST_SIZE:]
+    # It's good practice to scramble/shuffle your data!
+    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
+
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
 def loadDigits(size):
@@ -126,19 +110,8 @@ def loadDigits(size):
     y_unknown = y_all[0:20]
     X_known = X_all[20:]
     y_known = y_all[20:]
-    # It's good practice to scramble your data!
-    # indices = np.random.permutation(len(X_known))
-    # X_known = X_known[indices]
-    # y_known = y_known[indices]
-
-    # # Splitting test and training data
-    # TEST_SIZE = int(len(X_known)*size)
-    # X_test = X_known[0:TEST_SIZE]
-    # y_test = y_known[0:TEST_SIZE]
-    # X_train = X_known[TEST_SIZE:]
-    # y_train = y_known[TEST_SIZE:]
-    
-    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=3)
+    # It's good practice to scramble/shuffle your data!
+    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
 
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
@@ -185,7 +158,7 @@ def metricRanking(allList):
     print("However, do note that the ranking is very basic and does not handle ties...")
     return
 
-def crossValidation(X_known, y_known):
+def crossValidation(X_train, y_train):
     "Do cross validation tests on your data to help determine the best model and the best params"
     print("\n\n+++ Starting algorithm comparison through cross-validation! +++")
     # Make a list of our models
@@ -216,7 +189,7 @@ def crossValidation(X_known, y_known):
     print("*** Results show means for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
     for name, model in models:
         kfold = model_selection.KFold(n_splits=splits, random_state=None)
-        cv_scores = model_selection.cross_validate(model, X_known, y_known, cv=kfold, scoring=scoring)
+        cv_scores = model_selection.cross_validate(model, X_train, y_train, cv=kfold, scoring=scoring)
         AccResults.append(cv_scores["test_accuracy"])
         PrcResults.append(cv_scores["test_precision_weighted"])
         F1Results.append(cv_scores["test_f1_weighted"])
@@ -227,9 +200,9 @@ def crossValidation(X_known, y_known):
         "%.3f (+/- %0.3f)" % (cv_scores["test_precision_weighted"].mean(), cv_scores["test_precision_weighted"].std() * calc95) )
     # Function Calls
     metricRanking(allList)
-    # boxPlot(AccResults, names, "Accuracy")
-    # boxPlot(PrcResults, names, "Precision")
-    # boxPlot(F1Results, names, "F1 score")
+    boxPlot(AccResults, names, "Accuracy")
+    boxPlot(PrcResults, names, "Precision")
+    boxPlot(F1Results, names, "F1 score")
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
@@ -261,6 +234,7 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     print("\nThe predicted categories vs actual:")
     print(predictions)
     
+    # NOTE: When switching between example files, make sure to uncomment the correct answers list
     try:
         # The "answers" for digits.csv:
         answers = [9,9,5,5,6,5,0,9,8,9,8,4,0,1,2,3,4,5,6,7]
@@ -290,12 +264,12 @@ def main():
     # X_train, y_train, X_test, y_test) = loadTitanic(0.20) # Loads the file titanic.csv, and sets important data variables
 
     (X_known, y_known, X_unknown, y_unknown,
-    X_train, y_train, X_test, y_test) = loadDigits(0.25)  # Loads the file digits.csv, and sets important data variables
+    X_train, y_train, X_test, y_test) = loadDigits(0.15)  # Loads the file digits.csv, and sets important data variables
     
     visualizeData()                                         # An optional function to be filled out by the user of this code
-    crossValidation(X_known, y_known)                       # Comapare different algorithms
-    # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
-    # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
+    crossValidation(X_train, y_train)                       # Compare different algorithms
+    trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
+    predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
 if __name__ == "__main__":
     main()
