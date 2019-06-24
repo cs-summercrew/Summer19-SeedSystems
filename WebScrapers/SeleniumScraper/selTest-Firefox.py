@@ -57,7 +57,7 @@ def websearch(driver):
     search_form.clear() # Clears the searchbar of text
     search_form.send_keys("sdklfjgblsdkfjgblsdkjfgdfgadftgafdhdfhdfdag")
     search_form.submit() # Enters the current earch
-
+    time.sleep(2)
     search_form = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.ID,"search_form_input")))
     search_form.clear()
     search_form.send_keys("esoteric programming languages churro")
@@ -81,6 +81,7 @@ def buttonclick(driver, button_element):
 
 def closepopup(driver):
     "Closes the duckduckgo add-on popup for FIREFOX only"
+    time.sleep(1)
     try: 
         # NOTE: You can find the xpath of an element by right-clicking it in the browser
         #       and clicking inspect element. Right click on the respective html code, and
@@ -88,7 +89,8 @@ def closepopup(driver):
         close_button = driver.find_element(By.XPATH, "/html/body/div/div[5]/a/span")
         buttonclick(driver, close_button)
     except:
-        print("If the popup wasn't there, you probably didn't use firefox."+"\n"+
+        print("ERROR with closepopup()"+"\n"+
+        "If the popup wasn't there, you probably didn't use firefox."+"\n"+
         "Try without incognito mode or just comment out this function if it continues."+"\n"+
         "If the popup only appeared after a search, move where this function gets called")
     return
@@ -96,21 +98,23 @@ def closepopup(driver):
 def useform(driver):
     "Opens a feedback form for our search, and interacts with it"
     # Clicks buttons to open the form
-    sendfeedback_button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/a")))
+    time.sleep(1)
+    sendfeedback_button = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/a")))
     buttonclick(driver, sendfeedback_button)
     good_button = driver.find_element(By.XPATH,"/html/body/div[2]/div[4]/div[2]/div/div/div/a[1]")
     buttonclick(driver, good_button)
-
+    time.sleep(1)
     # Selects the correct option from the dropdown and enters text
     select = Select(driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/div[2]/select"))
     select.select_by_index(13)
     textbox = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/textarea")
     textbox.send_keys("I am testing the powers of automation with Selenium. Please ignore this feedback.")
-
+    time.sleep(1)
     # Clicks the buttons to close the form and the popup that follows it
     close_button1 = driver.find_element(By.XPATH,"/html/body/div[6]/div/div/div[1]/div/a[1]")
     buttonclick(driver, close_button1)
-    close_button2 = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div/div/div[2]/a")))
+    time.sleep(1)
+    close_button2 = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div/div/div[2]/a")))
     buttonclick(driver, close_button2)
     backandforth(driver)
     return
@@ -123,7 +127,7 @@ def backandforth(driver):
 
 def main():
     driver = createdriver('https://duckduckgo.com',
-    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
+    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/WebScrapers/SeleniumScraper/geckodriver')
     # NOTE: You will need to change the above path to wherever you have installed geckodriver
     closepopup(driver)
     websearch(driver)
