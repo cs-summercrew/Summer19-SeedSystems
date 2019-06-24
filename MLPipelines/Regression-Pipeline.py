@@ -13,34 +13,60 @@ from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from sklearn.metrics import classification_report,confusion_matrix
 # Importing various ML algorithms
 from sklearn import metrics, svm
-from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import SGDRegressor
-from sklearn.linear_model import BayesianRidge
-from sklearn.linear_model import Lars
-from sklearn.linear_model import ARDRegression
-from sklearn.linear_model import PassiveAggressiveRegressor
-from sklearn.linear_model import TheilSenRegressor
+from sklearn import linear_model
 
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
+def featurefy(df):
+    
+    # df = df.drop('origin', axis=1)  # (1. American, 2. European, 3. Japanese)
+    # df = df.drop('model year', axis=1)
+    # df = df.drop('car name', axis=1)                          # column details
+    
+    # NOTE: Six values are missing horsepower, so we replace those values with the column mean below
+    # print((df['horsepower'] == "?").sum())
+    df['horsepower'] = df['horsepower'].replace('?', np.NaN)
+    df['horsepower'] = df['horsepower'].map(np.float64)
+    df['horsepower'].fillna( df['horsepower'].mean(), inplace=True )
+    # To instead drop rows with missing data, use: df = df.dropna()
+
+    dieselList = []
+    swList = []
+    brandList = []
+    for name in df['car name']:
+        if "diesel" in name:
+            dieselList.append(1)
+        else:
+            dieselList.append(0)
+        if ("(sw)" in name) or ("wagon" in name):
+            swList.append(1)
+        else:
+            swList.append(0)
+        if "vw" == name.split(' ', 1)[0]:
+            brandList.append("volkswagen")
+        else:
+            brandList.append(name.split(' ', 1)[0])
+    df['diesel'] = pd.Series(dieselList)
+    df['station wagon'] = pd.Series(swList)
+    df['brand'] = pd.Series(brandList)
+    print(set(brandList))
+    return df
+
 def loadData(size):
     """Loads data from a csv and gets it into a workable format.
        The size param specifies how much of the data you want split into testing/training"""
     
-    df = pd.read_csv('auto.csv', header=0)   # read the file w/header as row 0
-    df = df.drop('origin', axis=1)
-    df = df.drop('model year', axis=1)
-    df = df.drop('car name', axis=1)                          # column details
-    # df.head()
-    # df.info()
-    # print(df.describe())
+    df = pd.read_csv('auto-complete.csv', header=0)   # read the file w/header as row 0
+    df = featurefy(df)
 
     # TODO: Replace this with the data loaded from the other files
     X_unknown = [0]
     y_unknown = [0]
+
     # Organizing data into training/testing
+
     # .values converts df to numpy array
     X_known = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
     y_known = df[ 'mpg' ].values             # individually addressable columns (by name)
@@ -115,14 +141,14 @@ def crossValidation(X_train, y_train):
     # NOTE: Realistically, you will want to tune the params of these functions, I am only using the defaults
     #       You will get warnings by leaving some of the function params empty as the defaults
     models = []
-    models.append( ("OLS                ",LinearRegression()) )
+    models.append( ("OLS                ",linear_model.LinearRegression()) )
     models.append( ("SVR                ",svm.SVR(gamma="scale")) )
-    models.append( ("BayesianRidge      ",BayesianRidge()) )
-    models.append( ("ARD                ",ARDRegression()) )
-    models.append( ("TheilSen           ",TheilSenRegressor()) )
-    models.append( ("Lars               ",Lars()) )
-    models.append( ("PassiveAggressive  ",PassiveAggressiveRegressor()) )
-    models.append( ("SGD                ",SGDRegressor()) )
+    models.append( ("BayesianRidge      ",linear_model.BayesianRidge()) )
+    models.append( ("ARD                ",linear_model.ARDRegression()) )
+    models.append( ("TheilSen           ",linear_model.TheilSenRegressor()) )
+    models.append( ("Lars               ",linear_model.Lars()) )
+    models.append( ("PassiveAggressive  ",linear_model.PassiveAggressiveRegressor()) )
+    models.append( ("SGD                ",linear_model.SGDRegressor()) )
 
     # Loop through and evaluate each model
     r2Results = []
@@ -137,7 +163,7 @@ def crossValidation(X_train, y_train):
     # NOTE: See different scoring params: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     scoring = ['r2','neg_mean_absolute_error', 'neg_mean_squared_error']
     print("\nAlgorithm : R Squared, Mean Absolute Error, Mean Standard Error")
-    print("*** Results show means for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
+    print("*** Results show the means (of the cross-validating) for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
     for name, model in models:
         kfold = model_selection.KFold(n_splits=splits, random_state=None)
         cv_scores = model_selection.cross_validate(model, X_train, y_train, cv=kfold, scoring=scoring)
@@ -170,10 +196,10 @@ def main():
     (X_known, y_known, X_unknown, y_unknown,
     X_train, y_train, X_test, y_test) = loadData(0.20)  # Loads the csv file, and sets important data variables
 
-    (X_train, X_test) = scaleData(X_train, X_test)
+    # (X_train, X_test) = scaleData(X_train, X_test) # W/O this, SGD and PassAgg get some ridiculous r2 values
 
     visualizeData()                                         # An optional function to be filled out by the user of this code
-    crossValidation(X_train, y_train)                       # Compare different algorithms
+    # crossValidation(X_train, y_train)                       # Compare different algorithms
     # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
     # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
