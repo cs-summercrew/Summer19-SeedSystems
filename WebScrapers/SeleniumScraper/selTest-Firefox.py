@@ -123,7 +123,7 @@ def backandforth(driver):
 
 def main():
     driver = createdriver('https://duckduckgo.com',
-    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/SeleniumScraper/geckodriver')
+    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/WebScrapers/SeleniumScraper/geckodriver')
     # NOTE: You will need to change the above path to wherever you have installed geckodriver
     closepopup(driver)
     websearch(driver)

@@ -1,16 +1,15 @@
 # Authors: CS-World Domination Summer19 - DM
 import numpy as np
 import math
-from sklearn import datasets
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import utils
+from sklearn import datasets
 from sklearn import preprocessing
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import MinMaxScaler
 from sklearn import model_selection
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from sklearn.metrics import classification_report,confusion_matrix
 # Importing various ML algorithms
 from sklearn import metrics, svm
