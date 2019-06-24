@@ -11,6 +11,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from sklearn.metrics import classification_report,confusion_matrix
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.tools.tools import add_constant
 # Importing various ML algorithms
 from sklearn import metrics, svm
 from sklearn import linear_model
@@ -20,11 +22,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
 def featurefy(df):
-    
-    # df = df.drop('origin', axis=1)  # (1. American, 2. European, 3. Japanese)
-    # df = df.drop('model year', axis=1)
-    # df = df.drop('car name', axis=1)                          # column details
-    
     # NOTE: Six values are missing horsepower, so we replace those values with the column mean below
     # print((df['horsepower'] == "?").sum())
     df['horsepower'] = df['horsepower'].replace('?', np.NaN)
@@ -51,8 +48,24 @@ def featurefy(df):
     df['diesel'] = pd.Series(dieselList)
     df['station wagon'] = pd.Series(swList)
     df['brand'] = pd.Series(brandList)
-    print(set(brandList))
+    # print(set(brandList))
     return df
+
+def multicollCheck(df):
+    df = df.drop('origin', axis=1)  # (1. American, 2. European, 3. Japanese)
+    df = df.drop('model year', axis=1)
+    df = df.drop('brand', axis=1)
+    df = df.drop('car name', axis=1)
+    df = df.drop('mpg', axis=1)
+    # Check for multicollinearity!
+    # A rule of thumb is that if you have VIF's of more than ten, your variables are multicollinear!!!
+    # However, do know that you can (rarely) have low VIF's and multcollinearity...
+    # https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
+    # Intercept
+    X = add_constant(df)
+    vif = pd.Series([variance_inflation_factor(df.values, i) for i in range(df.shape[1])],index=df.columns)
+    print(vif)
+    return
 
 def loadData(size):
     """Loads data from a csv and gets it into a workable format.
@@ -60,7 +73,7 @@ def loadData(size):
     
     df = pd.read_csv('auto-complete.csv', header=0)   # read the file w/header as row 0
     df = featurefy(df)
-
+    multicollCheck(df)
     # TODO: Replace this with the data loaded from the other files
     X_unknown = [0]
     y_unknown = [0]
