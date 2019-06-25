@@ -53,12 +53,12 @@ def websearch(driver):
     "Conducts two websearchs using duckduckgo"
     search_form = driver.find_element_by_id('search_form_input_homepage')
     search_form.send_keys("I'm feeling famished. A churro sounds great!")
-    time.sleep(2)
+    time.sleep(1)
     search_form.clear() # Clears the searchbar of text
     search_form.send_keys("sdklfjgblsdkfjgblsdkjfgdfgadftgafdhdfhdfdag")
     search_form.submit() # Enters the current earch
-    time.sleep(2)
-    search_form = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.ID,"search_form_input")))
+    time.sleep(1)
+    search_form = WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.ID,"search_form_input")))
     search_form.clear()
     search_form.send_keys("esoteric programming languages churro")
     search_form.submit()
@@ -126,6 +126,7 @@ def backandforth(driver):
     return
 
 def main():
+    time.sleep(4)
     driver = createdriver('https://duckduckgo.com',
     '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/WebScrapers/SeleniumScraper/geckodriver')
     # NOTE: You will need to change the above path to wherever you have installed geckodriver
