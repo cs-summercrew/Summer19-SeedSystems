@@ -57,13 +57,15 @@ def multicollCheck(df):
     df = df.drop('brand', axis=1)
     df = df.drop('car name', axis=1)
     df = df.drop('mpg', axis=1)
+    df = df.drop('diesel', axis=1)
+    df = df.drop('station wagon', axis=1)
     # Check for multicollinearity!
     # A rule of thumb is that if you have VIF's of more than ten, your variables are multicollinear!!!
     # However, do know that you can (rarely) have low VIF's and multcollinearity...
     # https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
     # Intercept
     X = add_constant(df)
-    vif = pd.Series([variance_inflation_factor(df.values, i) for i in range(df.shape[1])],index=df.columns)
+    vif = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])],index=X.columns)
     print(vif)
     return
 
@@ -74,6 +76,10 @@ def loadData(size):
     df = pd.read_csv('auto-complete.csv', header=0)   # read the file w/header as row 0
     df = featurefy(df)
     multicollCheck(df)
+    df = df.drop('model year', axis=1)
+    df = df.drop('brand', axis=1)
+    df = df.drop('car name', axis=1)
+    df = df.drop('station wagon', axis=1)
     # TODO: Replace this with the data loaded from the other files
     X_unknown = [0]
     y_unknown = [0]
@@ -157,11 +163,11 @@ def crossValidation(X_train, y_train):
     models.append( ("OLS                ",linear_model.LinearRegression()) )
     models.append( ("SVR                ",svm.SVR(gamma="scale")) )
     models.append( ("BayesianRidge      ",linear_model.BayesianRidge()) )
-    models.append( ("ARD                ",linear_model.ARDRegression()) )
-    models.append( ("TheilSen           ",linear_model.TheilSenRegressor()) )
     models.append( ("Lars               ",linear_model.Lars()) )
     models.append( ("PassiveAggressive  ",linear_model.PassiveAggressiveRegressor()) )
     models.append( ("SGD                ",linear_model.SGDRegressor()) )
+    models.append( ("ARD                ",linear_model.ARDRegression()) )
+    models.append( ("TheilSen           ",linear_model.TheilSenRegressor()) )
 
     # Loop through and evaluate each model
     r2Results = []
@@ -190,9 +196,9 @@ def crossValidation(X_train, y_train):
         "%.3f (+/- %0.3f)" % (cv_scores["test_neg_mean_squared_error"].mean(), cv_scores["test_neg_mean_squared_error"].std() * calc95) )
     # Function Calls
     # metricRanking(allList)
-    boxPlot(r2Results, names, "R Squared")
-    boxPlot(maeResults, names, "Mean Absolute Error")
-    boxPlot(mseResults, names, "Mean Squared Error")
+    # boxPlot(r2Results, names, "R Squared")
+    # boxPlot(maeResults, names, "Mean Absolute Error")
+    # boxPlot(mseResults, names, "Mean Squared Error")
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
@@ -209,10 +215,10 @@ def main():
     (X_known, y_known, X_unknown, y_unknown,
     X_train, y_train, X_test, y_test) = loadData(0.20)  # Loads the csv file, and sets important data variables
 
-    # (X_train, X_test) = scaleData(X_train, X_test) # W/O this, SGD and PassAgg get some ridiculous r2 values
+    (X_train, X_test) = scaleData(X_train, X_test) # W/O this, SGD and PassAgg get some ridiculous r2 values
 
     visualizeData()                                         # An optional function to be filled out by the user of this code
-    # crossValidation(X_train, y_train)                       # Compare different algorithms
+    crossValidation(X_train, y_train)                       # Compare different algorithms
     # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
     # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
