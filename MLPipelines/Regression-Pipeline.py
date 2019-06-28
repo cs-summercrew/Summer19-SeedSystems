@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 from sklearn import utils
 from sklearn import datasets
 from sklearn import preprocessing
-from sklearn import model_selection
-from sklearn.model_selection import train_test_split
+from sklearn import model_selection # MinMaxScaler,StandardScaler
+from sklearn.feature_selection import f_regression,mutual_info_regression,SelectKBest
 from sklearn.model_selection import cross_val_score
-from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from sklearn.metrics import classification_report,confusion_matrix
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tools.tools import add_constant
+
 # Importing various ML algorithms
 from sklearn import metrics, svm
 from sklearn import linear_model
@@ -27,7 +27,7 @@ def featurefy(df):
     df['horsepower'] = df['horsepower'].replace('?', np.NaN)
     df['horsepower'] = df['horsepower'].map(np.float64)
     df['horsepower'].fillna( df['horsepower'].mean(), inplace=True )
-    # To instead drop rows with missing data, use: df = df.dropna()
+    # Alternatively you could just drop the entries with missing data using: df = df.dropna()
 
     dieselList = []
     swList = []
@@ -52,6 +52,8 @@ def featurefy(df):
     return df
 
 def multicollCheck(df):
+    """ Checks for multiCollinearity using VIF scores, the included link explains when checking important"""
+    # https://stats.stackexchange.com/questions/168622/why-is-multicollinearity-not-checked-in-modern-statistics-machine-learning#168631
     df = df.drop('origin', axis=1)  # (1. American, 2. European, 3. Japanese)
     df = df.drop('model year', axis=1)
     df = df.drop('brand', axis=1)
@@ -60,8 +62,8 @@ def multicollCheck(df):
     df = df.drop('diesel', axis=1)
     df = df.drop('station wagon', axis=1)
     # Check for multicollinearity!
-    # A rule of thumb is that if you have VIF's of more than ten, your variables are multicollinear!!!
-    # However, do know that you can (rarely) have low VIF's and multcollinearity...
+    # A rule of thumb is that if there are VIF scores of more than five to ten, your variables are multicollinear!!!
+    # However, do know that (rarely) you can have low VIF's and still have multcollinearity...
     # https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
     # Intercept
     X = add_constant(df)
@@ -69,17 +71,40 @@ def multicollCheck(df):
     print(vif)
     return
 
+def featureSelect(df):
+    """ Univariate feature selection using scikit's SelectKBest and f_regression"""
+    # https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.f_regression.html#sklearn.feature_selection.f_regression
+    df = df.drop('diesel', axis=1)
+    df = df.drop('origin', axis=1)
+    featureList = list(df.columns.values)
+    array = df.values
+    X = array[:,1:]
+    Y = array[ :,0 ]
+    print(X.shape)
+    print(featureList[1:])
+    print(X[0])
+    # feature extraction: using either f_regression or mutual_info_regression, select the k best features
+    test = SelectKBest(f_regression, k=3).fit_transform(X, Y)
+    print(test.shape)
+    print(test[0])
+    print()
+    return
+
+    # return df
+
 def loadData(size):
     """Loads data from a csv and gets it into a workable format.
        The size param specifies how much of the data you want split into testing/training"""
     
     df = pd.read_csv('auto-complete.csv', header=0)   # read the file w/header as row 0
     df = featurefy(df)
-    multicollCheck(df)
+    # multicollCheck(df)
+    
     df = df.drop('model year', axis=1)
     df = df.drop('brand', axis=1)
     df = df.drop('car name', axis=1)
     df = df.drop('station wagon', axis=1)
+    featureSelect(df)
     # TODO: Replace this with the data loaded from the other files
     X_unknown = [0]
     y_unknown = [0]
@@ -91,7 +116,7 @@ def loadData(size):
     y_known = df[ 'mpg' ].values             # individually addressable columns (by name)
 
     # It's good practice to scramble/shuffle your data!
-    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
 
     # For many algorithms, inputs/outputs must be categorical (ints not floats)
     # https://stackoverflow.com/questions/41925157/logisticregression-unknown-label-type-continuous-using-sklearn-in-python
@@ -129,15 +154,15 @@ def metricRanking(allList):
     "Assigns a ranking based on each score, prints the name of the metric with the (best) lowest cumulative ranking"
     print()
     # Rank the metric performance for each algorithm
-    # First to be ranked is accuracy
+    # First to be ranked is r2
     allList = sorted( allList, key=lambda x: x[1], reverse=True )
     for i in range(len(allList)):
         allList[i][1] = i+1
-    # Second to be ranked is precision
+    # Second to be ranked is MAE
     allList = sorted( allList, key=lambda x: x[2], reverse=True )
     for i in range(len(allList)):
         allList[i][2] = i+1
-    # Third to be ranked is f1 score
+    # Third to be ranked is MSE
     allList = sorted( allList, key=lambda x: x[3], reverse=True )
     for i in range(len(allList)):
         allList[i][3] = i+1
@@ -157,9 +182,9 @@ def crossValidation(X_train, y_train):
     "Do cross validation tests on your data to help determine the best model and the best params"
     print("\n\n+++ Starting algorithm comparison through cross-validation! +++")
     # Make a list of our models
-    # NOTE: Realistically, you will want to tune the params of these functions, I am only using the defaults
-    #       You will get warnings by leaving some of the function params empty as the defaults
+    # NOTE: Realistically, you will want to tune the params of these functions, leaving them empty uses the defaults.
     models = []
+    # models.append( ("RandoForests           ",RandomForestClassifier()) )
     models.append( ("OLS                ",linear_model.LinearRegression()) )
     models.append( ("SVR                ",svm.SVR(gamma="scale")) )
     models.append( ("BayesianRidge      ",linear_model.BayesianRidge()) )
@@ -168,6 +193,8 @@ def crossValidation(X_train, y_train):
     models.append( ("SGD                ",linear_model.SGDRegressor()) )
     models.append( ("ARD                ",linear_model.ARDRegression()) )
     models.append( ("TheilSen           ",linear_model.TheilSenRegressor()) )
+
+    
 
     # Loop through and evaluate each model
     r2Results = []
@@ -195,30 +222,29 @@ def crossValidation(X_train, y_train):
         "%.3f (+/- %0.3f)," % (cv_scores["test_neg_mean_absolute_error"].mean(), cv_scores["test_neg_mean_absolute_error"].std() * calc95),
         "%.3f (+/- %0.3f)" % (cv_scores["test_neg_mean_squared_error"].mean(), cv_scores["test_neg_mean_squared_error"].std() * calc95) )
     # Function Calls
-    # metricRanking(allList)
+    metricRanking(allList)
     # boxPlot(r2Results, names, "R Squared")
     # boxPlot(maeResults, names, "Mean Absolute Error")
     # boxPlot(mseResults, names, "Mean Squared Error")
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
-    """Run the best model from the cross validation on the test/training data.
-       It is a good idea to fine-tune your chosen algorithm in this function."""
-    return
+    "Stub: See Classification-Pipeline for example"
+    pass
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
-    "Runs the model on the unknown data"
-    return
+    "Stub: See Classification-Pipeline for example"
+    pass
 
 
 def main():
     (X_known, y_known, X_unknown, y_unknown,
     X_train, y_train, X_test, y_test) = loadData(0.20)  # Loads the csv file, and sets important data variables
 
-    (X_train, X_test) = scaleData(X_train, X_test) # W/O this, SGD and PassAgg get some ridiculous r2 values
+    # (X_train, X_test) = scaleData(X_train, X_test) # W/O this, SGD and PassAgg get some ridiculous r2 values
 
-    visualizeData()                                         # An optional function to be filled out by the user of this code
-    crossValidation(X_train, y_train)                       # Compare different algorithms
+    # visualizeData()                                         # An optional function to be filled out by the user of this code
+    # crossValidation(X_train, y_train)                       # Compare different algorithms
     # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
     # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
 
