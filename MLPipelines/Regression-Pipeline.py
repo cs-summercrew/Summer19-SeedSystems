@@ -57,7 +57,7 @@ def multicollCheck(df):
     # https://stats.stackexchange.com/questions/168622/why-is-multicollinearity-not-checked-in-modern-statistics-machine-learning#168631
     # https://blog.minitab.com/blog/adventures-in-statistics-2/what-are-the-effects-of-multicollinearity-and-when-can-i-ignore-them
     # https://blog.minitab.com/blog/understanding-statistics/handling-multicollinearity-in-regression-analysis
-    df = df.drop('origin', axis=1)  # (1. American, 2. European, 3. Japanese)
+    df = df.drop('origin', axis=1)
     df = df.drop('model year', axis=1)
     df = df.drop('brand', axis=1)
     df = df.drop('car name', axis=1)

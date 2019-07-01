@@ -1,13 +1,12 @@
 1. Title: Auto-Mpg Data
 
-2. Sources:
+2. Sources (I found it from the UCI ML Library):
    (a) Origin:  This dataset was taken from the StatLib library which is
                 maintained at Carnegie Mellon University. The dataset was 
                 used in the 1983 American Statistical Association Exposition.
    (c) Date: July 7, 1993
 
 3. Past Usage:
-    -  See 2b (above)
     -  Quinlan,R. (1993). Combining Instance-Based and Model-Based Learning.
        In Proceedings on the Tenth International Conference of Machine 
        Learning, 236-243, University of Massachusetts, Amherst. Morgan
@@ -25,6 +24,10 @@
     to be predicted in terms of 3 multivalued discrete and 5 continuous
     attributes." (Quinlan, 1993)
 
+   FOR HMC-CS USERS: I replace the Missing horsepower values with their means 
+   in the code. I also use the 8 unknown mpg attributes for prediction, and they
+   are included in auto-missing. The rest of the data is in auto-complete.
+
 5. Number of Instances: 398
 
 6. Number of Attributes: 9 including the class attribute
@@ -38,7 +41,7 @@
     5. weight:        continuous
     6. acceleration:  continuous
     7. model year:    multi-valued discrete
-    8. origin:        multi-valued discrete
+    8. origin:        multi-valued discrete (1. American, 2. European, 3. Japanese)
     9. car name:      string (unique for each instance)
 
 8. Missing Attribute Values:  horsepower has 6 missing values
