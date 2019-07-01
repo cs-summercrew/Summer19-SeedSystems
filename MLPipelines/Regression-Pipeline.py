@@ -22,6 +22,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
+# NOTE: I strongly recommend that you look at the README and its additional resources before 
+#       looking at my code and as a reference if you get confused at any point
+
 def featurefy(df):
     # NOTE: Six values are missing horsepower, so we replace those values with the column mean below
     # print((df['horsepower'] == "?").sum())
@@ -49,26 +52,19 @@ def featurefy(df):
     df['diesel'] = pd.Series(dieselList)
     df['station wagon'] = pd.Series(swList)
     df['brand'] = pd.Series(brandList)
-    # print(set(brandList))
     return df
 
 def multicollCheck(df):
-    """ Checks for multiCollinearity using VIF scores, the included link explains when checking is important"""
+    """ Checks for multicollinearity using VIF scores, the included link explains when checking is important"""
+    print("\n+++ Checking for multicollinearity! +++\n")
+    print("NOTE: I was unable to get the below error to go away, so that task is left to the reader!")
     # https://stats.stackexchange.com/questions/168622/why-is-multicollinearity-not-checked-in-modern-statistics-machine-learning#168631
     # https://blog.minitab.com/blog/adventures-in-statistics-2/what-are-the-effects-of-multicollinearity-and-when-can-i-ignore-them
     # https://blog.minitab.com/blog/understanding-statistics/handling-multicollinearity-in-regression-analysis
-    df = df.drop('origin', axis=1)
-    df = df.drop('model year', axis=1)
-    df = df.drop('brand', axis=1)
-    df = df.drop('car name', axis=1)
-    df = df.drop('mpg', axis=1)
-    df = df.drop('diesel', axis=1)
-    df = df.drop('station wagon', axis=1)
-    df = df.drop('displacement', axis=1)
     # Check for multicollinearity!
     # A rule of thumb is that if there are VIF scores of more than five to ten, your variables are multicollinear!!!
     # However, do know that (rarely) you can have low VIF's and still have multcollinearity...
-    
+    df = df.drop('mpg', axis=1)
     # https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
     # Intercept
     X = add_constant(df)
@@ -106,13 +102,19 @@ def loadData(size):
     df2 = pd.read_csv('auto-missing.csv', header=0)
 
     df = featurefy(df)
-    # multicollCheck(df)
-    
+    # Drop unused features
     df = df.drop('model year', axis=1)
-    df = df.drop('brand', axis=1)
     df = df.drop('car name', axis=1)
+    df = df.drop('diesel', axis=1)
     df = df.drop('station wagon', axis=1)
+    # Drop categorical features
+    df = df.drop('origin', axis=1)
+    df = df.drop('brand', axis=1)
+    # Check for multicollinearity
+    multicollCheck(df)
+    # Drop features with high VIF's (unnecessary step)
     df = df.drop('displacement', axis=1)
+
     # featureSelect(df)
     # NOTE: There were missing mpg values in the original data, found some/made best guess online using fuelly.com
     df2 = featurefy(df2)
@@ -143,10 +145,11 @@ def loadData(size):
 
 def scaleData(X_train, X_test):
     # https://www.kaggle.com/discdiver/guide-to-scaling-and-standardizing
+    print(X_test[0])
     mm_scaler = preprocessing.MinMaxScaler()
     X_train = mm_scaler.fit_transform(X_train)
     X_test = mm_scaler.fit_transform(X_test)
-
+    print(X_test[0])
     return X_train, X_test
 
 def visualizeData():

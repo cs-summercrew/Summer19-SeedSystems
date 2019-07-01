@@ -1,0 +1,26 @@
+Useful Websites for ML topics:
+
+General:
+https://machinelearningmastery.com
+http://blog.datadive.net
+
+Feature Selection:
+http://blog.datadive.net/selecting-good-features-part-i-univariate-selection/
+https://machinelearningmastery.com/feature-selection-machine-learning-python/
+
+Mixed Categorical and numeric features:
+https://stackoverflow.com/questions/40434485/machine-learning-algorithm-for-mixed-categorical-and-numeric-features
+
+
+What if you have only categorical features?
+Refer to Classification-Pipeline.py
+
+What if you have only numeric(continuous) features?
+Refer to Regression-Pipeline.py
+
+What if you have a mix of the two kinds of features?
+Refer to Regression-Pipeline.py
+Options:
+1- Don't use one type of feature (my approach in Regression-Pipeline.py)
+2- Put ranges of your numeric(continuous) into bins
+3- Perform Normalization: for each feature, subtract the mean of the feature and then divide by the standard deviation of the feature. Use StandardScaler in Scikit-learn.
