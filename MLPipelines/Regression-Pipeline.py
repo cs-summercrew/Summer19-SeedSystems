@@ -16,6 +16,7 @@ from statsmodels.tools.tools import add_constant
 # Importing various ML algorithms
 from sklearn import metrics, svm
 from sklearn import linear_model
+from sklearn import cross_decomposition
 
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -52,8 +53,10 @@ def featurefy(df):
     return df
 
 def multicollCheck(df):
-    """ Checks for multiCollinearity using VIF scores, the included link explains when checking important"""
+    """ Checks for multiCollinearity using VIF scores, the included link explains when checking is important"""
     # https://stats.stackexchange.com/questions/168622/why-is-multicollinearity-not-checked-in-modern-statistics-machine-learning#168631
+    # https://blog.minitab.com/blog/adventures-in-statistics-2/what-are-the-effects-of-multicollinearity-and-when-can-i-ignore-them
+    # https://blog.minitab.com/blog/understanding-statistics/handling-multicollinearity-in-regression-analysis
     df = df.drop('origin', axis=1)  # (1. American, 2. European, 3. Japanese)
     df = df.drop('model year', axis=1)
     df = df.drop('brand', axis=1)
@@ -61,9 +64,11 @@ def multicollCheck(df):
     df = df.drop('mpg', axis=1)
     df = df.drop('diesel', axis=1)
     df = df.drop('station wagon', axis=1)
+    df = df.drop('displacement', axis=1)
     # Check for multicollinearity!
     # A rule of thumb is that if there are VIF scores of more than five to ten, your variables are multicollinear!!!
     # However, do know that (rarely) you can have low VIF's and still have multcollinearity...
+    
     # https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
     # Intercept
     X = add_constant(df)
@@ -96,7 +101,10 @@ def loadData(size):
     """Loads data from a csv and gets it into a workable format.
        The size param specifies how much of the data you want split into testing/training"""
     
+    
     df = pd.read_csv('auto-complete.csv', header=0)   # read the file w/header as row 0
+    df2 = pd.read_csv('auto-missing.csv', header=0)
+
     df = featurefy(df)
     # multicollCheck(df)
     
@@ -104,11 +112,17 @@ def loadData(size):
     df = df.drop('brand', axis=1)
     df = df.drop('car name', axis=1)
     df = df.drop('station wagon', axis=1)
-    featureSelect(df)
-    # TODO: Replace this with the data loaded from the other files
-    X_unknown = [0]
-    y_unknown = [0]
-
+    df = df.drop('displacement', axis=1)
+    # featureSelect(df)
+    # NOTE: There were missing mpg values in the original data, found some/made best guess online using fuelly.com
+    df2 = featurefy(df2)
+    df2 = df2.drop('model year', axis=1)
+    df2 = df2.drop('brand', axis=1)
+    df2 = df2.drop('car name', axis=1)
+    df2 = df2.drop('station wagon', axis=1)
+    df2 = df2.drop('displacement', axis=1)
+    X_unknown = df2.iloc[:,1:].values
+    y_unknown = df2[ 'mpg' ].values
     # Organizing data into training/testing
 
     # .values converts df to numpy array
@@ -142,7 +156,7 @@ def visualizeData():
 def boxPlot(results, names, metric):
     """ This box plot shows the spread of the data, NOT the confidence interval!!! 
         The box extends from the lower to upper quartile values of the data, with a line at the median. 
-        The whiskers extend from the box to show the range of the data. """
+        The whiskers extend from the box to show the range of the data. Dots are outliers"""
     fig = plt.figure()
     fig.suptitle('Algorithm '+metric+' Comparison')
     ax = fig.add_subplot(111)
@@ -185,16 +199,15 @@ def crossValidation(X_train, y_train):
     # NOTE: Realistically, you will want to tune the params of these functions, leaving them empty uses the defaults.
     models = []
     # models.append( ("RandoForests           ",RandomForestClassifier()) )
+    # models.append( ("PLS                ",cross_decomposition.PLSRegression(n_components=6)) )
     models.append( ("OLS                ",linear_model.LinearRegression()) )
     models.append( ("SVR                ",svm.SVR(gamma="scale")) )
     models.append( ("BayesianRidge      ",linear_model.BayesianRidge()) )
     models.append( ("Lars               ",linear_model.Lars()) )
     models.append( ("PassiveAggressive  ",linear_model.PassiveAggressiveRegressor()) )
-    models.append( ("SGD                ",linear_model.SGDRegressor()) )
+    models.append( ("SGD                ",linear_model.SGDRegressor(loss="huber")) )
     models.append( ("ARD                ",linear_model.ARDRegression()) )
     models.append( ("TheilSen           ",linear_model.TheilSenRegressor()) )
-
-    
 
     # Loop through and evaluate each model
     r2Results = []
@@ -203,7 +216,7 @@ def crossValidation(X_train, y_train):
     names = []
     allList = []
     # NOTE: If you don't want to bother with confidence intervals, you can just compare the standard deviations
-    splits = 10
+    splits = 20
     tscore = 2.262
     calc95 = (tscore / math.sqrt(splits))
     # NOTE: See different scoring params: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
@@ -233,20 +246,32 @@ def trainModel(X_train, y_train, X_test, y_test):
     pass
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
-    "Stub: See Classification-Pipeline for example"
-    pass
+    """Makes predictions on the unknown data using OLS"""
+    print("\n\n+++ Starting the prediction of unknown data! +++")
+    model = linear_model.LinearRegression()
+    model.fit(X_known, y_known)
+    predictions = model.predict(X_unknown)
+    print("Note that the actual values are mostly a best-guess estimation of mine "+
+    "from fuelly.com (0.0 means I couldn't find an acutal value)\n")
+    print("Prediction:",list(map(lambda x: float("%.1f"%x),predictions)))
+    print("Actual    :",list(map(lambda x: float("%.3f"%x), y_unknown)))
+    ErrorList = []
+    for i in range(len(predictions)):
+        ErrorList.append(predictions[i]-y_unknown[i])
+    ErrorList[5] = 0
+    print("Error Size:",list(map(lambda x: float("%.1f"%x), ErrorList)))
+    return
 
 
 def main():
     (X_known, y_known, X_unknown, y_unknown,
     X_train, y_train, X_test, y_test) = loadData(0.20)  # Loads the csv file, and sets important data variables
 
-    # (X_train, X_test) = scaleData(X_train, X_test) # W/O this, SGD and PassAgg get some ridiculous r2 values
+    (X_train, X_test) = scaleData(X_train, X_test) # W/O scaling, SGD and PassAgg get some ridiculous r2 values
 
-    # visualizeData()                                         # An optional function to be filled out by the user of this code
+    visualizeData()                                         # An optional function to be filled out by the user of this code
     # crossValidation(X_train, y_train)                       # Compare different algorithms
-    # trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
-    # predictUnknown(X_known, y_known, X_unknown, y_unknown)  # Run the best algorithm on the unknown data
-
+    trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
+    # predictUnknown(X_known, y_known, X_unknown, y_unknown)
 if __name__ == "__main__":
     main()
