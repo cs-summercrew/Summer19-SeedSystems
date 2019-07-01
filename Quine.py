@@ -1,7 +1,5 @@
-# Taken from: http://www.nyx.net/~gthompso/quine.htm
-
-# Author: Terry Reedy (tjreedy@udel.edu)
-# Note: works as a command line input string
+# See: https://stackoverflow.com/questions/6223285/shortest-python-quine
+# Also: http://www.nyx.net/~gthompso/quine.htm 
 
 q='"'
 q1="'"
@@ -24,8 +22,13 @@ print('n='+q1+s+'n'+q1+n+'s='+q1+s+s+q1)
 f('r',r1,r2,r3,r4)
 f('p',p1,p2,p3,p4)
 
+# Some other interesting Quines...
+# NOTE: An empty python file is also technically a Quine 
+
 # a = ['print("a =", a', 'for s in a: print(s)']
 # print("a =", a)
 # for s in a: print(s)
 
 # s = 's = %r; print (s%%s)'; print (s%s)
+
+# _='_=%r;print(_%%_)';print(_%_)
