@@ -9,55 +9,71 @@ from sklearn import preprocessing
 from sklearn import model_selection # MinMaxScaler,StandardScaler
 from sklearn.feature_selection import f_regression,mutual_info_regression,SelectKBest
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import classification_report,confusion_matrix
+from sklearn.metrics import mean_absolute_error
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tools.tools import add_constant
-
 # Importing various ML algorithms
 from sklearn import metrics, svm
 from sklearn import linear_model
 from sklearn import cross_decomposition
 
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import ExtraTreesRegressor
 
 # NOTE: I strongly recommend that you look at the README and its additional resources before 
 #       looking at my code and as a reference if you get confused at any point
 
+def onehot(df):
+    """One hot encodes the features: cylinders and origin"""
+    # One-hot encode cylinders
+    cyl4 = []
+    cyl6 = []
+    cyl8 = []
+    for num in df['cylinders']:
+        cyl8.append(1) if 8 == num else cyl8.append(0)
+        cyl6.append(1) if 6 == num else cyl6.append(0)
+        cyl4.append(1) if 4 == num else cyl4.append(0)
+    df['cyl4'] = pd.Series(cyl4)
+    df['cyl6'] = pd.Series(cyl6)
+    df['cyl8'] = pd.Series(cyl8)
+    df = df.drop('cylinders', axis=1)
+    # One-hot encode origin
+    amer = []
+    euro = []
+    jap = []
+    for num in df['origin']:
+        amer.append(1) if 1 == num else amer.append(0)
+        euro.append(1) if 2 == num else euro.append(0)
+        jap.append(1) if 3 == num else jap.append(0) 
+    df['american'] = pd.Series(amer)
+    df['european'] = pd.Series(euro)
+    df['japanese'] = pd.Series(jap)
+    df = df.drop('origin', axis=1)
+    return df
+
 def featurefy(df):
+    """ Modifies the missing values in the horsepower feature. Also creates two new features, diesel and station wagon,
+        from car name"""
     # NOTE: Six values are missing horsepower, so we replace those values with the column mean below
-    # print((df['horsepower'] == "?").sum())
+    #       Alternatively you could just drop the entries with missing data using: df = df.dropna()
     df['horsepower'] = df['horsepower'].replace('?', np.NaN)
     df['horsepower'] = df['horsepower'].map(np.float64)
     df['horsepower'].fillna( df['horsepower'].mean(), inplace=True )
-    # Alternatively you could just drop the entries with missing data using: df = df.dropna()
-
+    # Create new features
     dieselList = []
     swList = []
-    brandList = []
     for name in df['car name']:
-        if "diesel" in name:
-            dieselList.append(1)
-        else:
-            dieselList.append(0)
-        if ("(sw)" in name) or ("wagon" in name):
-            swList.append(1)
-        else:
-            swList.append(0)
-        if "vw" == name.split(' ', 1)[0]:
-            brandList.append("volkswagen")
-        else:
-            brandList.append(name.split(' ', 1)[0])
+        dieselList.append(1) if "diesel" in name else dieselList.append(0)
+        swList.append(1) if ("(sw)" in name) or ("wagon" in name) else swList.append(0)
     df['diesel'] = pd.Series(dieselList)
     df['station wagon'] = pd.Series(swList)
-    df['brand'] = pd.Series(brandList)
     return df
 
 def multicollCheck(df):
     """ Checks for multicollinearity using VIF scores, the included link explains when checking is important"""
     print("\n+++ Checking for multicollinearity! +++\n")
-    print("NOTE: I was unable to get the below error to go away, so that task is left to the reader!")
+    print("NOTE: I was unable to get the warning to go away, so that task is left to the reader!")
     # https://stats.stackexchange.com/questions/168622/why-is-multicollinearity-not-checked-in-modern-statistics-machine-learning#168631
     # https://blog.minitab.com/blog/adventures-in-statistics-2/what-are-the-effects-of-multicollinearity-and-when-can-i-ignore-them
     # https://blog.minitab.com/blog/understanding-statistics/handling-multicollinearity-in-regression-analysis
@@ -101,30 +117,33 @@ def loadData(size):
     df = pd.read_csv('auto-complete.csv', header=0)   # read the file w/header as row 0
     df2 = pd.read_csv('auto-missing.csv', header=0)
 
+    # Create/modify new features
     df = featurefy(df)
+    df = onehot(df)
     # Drop unused features
     df = df.drop('model year', axis=1)
     df = df.drop('car name', axis=1)
-    df = df.drop('diesel', axis=1)
-    df = df.drop('station wagon', axis=1)
     # Drop categorical features
-    df = df.drop('origin', axis=1)
-    df = df.drop('brand', axis=1)
+    # df = df.drop('origin', axis=1)
+    # df = df.drop('diesel', axis=1)
+    # df = df.drop('station wagon', axis=1)
     # Check for multicollinearity
-    multicollCheck(df)
+    # multicollCheck(df)
     # Drop features with high VIF's (unnecessary step)
     df = df.drop('displacement', axis=1)
 
     # featureSelect(df)
+
     # NOTE: There were missing mpg values in the original data, found some/made best guess online using fuelly.com
     df2 = featurefy(df2)
+    df2 = onehot(df2)
     df2 = df2.drop('model year', axis=1)
-    df2 = df2.drop('brand', axis=1)
     df2 = df2.drop('car name', axis=1)
-    df2 = df2.drop('station wagon', axis=1)
+    # df2 = df2.drop('station wagon', axis=1)
     df2 = df2.drop('displacement', axis=1)
     X_unknown = df2.iloc[:,1:].values
     y_unknown = df2[ 'mpg' ].values
+    
     # Organizing data into training/testing
 
     # .values converts df to numpy array
@@ -136,20 +155,38 @@ def loadData(size):
 
     # For many algorithms, inputs/outputs must be categorical (ints not floats)
     # https://stackoverflow.com/questions/41925157/logisticregression-unknown-label-type-continuous-using-sklearn-in-python
-    # print(y_train)
-    # lab_enc = preprocessing.LabelEncoder()
-    # encoded = lab_enc.fit_transform(y_train)
+    # print(X_train)
+    # X_train = np.argmax(X_train, axis=1)
+    # le = preprocessing.LabelEncoder()
+    # encoded = le.fit_transform(X_train)
     # print(encoded)
 
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
 def scaleData(X_train, X_test):
     # https://www.kaggle.com/discdiver/guide-to-scaling-and-standardizing
-    print(X_test[0])
-    mm_scaler = preprocessing.MinMaxScaler()
-    X_train = mm_scaler.fit_transform(X_train)
-    X_test = mm_scaler.fit_transform(X_test)
-    print(X_test[0])
+    # print("Pre scale")
+    # print(X_test[0:10])
+
+    # Puts in range [0:1]
+    """Normalization is useful when your data has varying scales and the algorithm 
+    you are using does not make assumptions about the distribution of your data, 
+    such as k-nearest neighbors and artificial neural networks."""
+    # https://machinelearningmastery.com/normalize-standardize-machine-learning-data-weka/
+    # mm_scaler = preprocessing.MinMaxScaler()
+    # X_train[:4] = mm_scaler.fit_transform(X_train[:4])
+    # X_test[:4] = mm_scaler.fit_transform(X_test[:4])
+    # Puts in range [-1:1]
+    """Standardization is useful when your data has varying scales and the algorithm 
+    you are using does make assumptions about your data having a Gaussian distribution, 
+    such as linear regression, logistic regression and linear discriminant analysis"""
+    # https://machinelearningmastery.com/normalize-standardize-machine-learning-data-weka/
+    s_scaler = preprocessing.StandardScaler()
+    X_train[:,:3] = s_scaler.fit_transform(X_train[:,:3])
+    X_test[:,:3] = s_scaler.fit_transform(X_test[:,:3])
+
+    # print("Post scale")
+    # print(X_test[0:10])
     return X_train, X_test
 
 def visualizeData():
@@ -168,25 +205,14 @@ def boxPlot(results, names, metric):
     plt.show()
 
 def metricRanking(allList):
-    "Assigns a ranking based on each score, prints the name of the metric with the (best) lowest cumulative ranking"
+    """Assigns a ranking based on each r2 score, prints the name of the metric with the (best) lowest cumulative ranking.
+       Realistically you will want to consider more than just r squared, that task is left to the reader."""
     print()
-    # Rank the metric performance for each algorithm
-    # First to be ranked is r2
     allList = sorted( allList, key=lambda x: x[1], reverse=True )
     for i in range(len(allList)):
         allList[i][1] = i+1
-    # Second to be ranked is MAE
-    allList = sorted( allList, key=lambda x: x[2], reverse=True )
     for i in range(len(allList)):
-        allList[i][2] = i+1
-    # Third to be ranked is MSE
-    allList = sorted( allList, key=lambda x: x[3], reverse=True )
-    for i in range(len(allList)):
-        allList[i][3] = i+1
-    # Combine the scores of each metric for each algorithm
-    # The best algorithm is the one with the lowest ranking
-    for i in range(len(allList)):
-        cumulative_score = allList[i][1] + allList[i][2] + allList[i][3]
+        cumulative_score = allList[i][1]
         allList[i] = [allList[i][0]]
         allList[i].append(cumulative_score)
     allList = sorted( allList, key=lambda x: x[1], reverse=False)
@@ -201,16 +227,15 @@ def crossValidation(X_train, y_train):
     # Make a list of our models
     # NOTE: Realistically, you will want to tune the params of these functions, leaving them empty uses the defaults.
     models = []
-    # models.append( ("RandoForests           ",RandomForestClassifier()) )
-    # models.append( ("PLS                ",cross_decomposition.PLSRegression(n_components=6)) )
+    models.append( ("Decision Trees     ",DecisionTreeRegressor()) )
+    models.append( ("Random Forests     ",RandomForestRegressor(n_estimators=20)) )
+    models.append( ("Very Random Forests",ExtraTreesRegressor(n_estimators=20)) )
     models.append( ("OLS                ",linear_model.LinearRegression()) )
     models.append( ("SVR                ",svm.SVR(gamma="scale")) )
     models.append( ("BayesianRidge      ",linear_model.BayesianRidge()) )
-    models.append( ("Lars               ",linear_model.Lars()) )
     models.append( ("PassiveAggressive  ",linear_model.PassiveAggressiveRegressor()) )
-    models.append( ("SGD                ",linear_model.SGDRegressor(loss="huber")) )
-    models.append( ("ARD                ",linear_model.ARDRegression()) )
-    models.append( ("TheilSen           ",linear_model.TheilSenRegressor()) )
+    models.append( ("SGD                ",linear_model.SGDRegressor()) )
+    # models.append( ("ARD                ",linear_model.ARDRegression()) )
 
     # Loop through and evaluate each model
     r2Results = []
@@ -249,32 +274,34 @@ def trainModel(X_train, y_train, X_test, y_test):
     pass
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
-    """Makes predictions on the unknown data using OLS"""
+    """Makes predictions on the unknown data"""
     print("\n\n+++ Starting the prediction of unknown data! +++")
-    model = linear_model.LinearRegression()
+    model = ExtraTreesRegressor(n_estimators=20)
+    # model = linear_model.BayesianRidge()
     model.fit(X_known, y_known)
     predictions = model.predict(X_unknown)
-    print("Note that the actual values are mostly a best-guess estimation of mine "+
-    "from fuelly.com (0.0 means I couldn't find an acutal value)\n")
+    print("Note that since the actual values are mostly a best-guess estimation of mine and that "+
+    "Regression tends to give imprecise predictions, \ndon't expect too much from the size of the errors.\n")
     print("Prediction:",list(map(lambda x: float("%.1f"%x),predictions)))
     print("Actual    :",list(map(lambda x: float("%.3f"%x), y_unknown)))
     ErrorList = []
     for i in range(len(predictions)):
         ErrorList.append(predictions[i]-y_unknown[i])
-    ErrorList[5] = 0
-    print("Error Size:",list(map(lambda x: float("%.1f"%x), ErrorList)))
+    ErrorList[-1] = "Na"
+    print("Error Size:",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList)))
+    print("Mean Absolute Error: ",round(mean_absolute_error(y_unknown[:-1],predictions[:-1]), 1))
     return
 
 
 def main():
     (X_known, y_known, X_unknown, y_unknown,
-    X_train, y_train, X_test, y_test) = loadData(0.20)  # Loads the csv file, and sets important data variables
+    X_train, y_train, X_test, y_test) = loadData(0.20)  # Loads the csv file, input sets training size
 
     (X_train, X_test) = scaleData(X_train, X_test) # W/O scaling, SGD and PassAgg get some ridiculous r2 values
 
     visualizeData()                                         # An optional function to be filled out by the user of this code
-    # crossValidation(X_train, y_train)                       # Compare different algorithms
+    crossValidation(X_train, y_train)                       # Compare different algorithms
     trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
-    # predictUnknown(X_known, y_known, X_unknown, y_unknown)
+    predictUnknown(X_known, y_known, X_unknown, y_unknown)
 if __name__ == "__main__":
     main()

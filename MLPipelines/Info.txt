@@ -1,8 +1,24 @@
+TODO:
+dummy variables
+when to scale
+overview of types of Supervised ML: 
+    output: Regression vs Classification
+    input: Dummy(Male/Female) <=> Categorical(number of children, number of cylinders), Continuous(weight)
+
+
+Temporary file for README information
+So you want to learn Machine Learning ehh? Well I've collected here all the knowledge I've gathered across many moons and countless hours reading tutorials. Use wisely
+
+TLDR for multicollinearity:
+Having multicollinear variables isn't too big a worry for your ML models unless you care about having meaningful regression coefficients. However, it does seem that if your variables are REALLY multicollinear, then there may be some problems. Regardless, its probably still a good practice to at least check.
+
 Useful Websites for ML topics:
 
 General:
+https://blog.minitab.com/blog/adventures-in-statistics-2/regression-analysis-tutorial-and-examples
 https://machinelearningmastery.com
 http://blog.datadive.net
+
 
 Feature Selection:
 http://blog.datadive.net/selecting-good-features-part-i-univariate-selection/
