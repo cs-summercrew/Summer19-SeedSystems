@@ -203,22 +203,6 @@ def boxPlot(results, names, metric):
     plt.boxplot(results)
     ax.set_xticklabels(names)
     plt.show()
-
-def metricRanking(allList):
-    """Assigns a ranking based on each r2 score, prints the name of the metric with the (best) lowest cumulative ranking.
-       Realistically you will want to consider more than just r squared, that task is left to the reader."""
-    print()
-    allList = sorted( allList, key=lambda x: x[1], reverse=True )
-    for i in range(len(allList)):
-        allList[i][1] = i+1
-    for i in range(len(allList)):
-        cumulative_score = allList[i][1]
-        allList[i] = [allList[i][0]]
-        allList[i].append(cumulative_score)
-    allList = sorted( allList, key=lambda x: x[1], reverse=False)
-    print("The best algorithm after ranking is: "+allList[0][0])
-    print(allList)
-    print("However, do note that the ranking is very basic and does not handle ties...")
     return
 
 def crossValidation(X_train, y_train):
@@ -242,7 +226,7 @@ def crossValidation(X_train, y_train):
     maeResults = []
     mseResults = []
     names = []
-    allList = []
+    rankList = []
     # NOTE: If you don't want to bother with confidence intervals, you can just compare the standard deviations
     splits = 20
     tscore = 2.262
@@ -258,15 +242,18 @@ def crossValidation(X_train, y_train):
         maeResults.append(cv_scores["test_neg_mean_absolute_error"])
         mseResults.append(cv_scores["test_neg_mean_squared_error"])
         names.append(name.strip())
-        allList.append([name.strip(), cv_scores["test_r2"].mean(), cv_scores["test_neg_mean_absolute_error"].mean(), cv_scores["test_neg_mean_squared_error"].mean()])
+        rankList.append([name.strip(), cv_scores["test_r2"].mean()])
         print( "%s: %0.3f (+/- %0.3f)," % (name, cv_scores["test_r2"].mean(), cv_scores["test_r2"].std() * calc95),
         "%.3f (+/- %0.3f)," % (cv_scores["test_neg_mean_absolute_error"].mean(), cv_scores["test_neg_mean_absolute_error"].std() * calc95),
         "%.3f (+/- %0.3f)" % (cv_scores["test_neg_mean_squared_error"].mean(), cv_scores["test_neg_mean_squared_error"].std() * calc95) )
     # Function Calls
-    metricRanking(allList)
-    # boxPlot(r2Results, names, "R Squared")
-    # boxPlot(maeResults, names, "Mean Absolute Error")
-    # boxPlot(mseResults, names, "Mean Squared Error")
+    rankList = sorted( rankList, key=lambda x: x[1], reverse=True )
+    print("\nThe best algorithm after ranking is: "+rankList[0][0])
+    # print(rankList)
+    print("Note that you may want to consider more than r2 (or not at all) in your ranking, and consider ties better")
+    boxPlot(r2Results, names, "R Squared")
+    boxPlot(maeResults, names, "Mean Absolute Error")
+    boxPlot(mseResults, names, "Mean Squared Error")
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
