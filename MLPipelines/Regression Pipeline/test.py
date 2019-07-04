@@ -16,10 +16,8 @@ from statsmodels.tools.tools import add_constant
 from sklearn import metrics, svm
 from sklearn import linear_model
 from sklearn import cross_decomposition
-
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.ensemble import ExtraTreesRegressor
+from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor
 
 # NOTE: I strongly recommend that you look at the README and its additional resources before 
 #       looking at my code and as a reference if you get confused at any point
@@ -85,7 +83,7 @@ def multicollCheck(df):
     # Intercept
     X = add_constant(df)
     vif = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])],index=X.columns)
-    print(vif)
+    print(vif[0:7])
     return
 
 def featureSelect(df):
@@ -124,11 +122,13 @@ def loadData(size):
     df = df.drop('model year', axis=1)
     df = df.drop('car name', axis=1)
     # Drop categorical features
-    # df = df.drop('origin', axis=1)
+    # df = df.drop('american', axis=1)
+    # df = df.drop('european', axis=1)
+    # df = df.drop('japanese', axis=1)
     # df = df.drop('diesel', axis=1)
     # df = df.drop('station wagon', axis=1)
     # Check for multicollinearity
-    # multicollCheck(df)
+    multicollCheck(df)
     # Drop features with high VIF's (unnecessary step)
     df = df.drop('displacement', axis=1)
 
@@ -153,20 +153,11 @@ def loadData(size):
     # It's good practice to scramble/shuffle your data!
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
 
-    # For many algorithms, inputs/outputs must be categorical (ints not floats)
-    # https://stackoverflow.com/questions/41925157/logisticregression-unknown-label-type-continuous-using-sklearn-in-python
-    # print(X_train)
-    # X_train = np.argmax(X_train, axis=1)
-    # le = preprocessing.LabelEncoder()
-    # encoded = le.fit_transform(X_train)
-    # print(encoded)
-
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
 def scaleData(X_train, X_test):
+    """Scales  data in two different ways"""
     # https://www.kaggle.com/discdiver/guide-to-scaling-and-standardizing
-    # print("Pre scale")
-    # print(X_test[0:10])
 
     # Puts in range [0:1]
     """Normalization is useful when your data has varying scales and the algorithm 
@@ -185,8 +176,6 @@ def scaleData(X_train, X_test):
     X_train[:,:3] = s_scaler.fit_transform(X_train[:,:3])
     X_test[:,:3] = s_scaler.fit_transform(X_test[:,:3])
 
-    # print("Post scale")
-    # print(X_test[0:10])
     return X_train, X_test
 
 def visualizeData():

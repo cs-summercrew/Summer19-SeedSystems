@@ -3,8 +3,17 @@ dummy variables
 when to scale
 overview of types of Supervised ML: 
     output: Regression vs Classification
-    input: Dummy(Male/Female) <=> Categorical(number of children, number of cylinders), Continuous(weight)
+    input: Dummy(Male/Female) <=> Categorical(number of children, number of cylinders), Continuous(weight), mixed
 
+OneHot Encoding/Dummy Variables (Dealing with Categorical Data):
+https://blog.myyellowroad.com/using-categorical-data-in-machine-learning-with-python-from-dummy-variables-to-deep-category-66041f734512
+LabelEncoder or pd.get_dummies
+
+Model Evaluation:
+https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-log-error
+
+Preprocessing Data:
+https://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features
 
 Temporary file for README information
 So you want to learn Machine Learning ehh? Well I've collected here all the knowledge I've gathered across many moons and countless hours reading tutorials. Use wisely
