@@ -9,17 +9,25 @@ OneHot Encoding/Dummy Variables (Dealing with Categorical Data):
 https://blog.myyellowroad.com/using-categorical-data-in-machine-learning-with-python-from-dummy-variables-to-deep-category-66041f734512
 LabelEncoder or pd.get_dummies
 
+Intro:
+http://www.r2d3.us/visual-intro-to-machine-learning-part-1/
+
 Model Evaluation:
 https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-log-error
 
 Preprocessing Data:
 https://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features
 
+Choosing a kfold splits value:
+https://datascience.stackexchange.com/questions/28158/how-to-calculate-the-fold-number-k-fold-in-cross-validation
+
 Temporary file for README information
 So you want to learn Machine Learning ehh? Well I've collected here all the knowledge I've gathered across many moons and countless hours reading tutorials. Use wisely
 
 TLDR for multicollinearity:
 Having multicollinear variables isn't too big a worry for your ML models unless you care about having meaningful regression coefficients. However, it does seem that if your variables are REALLY multicollinear, then there may be some problems. Regardless, its probably still a good practice to at least check.
+https://statisticalhorizons.com/multicollinearity
+
 
 Useful Websites for ML topics:
 

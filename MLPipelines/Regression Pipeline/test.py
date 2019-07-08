@@ -77,13 +77,20 @@ def multicollCheck(df):
     # https://blog.minitab.com/blog/understanding-statistics/handling-multicollinearity-in-regression-analysis
     # Check for multicollinearity!
     # A rule of thumb is that if there are VIF scores of more than five to ten, your variables are multicollinear!!!
-    # However, do know that (rarely) you can have low VIF's and still have multcollinearity...
+    # However, do know that (rarely) you can have low VIF's and still have multicollinearity...
     df = df.drop('mpg', axis=1)
+    # Drop the one-hot variables so they aren't checked: dummy variables will always have high VIF's
+    df = df.drop('cyl4', axis=1)
+    df = df.drop('cyl6', axis=1)
+    df = df.drop('cyl8', axis=1)
+    df = df.drop('american', axis=1)
+    df = df.drop('european', axis=1)
+    df = df.drop('japanese', axis=1)
     # https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
     # Intercept
     X = add_constant(df)
     vif = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])],index=X.columns)
-    print(vif[0:7])
+    print(vif)
     return
 
 def featureSelect(df):
@@ -94,7 +101,7 @@ def featureSelect(df):
     featureList = list(df.columns.values)
     array = df.values
     X = array[:,1:]
-    Y = array[ :,0 ]
+    Y = array[:,0 ]
     print(X.shape)
     print(featureList[1:])
     print(X[0])
@@ -111,22 +118,18 @@ def loadData(size):
     """Loads data from a csv and gets it into a workable format.
        The size param specifies how much of the data you want split into testing/training"""
     
-    
-    df = pd.read_csv('auto-complete.csv', header=0)   # read the file w/header as row 0
+    # Read the file w/header as row 0
+    df = pd.read_csv('auto-complete.csv', header=0)
     df2 = pd.read_csv('auto-missing.csv', header=0)
 
-    # Create/modify new features
+    # Create/modify new features and drop unused ones
     df = featurefy(df)
-    df = onehot(df)
-    # Drop unused features
-    df = df.drop('model year', axis=1)
     df = df.drop('car name', axis=1)
-    # Drop categorical features
-    # df = df.drop('american', axis=1)
-    # df = df.drop('european', axis=1)
-    # df = df.drop('japanese', axis=1)
-    # df = df.drop('diesel', axis=1)
-    # df = df.drop('station wagon', axis=1)
+    df = df.drop('model year', axis=1)
+    visualizeData(df)
+    df = onehot(df)
+    # Visualize Data
+    
     # Check for multicollinearity
     multicollCheck(df)
     # Drop features with high VIF's (unnecessary step)
@@ -156,10 +159,10 @@ def loadData(size):
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
 def scaleData(X_train, X_test):
-    """Scales  data in two different ways"""
+    """Scales data in two different ways"""
     # https://www.kaggle.com/discdiver/guide-to-scaling-and-standardizing
 
-    # Puts in range [0:1]
+    # Fits to range (0 to 1)
     """Normalization is useful when your data has varying scales and the algorithm 
     you are using does not make assumptions about the distribution of your data, 
     such as k-nearest neighbors and artificial neural networks."""
@@ -167,7 +170,8 @@ def scaleData(X_train, X_test):
     # mm_scaler = preprocessing.MinMaxScaler()
     # X_train[:4] = mm_scaler.fit_transform(X_train[:4])
     # X_test[:4] = mm_scaler.fit_transform(X_test[:4])
-    # Puts in range [-1:1]
+    
+    # Fits to range (-1 to 1)
     """Standardization is useful when your data has varying scales and the algorithm 
     you are using does make assumptions about your data having a Gaussian distribution, 
     such as linear regression, logistic regression and linear discriminant analysis"""
@@ -178,9 +182,16 @@ def scaleData(X_train, X_test):
 
     return X_train, X_test
 
-def visualizeData():
-    "It is often a good idea to visualize your data before you start working with it"
-    pass
+def visualizeData(df):
+    """It is often a good idea to visualize your data before you start working with it.
+       See the link for the example I used. There's a lot more out there too."""
+    # https://machinelearningmastery.com/visualize-machine-learning-data-python-pandas/
+    from pandas.plotting import scatter_matrix
+    # scatter_matrix(df)
+    # df.hist()
+    # df.plot(kind='density', subplots=True, layout=(4,4), sharex=False)
+    plt.show()
+    return
 
 def boxPlot(results, names, metric):
     """ This box plot shows the spread of the data, NOT the confidence interval!!! 
@@ -197,8 +208,7 @@ def boxPlot(results, names, metric):
 def crossValidation(X_train, y_train):
     "Do cross validation tests on your data to help determine the best model and the best params"
     print("\n\n+++ Starting algorithm comparison through cross-validation! +++")
-    # Make a list of our models
-    # NOTE: Realistically, you will want to tune the params of these functions, leaving them empty uses the defaults.
+    # Make a list models to cross-validate
     models = []
     models.append( ("Decision Trees     ",DecisionTreeRegressor()) )
     models.append( ("Random Forests     ",RandomForestRegressor(n_estimators=20)) )
@@ -213,58 +223,56 @@ def crossValidation(X_train, y_train):
     # Loop through and evaluate each model
     r2Results = []
     maeResults = []
-    mseResults = []
+    rmseResults = []
     names = []
     rankList = []
-    # NOTE: If you don't want to bother with confidence intervals, you can just compare the standard deviations
-    splits = 20
-    tscore = 2.262
-    calc95 = (tscore / math.sqrt(splits))
     # NOTE: See different scoring params: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     scoring = ['r2','neg_mean_absolute_error', 'neg_mean_squared_error']
-    print("\nAlgorithm : R Squared, Mean Absolute Error, Mean Standard Error")
-    print("*** Results show the means (of the cross-validating) for each scoring metric, with 95% Confidence Intervals in parenthesis\n")
+    print("\n*** Results show the means (of the cross-validating) for each scoring metric, with standard deviation in parenthesis")
+    print("\nAlgorithm          : R Squared, Mean Absolute Error, Root Mean Squared Error")
     for name, model in models:
-        kfold = model_selection.KFold(n_splits=splits, random_state=None)
+        kfold = model_selection.KFold(n_splits=5, random_state=None)
         cv_scores = model_selection.cross_validate(model, X_train, y_train, cv=kfold, scoring=scoring)
-        r2Results.append(cv_scores["test_r2"])
-        maeResults.append(cv_scores["test_neg_mean_absolute_error"])
-        mseResults.append(cv_scores["test_neg_mean_squared_error"])
+        r2 = cv_scores["test_r2"]
+        mae = (-1)*cv_scores["test_neg_mean_absolute_error"]
+        mse = (-1)*cv_scores["test_neg_mean_squared_error"]
+        rmse = np.array(list(map(lambda x: math.sqrt(x), mse)))
+        r2Results.append(r2)
+        maeResults.append(mae)
+        rmseResults.append(rmse)
         names.append(name.strip())
-        rankList.append([name.strip(), cv_scores["test_r2"].mean()])
-        print( "%s: %0.3f (+/- %0.3f)," % (name, cv_scores["test_r2"].mean(), cv_scores["test_r2"].std() * calc95),
-        "%.3f (+/- %0.3f)," % (cv_scores["test_neg_mean_absolute_error"].mean(), cv_scores["test_neg_mean_absolute_error"].std() * calc95),
-        "%.3f (+/- %0.3f)" % (cv_scores["test_neg_mean_squared_error"].mean(), cv_scores["test_neg_mean_squared_error"].std() * calc95) )
-    # Function Calls
+        rankList.append([name.strip(), r2.mean()])
+        print( "%s: %0.3f (%0.3f)," % (name, r2.mean(), r2.std()),
+               "%.3f (%0.3f)," % (mae.mean(), mae.std()),
+               "%.3f (%0.3f)" % (rmse.mean(), rmse.std()) )
+    # Summarization/Analysis of results
     rankList = sorted( rankList, key=lambda x: x[1], reverse=True )
-    print("\nThe best algorithm after ranking is: "+rankList[0][0])
-    # print(rankList)
-    print("Note that you may want to consider more than r2 (or not at all) in your ranking, and consider ties better")
-    boxPlot(r2Results, names, "R Squared")
-    boxPlot(maeResults, names, "Mean Absolute Error")
-    boxPlot(mseResults, names, "Mean Squared Error")
+    print("\nThe best algorithm after ranking r2 is: "+rankList[0][0])
+    # boxPlot(r2Results, names, "R Squared")             # Larger (higher) is better
+    # boxPlot(maeResults, names, "Mean Absolute Error")  # Smaller (lower) is better
+    # boxPlot(rmseResults, names, "Mean Squared Error")   # Smaller (lower) is better
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
-    "Stub: See Classification-Pipeline for example"
+    "Stub: This is where you would fine-tune a single model."
     pass
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     """Makes predictions on the unknown data"""
     print("\n\n+++ Starting the prediction of unknown data! +++")
     model = ExtraTreesRegressor(n_estimators=20)
-    # model = linear_model.BayesianRidge()
+    # model = linear_model.LinearRegression()
     model.fit(X_known, y_known)
     predictions = model.predict(X_unknown)
     print("Note that since the actual values are mostly a best-guess estimation of mine and that "+
-    "Regression tends to give imprecise predictions, \ndon't expect too much from the size of the errors.\n")
-    print("Prediction:",list(map(lambda x: float("%.1f"%x),predictions)))
-    print("Actual    :",list(map(lambda x: float("%.3f"%x), y_unknown)))
+    "Regression tends to give imprecise predictions, \nyou should expect 'larger' errors.\n")
+    print("Prediction         :",list(map(lambda x: float("%.1f"%x),predictions)))
+    print("Actual             :",list(map(lambda x: float("%.3f"%x), y_unknown)))
     ErrorList = []
     for i in range(len(predictions)):
         ErrorList.append(predictions[i]-y_unknown[i])
     ErrorList[-1] = "Na"
-    print("Error Size:",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList)))
+    print("Absolute Error     :",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList)))
     print("Mean Absolute Error: ",round(mean_absolute_error(y_unknown[:-1],predictions[:-1]), 1))
     return
 
@@ -275,7 +283,6 @@ def main():
 
     (X_train, X_test) = scaleData(X_train, X_test) # W/O scaling, SGD and PassAgg get some ridiculous r2 values
 
-    visualizeData()                                         # An optional function to be filled out by the user of this code
     crossValidation(X_train, y_train)                       # Compare different algorithms
     trainModel(X_train, y_train, X_test, y_test)            # Run the best algorithm on the test/train data
     predictUnknown(X_known, y_known, X_unknown, y_unknown)
