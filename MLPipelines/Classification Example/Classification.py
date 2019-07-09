@@ -4,10 +4,8 @@ import math
 from sklearn import datasets
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import cross_val_score
-from sklearn import model_selection
-from sklearn.metrics import classification_report,confusion_matrix
-from sklearn.model_selection import train_test_split
+from sklearn import model_selection   # cross_val_score, train_test_split
+from sklearn import metrics           # classification_report, confusion_matrix
 # Importing various ML algorithms
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -23,8 +21,6 @@ def loadTitanic(size):
        The size param specifies how much of the data you want split into testing/training"""    
     
     df = pd.read_csv('titanic.csv', header=0) # read the file w/header as row 0
-    # df.head()                               # first five lines
-    # df.info()                               # column details
 
     # Drop the useless columns from the data
     df = df.drop('ticket', axis=1)
@@ -57,7 +53,8 @@ def loadTitanic(size):
     y_known = y_all[30:]
 
     # It's good practice to scramble/shuffle your data!
-    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_known, y_known,
+    test_size=size, shuffle=True, random_state=None)
     
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
@@ -66,8 +63,6 @@ def loadIris(size):
        The size param specifies how much of the data you want split into testing/training"""
     
     df = pd.read_csv('iris.csv', header=0)   # read the file w/header as row 0
-    # df.head()                              # first five lines
-    # df.info()                              # column details
 
     def transform(s):
         """ from string to number
@@ -90,7 +85,8 @@ def loadIris(size):
     y_known = y_all[9:]
 
     # It's good practice to scramble/shuffle your data!
-    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_known, y_known,
+    test_size=size, shuffle=True, random_state=None)
 
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
@@ -99,8 +95,6 @@ def loadDigits(size):
        The size param specifies how much of the data you want split into testing/training"""
     
     df = pd.read_csv('digits.csv', header=0) # read the file w/header as row 0
-    # df.head()                              # first five lines
-    # df.info()                              # column details
 
     # Organizing data into training/testing
     # .values converts df to numpy array
@@ -111,7 +105,8 @@ def loadDigits(size):
     X_known = X_all[20:]
     y_known = y_all[20:]
     # It's good practice to scramble/shuffle your data!
-    X_train, X_test, y_train, y_test = train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_known, y_known,
+    test_size=size, shuffle=True, random_state=None)
 
     return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
@@ -216,9 +211,9 @@ def trainModel(X_train, y_train, X_test, y_test):
     predictions = svc_train.predict(X_test)
     # Print more summary data for the model
     print("\nConfusion matrix:")
-    print(confusion_matrix(y_test,predictions))
+    print(metrics.confusion_matrix(y_test,predictions))
     print("\nClassification report:")
-    print(classification_report(y_test,predictions, digits=3))
+    print(metrics.classification_report(y_test,predictions, digits=3))
     print("The first 30 predicted categories for X_test are:")
     print(predictions[:30])
     print("The first 30 actual categories are:")

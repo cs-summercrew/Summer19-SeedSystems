@@ -1,4 +1,4 @@
-
+# Authors: CS-World Domination Summer19 - DM & CB
 
 # NOTE: Installation Instructions
 # Use "pip install selenium" to install selenium for python

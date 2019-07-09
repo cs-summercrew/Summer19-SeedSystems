@@ -1,3 +1,4 @@
+# Authors: CS-World Domination Summer19 - CB
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt

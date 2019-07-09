@@ -1,3 +1,4 @@
+# Authors: CS-World Domination Summer19 - DM
 
 # BeautifulSoup documentation:
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/

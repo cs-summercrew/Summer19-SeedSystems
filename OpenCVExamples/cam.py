@@ -1,3 +1,4 @@
+# Authors: CS-World Domination Summer19 - CB
 # import cv2
 
 # cv2.NamedWindow("w1", cv2.CV_WINDOW_AUTOSIZE)

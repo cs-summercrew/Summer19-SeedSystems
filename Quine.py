@@ -1,3 +1,4 @@
+# Authors: CS-World Domination Summer19 - DM
 # See: https://stackoverflow.com/questions/6223285/shortest-python-quine
 # Also: http://www.nyx.net/~gthompso/quine.htm 
 
