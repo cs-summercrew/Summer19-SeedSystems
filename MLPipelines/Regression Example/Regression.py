@@ -88,7 +88,7 @@ def scaleData(X_train, X_test):
 def crossValidation(X_train, y_train):
     """Does cross validation tests on the data to help determine the best model"""
 
-    print("\n\n+++ Comparing algorithm with cross-validation! +++")
+    print("\n\n+++ Comparing algorithms with cross-validation! +++")
     # Make a list models to cross-validate
     models = []
     models.append( ("Decision Trees     ",DecisionTreeRegressor()) )
@@ -153,7 +153,7 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     model.fit(X_known, y_known)
     predictions = model.predict(X_unknown)
     print("Note that since the actual values are mostly a best-guess estimation of mine and that "+
-    "Regression tends to give imprecise predictions, \we should expect 'larger' errors.\n")
+    "Regression tends to give imprecise predictions, we should expect 'larger' errors.\n")
     print("Prediction         :",list(map(lambda x: float("%.1f"%x),predictions)))
     print("Actual             :",list(map(lambda x: float("%.3f"%x), y_unknown)))
     ErrorList = []
