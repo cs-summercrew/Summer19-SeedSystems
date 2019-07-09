@@ -1,3 +1,4 @@
+# Authors: CS-World Domination Summer19 - JG
 # Function takes in a string, and returns on which has been 
 # translated into pig latin
 def pig_translate(S):

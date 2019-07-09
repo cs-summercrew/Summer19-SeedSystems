@@ -1,3 +1,4 @@
+# Authors: CS-World Domination Summer19 - JG
 import os
 
 class Config(object):

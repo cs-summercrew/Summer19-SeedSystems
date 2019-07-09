@@ -1,3 +1,4 @@
+# Authors: CS-World Domination Summer19 - JG
 try:
     from flask import render_template, redirect, url_for, request, send_from_directory, flash
 except:
