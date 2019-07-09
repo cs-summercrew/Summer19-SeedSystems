@@ -234,9 +234,6 @@ def multicollCheck(df):
     """ Checks for multicollinearity using VIF scores, the included link explains when checking is important"""
     print("\n+++ Checking for multicollinearity! +++")
     print("Note that I was unable to get the warning to go away, so that task is left to the reader!")
-    # https://stats.stackexchange.com/questions/168622/why-is-multicollinearity-not-checked-in-modern-statistics-machine-learning#168631
-    # https://blog.minitab.com/blog/adventures-in-statistics-2/what-are-the-effects-of-multicollinearity-and-when-can-i-ignore-them
-    # https://blog.minitab.com/blog/understanding-statistics/handling-multicollinearity-in-regression-analysis
     # Check for multicollinearity!
     # A rule of thumb is that if there are VIF scores of more than five to ten, the variables are multicollinear!!!
     # However, do know that (rarely) there can be low VIF's while still have multicollinearity...
@@ -248,8 +245,8 @@ def multicollCheck(df):
     df = df.drop('american', axis=1)
     df = df.drop('european', axis=1)
     df = df.drop('japanese', axis=1)
-    # https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
-    # Intercept
+    # Add a regression Intercept (doesn't seem to work otherwise)
+    # Based off of info from this post: https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
     X = add_constant(df)
     vif = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])],index=X.columns)
     print(vif)
