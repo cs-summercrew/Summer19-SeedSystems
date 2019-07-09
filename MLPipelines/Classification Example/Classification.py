@@ -1,8 +1,6 @@
 # Authors: CS-World Domination Summer19 - DM
 # Library Imports
 import numpy as np
-import math
-from sklearn import datasets
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import model_selection   # cross_val_score, train_test_split
@@ -13,9 +11,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
-from sklearn.svm import SVC
-# NOTE: See this link for a description of algorithms: https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/ 
-#       SciKit Documentation of its algorithms:        https://scikit-learn.org/stable/supervised_learning.html#supervised-learning
+from sklearn.svm import SVC     
 
 # Setting Globals for loading Data
 # Change one of them to true to load the respective data
@@ -239,10 +235,7 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
 #####################################################################################
 
 def visualizeData(df):
-    """It is often a good idea to visualize data before starting to working with it.
-       See the link for the example I used. There's a lot more out there too."""
-    # https://machinelearningmastery.com/visualize-machine-learning-data-python-pandas/
-    
+    """It is often a good idea to visualize data before starting to working with it."""
     print("\n+++ Visualizing the feature data! +++")
     if True:
         df.hist()

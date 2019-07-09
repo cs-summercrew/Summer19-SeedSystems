@@ -63,22 +63,21 @@ def loadData(size):
 
 def scaleData(X_train, X_test):
     """Scales data in two different ways"""
-    # https://www.kaggle.com/discdiver/guide-to-scaling-and-standardizing
 
     # Fits to range (0 to 1)
+    # MinMaxScaler subtracts the feature's mean from each value and then divides by the range.
     """Normalization is useful when your data has varying scales and the algorithm 
     you are using does not make assumptions about the distribution of your data, 
     such as k-nearest neighbors and artificial neural networks."""
-    # https://machinelearningmastery.com/normalize-standardize-machine-learning-data-weka/
     # mm_scaler = preprocessing.MinMaxScaler()
     # X_train[:4] = mm_scaler.fit_transform(X_train[:4])
     # X_test[:4] = mm_scaler.fit_transform(X_test[:4])
     
     # Fits to range (-1 to 1)
+    # StandardScaler scales each feature to have 0 mean and unit variance.
     """Standardization is useful when your data has varying scales and the algorithm 
     you are using does make assumptions about your data having a Gaussian distribution, 
     such as linear regression, logistic regression and linear discriminant analysis"""
-    # https://machinelearningmastery.com/normalize-standardize-machine-learning-data-weka/
     s_scaler = preprocessing.StandardScaler()
     X_train[:,:3] = s_scaler.fit_transform(X_train[:,:3])
     X_test[:,:3] = s_scaler.fit_transform(X_test[:,:3])
@@ -173,10 +172,7 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
 #####################################################################################
 
 def visualizeData(df):
-    """It is often a good idea to visualize data before starting to working with it.
-       See the link for the example I used. There's a lot more out there too."""
-    # https://machinelearningmastery.com/visualize-machine-learning-data-python-pandas/
-    
+    """It is often a good idea to visualize data before starting to working with it."""
     print("\n+++ Visualizing the feature data! +++")
     if True:
         df.hist()
@@ -261,9 +257,6 @@ def multicollCheck(df):
 
 def featureSelect(df, numToSelect):
     """ Univariate feature selection using scikit's SelectKBest and f_regression"""
-    # https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.f_regression.html#sklearn.feature_selection.f_regression
-    # https://machinelearningmastery.com/feature-selection-machine-learning-python/
-    
     print("\n+++ Selecting the",numToSelect,"best features! +++")
     # Create and fit selector
     selector = SelectKBest(f_regression, k=numToSelect)
