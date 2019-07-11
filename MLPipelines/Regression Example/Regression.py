@@ -176,6 +176,7 @@ def visualizeData(df):
         df.hist()
     if True:
         from pandas.plotting import scatter_matrix
+        # obj_df = df.select_dtypes(include=['object']).copy()
         df = df.drop('4 cylinders', axis=1)
         df = df.drop('6 cylinders', axis=1)
         df = df.drop('8 cylinders', axis=1)
