@@ -175,18 +175,13 @@ def visualizeData(df):
     if False:
         df.hist()
     if True:
+        # TODO: Fix/comment later
         from pandas.plotting import scatter_matrix
-        # obj_df = df.select_dtypes(include=['object']).copy()
-        df = df.drop('4 cylinders', axis=1)
-        df = df.drop('6 cylinders', axis=1)
-        df = df.drop('8 cylinders', axis=1)
-        df = df.drop('american', axis=1)
-        df = df.drop('european', axis=1)
-        df = df.drop('japanese', axis=1)
-        df = df.drop('station wagon', axis=1)
-        df = df.drop('diesel', axis=1)
-        scatter_matrix(df)
+        df = df.astype({"weight": float})
+        obj_df = df.select_dtypes(include=['float64'], ).copy()
         print(df.info())
+        print(obj_df.info())
+        scatter_matrix(obj_df)
     if False: 
         df.plot(kind='density', subplots=True, layout=(4,4), sharex=False)
     plt.show()
