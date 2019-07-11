@@ -36,10 +36,16 @@ def loadData(size):
     visualizeData(df)
     # Check for multicollinearity
     multicollCheck(df)
-    # Drop features with high VIF's (not always necessary)
-    df = df.drop('displacement', axis=1)
+    # NOTE: You could drop the feature with the highest VIF, but given 
+    # how few features we're working with I decided to leave it be
+
     # Check for the best features being used
-    featureSelect(df, 5)
+    featureSelect(df, 7)
+    # NOTE: Based on the results of the feature selection, I choose to drop the Japanese and European vars
+    #       The thinking goes that both regions probably had better environmental regulations than the US,
+    #       So all that really matters is whether the car was made in the US or not. 
+    df = df.drop('european', axis=1)
+    df = df.drop('japanese', axis=1)
 
     # Load the "unknown" data that we will check our models against
     # NOTE: There were missing mpg values in the original data, found some/made best guess online using fuelly.com
@@ -48,7 +54,8 @@ def loadData(size):
     df2 = onehot(df2)
     df2 = df2.drop('model year', axis=1)
     df2 = df2.drop('car name', axis=1)
-    df2 = df2.drop('displacement', axis=1)
+    df2 = df2.drop('european', axis=1)
+    df2 = df2.drop('japanese', axis=1)
     X_unknown = df2.iloc[:,1:].values
     y_unknown = df2[ 'mpg' ].values
     
@@ -96,7 +103,6 @@ def crossValidation(X_train, y_train):
     models.append( ("BayesianRidge      ",linear_model.BayesianRidge()) )
     models.append( ("PassiveAggressive  ",linear_model.PassiveAggressiveRegressor()) )
     models.append( ("SGD                ",linear_model.SGDRegressor()) )
-    models.append( ("ARD                ",linear_model.ARDRegression()) )
 
     # Loop through and evaluate each model
     r2Results = []
@@ -140,24 +146,37 @@ def crossValidation(X_train, y_train):
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
-    "Stub: This is where you would fine-tune a single model."
-    pass
+    """Fine-tune your chosen algorithm (the best alg is probably very random forests or OLS)"""
+    print("\n\n+++ Predicting testing data! +++")
+    model = ExtraTreesRegressor(n_estimators=100)
+    model.fit(X_train, y_train)
+    predictions = model.predict(X_test)
+    print("Note that Regression tends to give imprecise predictions, so expect to never get perfect answers.\n" +
+    "Printing only the first 10 values for readability. The printed MAE is calculated from all the data.\n")
+    print("Prediction         :",list(map(lambda x: float("%.1f"%x),predictions[:15])))
+    print("Actual             :",list(map(lambda x: float("%.3f"%x), y_test[:15])))
+    ErrorList = []
+    for i in range(len(predictions)):
+        ErrorList.append(predictions[i]-y_test[i])
+    print("Absolute Errors    :",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList[:15])))
+    print("Mean Absolute Error: ",round(metrics.mean_absolute_error(y_test,predictions), 1))
+    return
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     """Makes predictions on the unknown data"""
     print("\n\n+++ Predicting unknown data! +++")
-    model = ExtraTreesRegressor(n_estimators=20)
+    model = ExtraTreesRegressor(n_estimators=100)
     model.fit(X_known, y_known)
     predictions = model.predict(X_unknown)
-    print("Note that since the actual values are mostly a best-guess estimation of mine and that "+
-    "Regression tends to give imprecise predictions, we should expect 'larger' errors.\n")
+    print("Note that since the actual values are mostly a best-guess estimation of mine, "+
+    "it makes sense that there will be 'larger' errors than on the testing data.\n")
     print("Prediction         :",list(map(lambda x: float("%.1f"%x),predictions)))
     print("Actual             :",list(map(lambda x: float("%.3f"%x), y_unknown)))
     ErrorList = []
     for i in range(len(predictions)):
         ErrorList.append(predictions[i]-y_unknown[i])
     ErrorList[-1] = "Na"
-    print("Absolute Error     :",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList)))
+    print("Absolute Errors    :",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList)))
     print("Mean Absolute Error: ",round(metrics.mean_absolute_error(y_unknown[:-1],predictions[:-1]), 1))
     return
 
@@ -177,7 +196,7 @@ def visualizeData(df):
     df = df.astype({"weight": float})
     numeric_df = df.select_dtypes(include=['float64'], ).copy() # Lets you select specific types of data from your df
     cat_df = df.select_dtypes(exclude=['float64'], ).copy()
-    if True:
+    if False:
         cat_df.hist()
         numeric_df.hist()
     if False:
