@@ -239,6 +239,7 @@ def visualizeData(df):
     print("\n+++ Visualizing the feature data! +++")
     if True:
         df.hist()
+    # NOTE: The two below are broken for Digits data, probably works for titanic/iris
     if False:
         from pandas.plotting import scatter_matrix
         scatter_matrix(df)

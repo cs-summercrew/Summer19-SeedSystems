@@ -172,18 +172,19 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
 def visualizeData(df):
     """It is often a good idea to visualize data before starting to working with it."""
     print("\n+++ Visualizing the feature data! +++")
-    if False:
-        df.hist()
+    # The scatterplot is unreadable with all the categorical data in it, so I changed weight to a float here
+    # because its the only non-categorical category that wasnt a float
+    df = df.astype({"weight": float})
+    numeric_df = df.select_dtypes(include=['float64'], ).copy() # Lets you select specific types of data from your df
+    cat_df = df.select_dtypes(exclude=['float64'], ).copy()
     if True:
-        # TODO: Fix/comment later
+        cat_df.hist()
+        numeric_df.hist()
+    if False:
         from pandas.plotting import scatter_matrix
-        df = df.astype({"weight": float})
-        obj_df = df.select_dtypes(include=['float64'], ).copy()
-        print(df.info())
-        print(obj_df.info())
-        scatter_matrix(obj_df)
-    if False: 
-        df.plot(kind='density', subplots=True, layout=(4,4), sharex=False)
+        scatter_matrix(numeric_df)
+    if False:
+        numeric_df.plot(kind='density', subplots=True, layout=(2,2), sharex=False)
     plt.show()
     return
 
@@ -208,7 +209,7 @@ def featurefy(df):
 def onehot(df):
     """One hot encodes the features: cylinders and origin"""
     # NOTE: I would recommend doing the encoding instead with pd.get_dummies, 
-    #       but since I call this function twice, there are some bugs if I use it.
+    #       but since I call this function twice, there are some bugs if I use it here.
     # One-hot encode cylinders
     cyl4 = []
     cyl6 = []
