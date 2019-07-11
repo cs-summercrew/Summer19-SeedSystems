@@ -64,7 +64,6 @@ def loadData(size):
 def scaleData(X_train, X_test):
     """Scales data in two different ways"""
 
-    # Fits to range (0 to 1)
     # MinMaxScaler subtracts the feature's mean from each value and then divides by the range.
     """Normalization is useful when your data has varying scales and the algorithm 
     you are using does not make assumptions about the distribution of your data, 
@@ -73,8 +72,7 @@ def scaleData(X_train, X_test):
     # X_train[:4] = mm_scaler.fit_transform(X_train[:4])
     # X_test[:4] = mm_scaler.fit_transform(X_test[:4])
     
-    # Fits to range (-1 to 1)
-    # StandardScaler scales each feature to have 0 mean and unit variance.
+    # StandardScaler scales each feature to have mean of 0 and standard deviation of 1.
     """Standardization is useful when your data has varying scales and the algorithm 
     you are using does make assumptions about your data having a Gaussian distribution, 
     such as linear regression, logistic regression and linear discriminant analysis"""
@@ -174,11 +172,20 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
 def visualizeData(df):
     """It is often a good idea to visualize data before starting to working with it."""
     print("\n+++ Visualizing the feature data! +++")
-    if True:
-        df.hist()
     if False:
+        df.hist()
+    if True:
         from pandas.plotting import scatter_matrix
+        df = df.drop('4 cylinders', axis=1)
+        df = df.drop('6 cylinders', axis=1)
+        df = df.drop('8 cylinders', axis=1)
+        df = df.drop('american', axis=1)
+        df = df.drop('european', axis=1)
+        df = df.drop('japanese', axis=1)
+        df = df.drop('station wagon', axis=1)
+        df = df.drop('diesel', axis=1)
         scatter_matrix(df)
+        print(df.info())
     if False: 
         df.plot(kind='density', subplots=True, layout=(4,4), sharex=False)
     plt.show()
@@ -204,6 +211,8 @@ def featurefy(df):
 
 def onehot(df):
     """One hot encodes the features: cylinders and origin"""
+    # NOTE: I would recommend doing the encoding instead with pd.get_dummies, 
+    #       but since I call this function twice, there are some bugs if I use it.
     # One-hot encode cylinders
     cyl4 = []
     cyl6 = []
