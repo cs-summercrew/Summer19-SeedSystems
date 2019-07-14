@@ -50,27 +50,30 @@ Sets the static folder as the default upload folder for files
 
 2. Create a virtual environment using the command
 
-        ```python3 -m venv venv```
+```python3 -m venv venv```
 
    This will create a virtual environment called venv
    If you have not done so, use the command
 
-        ```pip install virtualenv```
+```pip install virtualenv```
 
    if the first command does not working
    Activate your virtual enviroment using the command
-        "source venv/bin/activate" for Mac/Linux Users
-        "venv\Scripts\activate" for Windows
+   ```
+   source venv/bin/activate" for Mac/Linux Users
+   venv\Scripts\activate for Windows
+   ```
     For any trouble with virtual environments, visit the website below
 
-    https://docs.python-guide.org/dev/virtualenvs/
+    [Virtual Environment Troubleshooting](https://docs.python-guide.org/dev/virtualenvs/)
 
 3. Run the following commands to ensure that all of the necessary libraries 
    have been downloaded
 
-   ```pip install Flask twilio```
-
-   ```pip install Pillow```
+```
+pip install Flask twilio
+pip install Pillow
+```
 
    For help with installing the necessary libraries, visit the following sites
 
