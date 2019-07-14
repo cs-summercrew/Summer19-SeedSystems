@@ -141,11 +141,11 @@ pip install gunicorn
 
 4. Save these as required libraries to a file called requirements.txt using the following command:
 
-        ```pip freeze > requirements.txt```
+```pip freeze > requirements.txt```
 
 5. Create another file called "Procfile" (no extension). In this file, put the following code:
 
-        ```web: gunicorn example-app:app```
+```web: gunicorn example-app:app```
         
    In the place of example-app, put the name of your application if it is different
 
