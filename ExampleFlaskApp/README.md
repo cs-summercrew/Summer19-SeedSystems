@@ -52,18 +52,20 @@ Sets the static folder as the default upload folder for files
 
 ```python3 -m venv venv```
 
-   This will create a virtual environment called venv
-   If you have not done so, use the command
+This will create a virtual environment called venv
+If you have not done so, use the command
 
 ```pip install virtualenv```
 
-   if the first command does not working
-   Activate your virtual enviroment using the command
-   ```
-   source venv/bin/activate" for Mac/Linux Users
-   venv\Scripts\activate for Windows
-   ```
-    For any trouble with virtual environments, visit the website below
+if the first command does not working
+Activate your virtual enviroment using the command
+
+```
+source venv/bin/activate" for Mac/Linux Users
+venv\Scripts\activate for Windows
+```
+
+For any trouble with virtual environments, visit the website below
 
 [Virtual Environment Troubleshooting](https://docs.python-guide.org/dev/virtualenvs/)
 
@@ -75,11 +77,11 @@ pip install Flask twilio
 pip install Pillow
 ```
 
-   For help with installing the necessary libraries, visit the following sites
+For help with installing the necessary libraries, visit the following sites
 
-   [Setting up Python and Flask Environment](https://www.twilio.com/docs/usage/tutorials/how-to-set-up-your-python-and-flask-development-environment)
+[Setting up Python and Flask Environment](https://www.twilio.com/docs/usage/tutorials/how-to-set-up-your-python-and-flask-development-environment)
 
-   [Installing Pillow Library](https://pillow.readthedocs.io/en/stable/installation.html)
+[Installing Pillow Library](https://pillow.readthedocs.io/en/stable/installation.html)
 
 4. Run the following commands 
 
@@ -99,9 +101,9 @@ flask run
         
 5. Visit the website:
 
-   http://localhost:5000/
+http://localhost:5000/
 
-   The webapp should be active and functional if you followed the above steps correctly.
+The webapp should be active and functional if you followed the above steps correctly.
 
 
 #### Ngrok Deployment:
@@ -109,7 +111,7 @@ flask run
 1. Download the ngrok binary executable from the provided website and move it to the ExampleApp directory. 
    Instructions for installation are available on the website:
 
-   [Install ngrok](https://ngrok.com/download)
+[Install ngrok](https://ngrok.com/download)
 
 2. Make sure your Flask app is running, and open a separate terminal. In the same directory as the ngrok
    executable, run the command
@@ -124,7 +126,7 @@ flask run
 
 1. Download and install the Heroku CLI from the following website:
 
-   [Install Heroku CLI](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
+[Install Heroku CLI](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
 
 2. Navigate to the ExampleApp directory and login in to Heroku CLI in terminal using the command
 
@@ -147,13 +149,13 @@ pip install gunicorn
 
 ```web: gunicorn example-app:app```
         
-   In the place of example-app, put the name of your application if it is different
+In the place of example-app, put the name of your application if it is different
 
 6. Initialize a git repo in heroku using the command git init while in the directory with your app.
         
  `git init`
         
-   Push all of the files onto this git repo using the commands:
+Push all of the files onto this git repo using the commands:
        
  ```
  git add .
