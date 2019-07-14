@@ -151,22 +151,22 @@ pip install gunicorn
 
 6. Initialize a git repo in heroku using the command git init while in the directory with your app.
         
-        ```git init```
+ `git init`
         
    Push all of the files onto this git repo using the commands:
        
-       ```
-        git add .
-        git commit -m "Initial Commit"
-        git push heroku master
-        ```
+ ```
+ git add .
+ git commit -m "Initial Commit"
+ git push heroku master
+ ```
 
 7. Finally deploy the web app and open it:
 
-   ```
-   heroku ps:scale web=1
-   heroku open
-   ```
+```
+heroku ps:scale web=1
+heroku open
+```
 
 
 If you would like to develop your own Flask App from scratch, be sure to check out this tutorial. 
