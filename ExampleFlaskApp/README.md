@@ -65,7 +65,7 @@ Sets the static folder as the default upload folder for files
    ```
     For any trouble with virtual environments, visit the website below
 
-    [Virtual Environment Troubleshooting](https://docs.python-guide.org/dev/virtualenvs/)
+[Virtual Environment Troubleshooting](https://docs.python-guide.org/dev/virtualenvs/)
 
 3. Run the following commands to ensure that all of the necessary libraries 
    have been downloaded
@@ -83,10 +83,19 @@ pip install Pillow
 
 4. Run the following commands 
 
-        ```
-        export FLASK_APP=example-app.py
-        flask run
-        ```
+For Mac:
+
+```
+export FLASK_APP=example-app.py
+flask run
+```
+
+For Windows:
+
+```
+set FLASK_APP=example-app.py
+flask run
+```
         
 5. Visit the website:
 
@@ -105,7 +114,7 @@ pip install Pillow
 2. Make sure your Flask app is running, and open a separate terminal. In the same directory as the ngrok
    executable, run the command
 
-        ```./ngrok http 5000```
+```./ngrok http 5000```
 
 3. Visit the website providing under forwarding header. This will take you to your webapp, which
    is now accessible from any machine so long as the ngrok session is running.
@@ -119,16 +128,16 @@ pip install Pillow
 
 2. Navigate to the ExampleApp directory and login in to Heroku CLI in terminal using the command
 
-        ```heroku login```
+```heroku login```
 
 3. Now initialize a virtual environment if you haven't already using the commands detailed above.
    Install the various the various libraries used by the app, as well as a new one called gunicorn.
    
-       ```
-       pip install Flask twilio
-       pip install Pillow`
-       pip install gunicorn
-       ```
+```
+pip install Flask twilio
+pip install Pillow`
+pip install gunicorn
+```
 
 4. Save these as required libraries to a file called requirements.txt using the following command:
 
