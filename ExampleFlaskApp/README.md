@@ -1,4 +1,4 @@
-Basic Flask Application:
+## Basic Flask Application:
 
 We have provided all of the code to deploy an example Flask application. The
 application contained within this folder provides the functionality for a 
@@ -8,6 +8,8 @@ for how the different files in the app interact with one another. In order to
 run the application, follow the instructions detailed below. We also provide
 instructions for how to deploy your webapp live on the internet via a temporary
 domain using software called ngrok.
+
+---
 
 Architecture:
 
@@ -42,7 +44,8 @@ config.py:
 Initializes the configurations of our app
 Sets the static folder as the default upload folder for files
 
-Running the App Locally:
+#### Running the App Locally:
+
 1. Step into the ExampleApp directory
 
 2. Create a virtual environment using the command
@@ -87,7 +90,8 @@ Running the App Locally:
    The webapp should be active and functional if you followed the above steps correctly.
 
 
-Ngrok Deployment:
+####Ngrok Deployment:
+
 1. Download the ngrok binary executable from the provided website and move it to the ExampleApp directory. 
    Instructions for installation are available on the website:
 
@@ -102,7 +106,8 @@ Ngrok Deployment:
    is now accessible from any machine so long as the ngrok session is running.
 
 
-Heroku Deployment:
+#### Heroku Deployment:
+
 1. Download and install the Heroku CLI from the following website:
 
    https://devcenter.heroku.com/articles/getting-started-with-python#set-up
@@ -144,5 +149,5 @@ If you would like to develop your own Flask App from scratch, be sure to check o
 It provides an in depth tutorial that covers everything one might need to get started in creating
 web apps. 
 
-https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+[Intro Flask Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
 
