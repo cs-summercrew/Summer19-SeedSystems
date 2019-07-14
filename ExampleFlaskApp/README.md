@@ -50,12 +50,12 @@ Sets the static folder as the default upload folder for files
 
 2. Create a virtual environment using the command
 
-        "python3 -m venv venv"
+        `python3 -m venv venv`
 
    This will create a virtual environment called venv
    If you have not done so, use the command
 
-        "pip install virtualenv"
+        `pip install virtualenv`
 
    if the first command does not working
    Activate your virtual enviroment using the command
@@ -68,21 +68,23 @@ Sets the static folder as the default upload folder for files
 3. Run the following commands to ensure that all of the necessary libraries 
    have been downloaded
 
-   "pip install Flask twilio"
+   `pip install Flask twilio`
 
-   "pip install Pillow"
+   `pip install Pillow`
 
    For help with installing the necessary libraries, visit the following sites
 
-   https://www.twilio.com/docs/usage/tutorials/how-to-set-up-your-python-and-flask-development-environment
+   [Setting up Python and Flask Environment](https://www.twilio.com/docs/usage/tutorials/how-to-set-up-your-python-and-flask-development-environment)
 
-   https://pillow.readthedocs.io/en/stable/installation.html
+   [Installing Pillow Library](https://pillow.readthedocs.io/en/stable/installation.html)
 
 4. Run the following commands 
 
-        "export FLASK_APP=example-app.py"
-        "flask run"
-
+        ```
+        export FLASK_APP=example-app.py
+        flask run
+        ```
+        
 5. Visit the website:
 
    http://localhost:5000/
@@ -95,12 +97,12 @@ Sets the static folder as the default upload folder for files
 1. Download the ngrok binary executable from the provided website and move it to the ExampleApp directory. 
    Instructions for installation are available on the website:
 
-   https://ngrok.com/download
+   [Install ngrok](https://ngrok.com/download)
 
 2. Make sure your Flask app is running, and open a separate terminal. In the same directory as the ngrok
    executable, run the command
 
-        "./ngrok http 5000"
+        `./ngrok http 5000`
 
 3. Visit the website providing under forwarding header. This will take you to your webapp, which
    is now accessible from any machine so long as the ngrok session is running.
@@ -110,39 +112,45 @@ Sets the static folder as the default upload folder for files
 
 1. Download and install the Heroku CLI from the following website:
 
-   https://devcenter.heroku.com/articles/getting-started-with-python#set-up
+   [Install Heroku CLI](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
 
 2. Navigate to the ExampleApp directory and login in to Heroku CLI in terminal using the command
 
-        "heroku login"
+        `heroku login`
 
 3. Now initialize a virtual environment if you haven't already using the commands detailed above.
    Install the various the various libraries used by the app, as well as a new one called gunicorn.
-        "pip install Flask twilio"
-        "pip install Pillow"
-        "pip install gunicorn"
+   
+        `pip install Flask twilio`
+        `pip install Pillow`
+        `pip install gunicorn`
 
 4. Save these as required libraries to a file called requirements.txt using the following command:
 
-        "pip freeze > requirements.txt"
+        `pip freeze > requirements.txt`
 
 5. Create another file called "Procfile" (no extension). In this file, put the following code:
 
-        "web: gunicorn example-app:app"
+        `web: gunicorn example-app:app`
+        
    In the place of example-app, put the name of your application if it is different
 
 6. Initialize a git repo in heroku using the command git init while in the directory with your app.
-        "git init"
+        `git init`
+        
    Push all of the files onto this git repo using the commands:
-        "git add ."
-        "git commit -m "Your message"
-        "git push heroku master"
+        ```
+        git add .
+        git commit -m "Initial Commit"
+        git push heroku master
+        ```
 
 7. Finally deploy the web app and open it:
 
-   "heroku ps:scale web=1"
-   "heroku open"
-
+   ```
+   heroku ps:scale web=1
+   heroku open
+   ```
 
 
 If you would like to develop your own Flask App from scratch, be sure to check out this tutorial. 
