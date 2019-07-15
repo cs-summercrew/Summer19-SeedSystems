@@ -139,7 +139,7 @@ def crossValidation(X_train, y_train):
     print("The best algorithm after ranking R"+chr(0x00B2)+" is: "+rankList1[0][0])
     print("The best algorithm after ranking MAE is: "+rankList2[0][0])
     if False:
-        # The box and whisker plots help show the spread of values from cross-validation better
+        # The box and whisker plots help show the spread of values from cross-validation
         boxPlot(r2Results, names, "R Squared")             # Larger (higher) is better
         boxPlot(maeResults, names, "Mean Absolute Error")  # Smaller (lower) is better
         boxPlot(rmseResults, names, "Mean Squared Error")  # Smaller (lower) is better
@@ -148,18 +148,38 @@ def crossValidation(X_train, y_train):
 def trainModel(X_train, y_train, X_test, y_test):
     """Fine-tune your chosen algorithm (the best alg is probably very random forests or OLS)"""
     print("\n\n+++ Predicting testing data! +++")
-    model = ExtraTreesRegressor(n_estimators=100)
+    
+    # Choose model
+    # model = ExtraTreesRegressor(n_estimators=100)
+    model = linear_model.LinearRegression()
+    
+    # Plot Residuals (Errors)
+    if False:
+        """A common use of the residuals plot is to analyze the variance of the error of the regressor. 
+        If the points are randomly dispersed around the horizontal axis, a linear regression model is usually 
+        appropriate for the data; otherwise, a non-linear model is more appropriate."""
+        from yellowbrick.regressor import ResidualsPlot
+        visualizer = ResidualsPlot(model, hist=False)
+        visualizer.fit(X_train, y_train)  # Fit the training data to the model
+        visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+        visualizer.poof()                 # Draw/show/poof the data
+    
+    # Check model results on test data
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)
     print("Note that Regression tends to give imprecise predictions, so expect to never get perfect answers.\n" +
     "Printing only the first 10 values for readability. The printed MAE is calculated from all the data.\n")
-    print("Prediction         :",list(map(lambda x: float("%.1f"%x),predictions[:15])))
-    print("Actual             :",list(map(lambda x: float("%.3f"%x), y_test[:15])))
+    print( "Prediction         :", list(map(lambda x: float("%.1f"%x),predictions[:10])) )
+    print( "Actual             :", list(map(lambda x: float("%.3f"%x), y_test[:10])) )
     ErrorList = []
     for i in range(len(predictions)):
-        ErrorList.append(predictions[i]-y_test[i])
-    print("Absolute Errors    :",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList[:15])))
-    print("Mean Absolute Error: ",round(metrics.mean_absolute_error(y_test,predictions), 1))
+        ErrorList.append( abs(predictions[i]-y_test[i]) )
+    # Check histogram distribution of errors
+    # pd.Series(ErrorList).hist()
+    # plt.show()
+    print( "Absolute Errors    :", list(map(lambda x: float("%.1f"%x), ErrorList[:10])) )
+    print( "Mean Absolute Error:", round(metrics.mean_absolute_error(y_test,predictions), 1) )
+    print( "Absolute Error Std :", round(np.array(ErrorList).std(), 1) )
     return
 
 def predictUnknown(X_known, y_known, X_unknown, y_unknown):
@@ -169,14 +189,14 @@ def predictUnknown(X_known, y_known, X_unknown, y_unknown):
     model.fit(X_known, y_known)
     predictions = model.predict(X_unknown)
     print("Note that since the actual values are mostly a best-guess estimation of mine, "+
-    "it makes sense that there will be 'larger' errors than on the testing data.\n")
+    "it makes sense that the errors will be 'larger' than on the testing data.\n")
     print("Prediction         :",list(map(lambda x: float("%.1f"%x),predictions)))
     print("Actual             :",list(map(lambda x: float("%.3f"%x), y_unknown)))
     ErrorList = []
     for i in range(len(predictions)):
         ErrorList.append(predictions[i]-y_unknown[i])
     ErrorList[-1] = "Na"
-    print("Absolute Errors    :",list(map(lambda x: x if type(x)==str else float("%.1f"%x), ErrorList)))
+    print("Absolute Errors    :",list(map(lambda x: x if type(x)==str else abs(float("%.1f"%x)), ErrorList)))
     print("Mean Absolute Error: ",round(metrics.mean_absolute_error(y_unknown[:-1],predictions[:-1]), 1))
     return
 
@@ -270,7 +290,7 @@ def multicollCheck(df):
     df = df.drop('american', axis=1)
     df = df.drop('european', axis=1)
     df = df.drop('japanese', axis=1)
-    # Add a regression Intercept (doesn't seem to work otherwise)
+    # Add a regression Intercept
     # Based off of info from this post: https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
     X = add_constant(df)
     vif = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])],index=X.columns)
