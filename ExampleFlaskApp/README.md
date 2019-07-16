@@ -11,6 +11,7 @@ domain using software called ngrok.
 
 ---
 
+```
 Architecture:
 
 ExampleApp:
@@ -40,8 +41,11 @@ ExampleApp:
     -README
 
 config.py:
+```
 
 Initializes the configurations of our app
+
+
 Sets the static folder as the default upload folder for files
 
 #### Running the App Locally:
@@ -57,8 +61,8 @@ If you have not done so, use the command
 
 ```pip install virtualenv```
 
-if the first command does not working
-Activate your virtual enviroment using the command
+
+If the first command does not working, activate your virtual enviroment using the command
 
 ```
 source venv/bin/activate" for Mac/Linux Users
@@ -67,7 +71,8 @@ venv\Scripts\activate for Windows
 
 For any trouble with virtual environments, visit the website below
 
-[Virtual Environment Troubleshooting](https://docs.python-guide.org/dev/virtualenvs/)
+* [Virtual Environment Troubleshooting](https://docs.python-guide.org/dev/virtualenvs/)
+
 
 3. Run the following commands to ensure that all of the necessary libraries 
    have been downloaded
@@ -79,9 +84,9 @@ pip install Pillow
 
 For help with installing the necessary libraries, visit the following sites
 
-[Setting up Python and Flask Environment](https://www.twilio.com/docs/usage/tutorials/how-to-set-up-your-python-and-flask-development-environment)
+* [Setting up Python and Flask Environment](https://www.twilio.com/docs/usage/tutorials/how-to-set-up-your-python-and-flask-development-environment)
 
-[Installing Pillow Library](https://pillow.readthedocs.io/en/stable/installation.html)
+* [Installing Pillow Library](https://pillow.readthedocs.io/en/stable/installation.html)
 
 4. Run the following commands 
 
@@ -111,7 +116,7 @@ The webapp should be active and functional if you followed the above steps corre
 1. Download the ngrok binary executable from the provided website and move it to the ExampleApp directory. 
    Instructions for installation are available on the website:
 
-[Install ngrok](https://ngrok.com/download)
+* [Install ngrok](https://ngrok.com/download)
 
 2. Make sure your Flask app is running, and open a separate terminal. In the same directory as the ngrok
    executable, run the command
@@ -126,7 +131,7 @@ The webapp should be active and functional if you followed the above steps corre
 
 1. Download and install the Heroku CLI from the following website:
 
-[Install Heroku CLI](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
+* [Install Heroku CLI](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
 
 2. Navigate to the ExampleApp directory and login in to Heroku CLI in terminal using the command
 
@@ -175,5 +180,5 @@ If you would like to develop your own Flask App from scratch, be sure to check o
 It provides an in depth tutorial that covers everything one might need to get started in creating
 web apps. 
 
-[Intro Flask Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
+* [Intro Flask Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
 
