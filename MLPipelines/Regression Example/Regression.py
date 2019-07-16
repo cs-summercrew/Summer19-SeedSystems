@@ -21,7 +21,7 @@ from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor
 ########################## Start of main() functions ################################
 #####################################################################################
 
-def loadData(size):
+def loadData():
     """Loads data from a csv and gets it into a workable format.
        The size param specifies how much of the data to split into testing/training"""
     
@@ -63,12 +63,10 @@ def loadData(size):
     # NOTE: .values converts df to numpy array
     X_data = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
     y_data = df['mpg'].values               # individually addressable columns (by name)
-    # Shuffle the data (this is just good practice, even if its not always necessary)
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_data, y_data, test_size=size, shuffle=True, random_state=None)
 
-    return X_data, y_data, X_unknown, y_unknown, X_train, y_train, X_test, y_test
+    return X_data, y_data, X_unknown, y_unknown
 
-def scaleData(X_train, X_test):
+def scaleData(X_data):
     """Scales data in two different ways"""
 
     # MinMaxScaler subtracts the feature's mean from each value and then divides by the range.
@@ -76,18 +74,22 @@ def scaleData(X_train, X_test):
     you are using does not make assumptions about the distribution of your data, 
     such as k-nearest neighbors and artificial neural networks."""
     # mm_scaler = preprocessing.MinMaxScaler()
-    # X_train[:4] = mm_scaler.fit_transform(X_train[:4])
-    # X_test[:4] = mm_scaler.fit_transform(X_test[:4])
+    # X_data[:4] = mm_scaler.fit_transform(X_data[:4])
     
     # StandardScaler scales each feature to have mean of 0 and standard deviation of 1.
     """Standardization is useful when your data has varying scales and the algorithm 
     you are using does make assumptions about your data having a Gaussian distribution, 
     such as linear regression, logistic regression and linear discriminant analysis"""
-    s_scaler = preprocessing.StandardScaler()
-    X_train[:,:3] = s_scaler.fit_transform(X_train[:,:3])
-    X_test[:,:3] = s_scaler.fit_transform(X_test[:,:3])
+    # s_scaler = preprocessing.StandardScaler()
+    # X_data[:,:4] = s_scaler.fit_transform(X_data[:,:4])
 
-    return X_train, X_test
+    rb_scaler = preprocessing.RobustScaler()
+    X_data[:4] = rb_scaler.fit_transform(X_data[:4])
+
+    # norm = preprocessing.Normalizer()
+    # X_data[:4] = norm.fit_transform(X_data[:4])
+
+    return X_data
 
 def crossValidation(X_train, y_train):
     """Does cross validation tests on the data to help determine the best model"""
@@ -187,7 +189,8 @@ def trainModel(X_train, y_train, X_test, y_test):
 def predictUnknown(X_data, y_data, X_unknown, y_unknown):
     """Makes predictions on the unknown data"""
     print("\n\n+++ Predicting unknown data! +++")
-    model = ExtraTreesRegressor(n_estimators=100)
+    # model = ExtraTreesRegressor(n_estimators=100)
+    model = linear_model.LinearRegression()
     model.fit(X_data, y_data)
     predictions = model.predict(X_unknown)
     print("Note that since the actual values are mostly a best-guess estimation of mine, "+
@@ -328,16 +331,32 @@ def boxPlot(results, names, metric):
 ########################### End of Helper functions #################################
 #####################################################################################
 
+def makePrediction(X_data, y_data, info):
+    """Given an input attribute list, this function returns a prediction based on the chosen model """
+    print("\n+++ Predicting the input data! +++")
+    # model = ExtraTreesRegressor(n_estimators=100)
+    model = linear_model.LinearRegression()
+    info = np.array(info)
+    info = info.reshape(1, -1)
+    model.fit(X_data, y_data)
+    prediction = model.predict(info)
+    print("With this input, the predicted mpg is:", round(prediction[0], 1))
+    print(prediction)
+    return prediction[0]
+
 def main():
     # Data Pre-processing
-    (X_data, y_data, X_unknown, y_unknown,
-    X_train, y_train, X_test, y_test) = loadData(0.20)      # Loads the csv file, input sets training size
-    (X_train, X_test) = scaleData(X_train, X_test)          # W/O scaling, SGD and PassAgg get some ridiculous r2 values
+    (X_data, y_data, X_unknown, y_unknown) = loadData()     # Loads the csv file, input sets training size
+    (X_data) = scaleData(X_data)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_data, y_data, 
+    test_size=0.20, shuffle=True, random_state=None)        # Shuffle the data & split into test/train
     # Model Selection/Refinement
     crossValidation(X_train, y_train)                       # Compare different algorithms
     trainModel(X_train, y_train, X_test, y_test)            # Run/Refine the best algorithm on the test/train data
     # Test prediction on unknown data
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
+    info = [302,140.0,4294,16,0,0,0,0,1,1]
+    makePrediction(X_data, y_data, info)
 
 if __name__ == "__main__":
     main()
