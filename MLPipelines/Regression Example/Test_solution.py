@@ -158,11 +158,13 @@ def trainModel(X_train, y_train, X_test, y_test):
     print( "Absolute Errors    :", list(map(lambda x: float("%.1f"%x), ErrorList[:10])) )
     print( "Mean Absolute Error:", round(metrics.mean_absolute_error(y_test,predictions), 1) )
     print( "Absolute Error Std :", round(np.array(ErrorList).std(), 1) )
-    return model
+    return
 
-def makePrediction(model, X_data, y_data, attrs):
+def makePrediction(X_data, y_data, attrs):
     """Given an input attribute list, this function returns a prediction based on the chosen model """
     print("\n+++ Predicting the input data! +++")
+    # model = ExtraTreesRegressor(n_estimators=100)
+    model = linear_model.LinearRegression()
     model.fit(X_data, y_data)
     attrs = np.array(attrs)
     attrs = attrs.reshape(1, -1)
@@ -286,11 +288,11 @@ def main():
 
     # Model Selection/Refinement
     chooseAlg(X_data, y_data)                                # Compare different algorithms
-    model = trainModel(X_train, y_train, X_test, y_test)     # Run/Refine the best algorithm on the test/train data
+    trainModel(X_train, y_train, X_test, y_test)             # Run/Refine the best algorithm on the test/train data
     
     # Make a prediction
     info = [302,140.0,4294,16,0,0,0,1,1] # mpg = 13.0: taken from line 75 of auto-complete.csv
-    makePrediction(model, X_data, y_data, info)
+    makePrediction(X_data, y_data, info)
     # The order of the variables is:
     # displacement,horsepower,weight,acceleration,diesel,cylinders_4,cylinders_6,cylinders_8,origin_1
 
