@@ -21,7 +21,7 @@ from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor
 ########################## Start of main() functions ################################
 #####################################################################################
 
-def loadData(size):
+def loadData():
     """Loads data from a csv and gets it into a workable format.
        The size param specifies how much of the data to split into testing/training"""
     
@@ -49,36 +49,32 @@ def loadData(size):
     # NOTE: .values converts df to numpy array
     X_data = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
     y_data = df['mpg'].values               # individually addressable columns (by name)
-    # Shuffle the data (this is just good practice, even if its not always necessary)
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_data, y_data, test_size=size, shuffle=True, random_state=None)
 
-    return X_data, y_data, X_train, y_train, X_test, y_test
+    return X_data, y_data
 
-def scaleData(X_train, X_test):
+def scaleData(X_data):
     """Scales data in two different ways"""
+    # NOTE: Only the first 4 features need scaling (the rest are categorical and don't need it)
 
     # MinMaxScaler subtracts the feature's mean from each value and then divides by the range.
     """Normalization is useful when your data has varying scales and the algorithm 
     you are using does not make assumptions about the distribution of your data, 
     such as k-nearest neighbors and artificial neural networks."""
     # mm_scaler = preprocessing.MinMaxScaler()
-    # X_train[:4] = mm_scaler.fit_transform(X_train[:4])
-    # X_test[:4] = mm_scaler.fit_transform(X_test[:4])
+    # X_data[:4] = mm_scaler.fit_transform(X_data[:4])
     
     # StandardScaler scales each feature to have mean of 0 and standard deviation of 1.
     """Standardization is useful when your data has varying scales and the algorithm 
     you are using does make assumptions about your data having a Gaussian distribution, 
     such as linear regression, logistic regression and linear discriminant analysis"""
     s_scaler = preprocessing.StandardScaler()
-    X_train[:,:3] = s_scaler.fit_transform(X_train[:,:3])
-    X_test[:,:3] = s_scaler.fit_transform(X_test[:,:3])
+    X_data[:,:4] = s_scaler.fit_transform(X_data[:,:4])
+    return X_data
 
-    return X_train, X_test
-
-def crossValidation(X_train, y_train):
+def chooseAlg(X_train, y_train):
     """Does cross validation tests on the data to help determine the best model"""
 
-    print("\n\n+++ Comparing algorithms with cross-validation! +++")
+    print("\n\n+++ Choosing an algorithm with cross-validation! +++")
     # Make a list models to cross-validate
     models = []
     models.append( ("Decision Trees     ",DecisionTreeRegressor()) )
@@ -129,12 +125,15 @@ def crossValidation(X_train, y_train):
         boxPlot(r2Results, names, "R Squared")             # Larger (higher) is better
         boxPlot(maeResults, names, "Mean Absolute Error")  # Smaller (lower) is better
         boxPlot(rmseResults, names, "Mean Squared Error")  # Smaller (lower) is better
-    print("The chosen algorithm is: "+rankList2[0][0])
-    return rankList2[0][-1]
+    return
 
-def trainModel(X_train, y_train, X_test, y_test, model):
+def trainModel(X_train, y_train, X_test, y_test):
     """Fine-tune your chosen algorithm"""
     print("\n\n+++ Predicting testing data! +++")    
+    # Pick an algorithm to base the model on and test
+    model = linear_model.LinearRegression()
+    # model = ExtraTreesRegressor(n_estimators=20)
+
     # Plot Residuals (Errors)
     if False:
         """A common use of the residuals plot is to analyze the variance of the error of the regressor. 
@@ -145,7 +144,7 @@ def trainModel(X_train, y_train, X_test, y_test, model):
         visualizer.fit(X_train, y_train)  # Fit the training data to the model
         visualizer.score(X_test, y_test)  # Evaluate the model on the test data
         visualizer.poof()                 # Draw/show/poof the data
-    
+
     # Check model results on test data
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)
@@ -159,7 +158,7 @@ def trainModel(X_train, y_train, X_test, y_test, model):
     print( "Absolute Errors    :", list(map(lambda x: float("%.1f"%x), ErrorList[:10])) )
     print( "Mean Absolute Error:", round(metrics.mean_absolute_error(y_test,predictions), 1) )
     print( "Absolute Error Std :", round(np.array(ErrorList).std(), 1) )
-    return
+    return model
 
 def makePrediction(model, X_data, y_data, attrs):
     """Given an input attribute list, this function returns a prediction based on the chosen model """
@@ -279,18 +278,21 @@ def boxPlot(results, names, metric):
 
 def main():
     # Data Pre-processing
-    (X_data, y_data, X_train, y_train, 
-    X_test, y_test) = loadData(0.20)                         # Loads the csv file, input sets training size
-    (X_train, X_test) = scaleData(X_train, X_test)           # W/O scaling, SGD and PassAgg get some ridiculous r2 values
+    (X_data, y_data) = loadData()                            # Loads the csv file, input sets training size
+    X_data = scaleData(X_data)                               # W/O scaling, SGD and PassAgg get some ridiculous r2 values
+    
+    # Shuffle the data & split into train/test
+    (X_train, X_test, y_train, y_test) = model_selection.train_test_split(X_data, y_data, test_size=0.20, shuffle=True, random_state=None)
+
     # Model Selection/Refinement
-    model = crossValidation(X_train, y_train)                # Compare different algorithms
-    trainModel(X_train, y_train, X_test, y_test, model)      # Run/Refine the best algorithm on the test/train data
+    chooseAlg(X_data, y_data)                                # Compare different algorithms
+    model = trainModel(X_train, y_train, X_test, y_test)     # Run/Refine the best algorithm on the test/train data
+    
     # Make a prediction
     info = [302,140.0,4294,16,0,0,0,1,1] # mpg = 13.0: taken from line 75 of auto-complete.csv
-    makePrediction(model, X_data, y_data, info) 
+    makePrediction(model, X_data, y_data, info)
     # The order of the variables is:
     # displacement,horsepower,weight,acceleration,diesel,cylinders_4,cylinders_6,cylinders_8,origin_1
-    # origin_1 is a dummy var representing if the car is American (1) or other (0)
 
 if __name__ == "__main__":
     main()

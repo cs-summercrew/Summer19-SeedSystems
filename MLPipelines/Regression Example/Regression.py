@@ -61,12 +61,12 @@ def loadData(size):
     
     # Organizing data into training/testing
     # NOTE: .values converts df to numpy array
-    X_known = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
-    y_known = df['mpg'].values               # individually addressable columns (by name)
+    X_data = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
+    y_data = df['mpg'].values               # individually addressable columns (by name)
     # Shuffle the data (this is just good practice, even if its not always necessary)
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_known, y_known, test_size=size, shuffle=True, random_state=None)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X_data, y_data, test_size=size, shuffle=True, random_state=None)
 
-    return X_known, y_known, X_unknown, y_unknown, X_train, y_train, X_test, y_test
+    return X_data, y_data, X_unknown, y_unknown, X_train, y_train, X_test, y_test
 
 def scaleData(X_train, X_test):
     """Scales data in two different ways"""
@@ -146,7 +146,9 @@ def crossValidation(X_train, y_train):
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
-    """Fine-tune your chosen algorithm (the best alg is probably very random forests or OLS)"""
+    """This function fine-tune your chosen algorithm (the best alg is probably very random forests or OLS)
+       Fine-tuning here is faster/less intensive than in the cross-validation function, but it could also be
+       done there as well."""
     print("\n\n+++ Predicting testing data! +++")
     
     # Choose model
@@ -182,11 +184,11 @@ def trainModel(X_train, y_train, X_test, y_test):
     print( "Absolute Error Std :", round(np.array(ErrorList).std(), 1) )
     return
 
-def predictUnknown(X_known, y_known, X_unknown, y_unknown):
+def predictUnknown(X_data, y_data, X_unknown, y_unknown):
     """Makes predictions on the unknown data"""
     print("\n\n+++ Predicting unknown data! +++")
     model = ExtraTreesRegressor(n_estimators=100)
-    model.fit(X_known, y_known)
+    model.fit(X_data, y_data)
     predictions = model.predict(X_unknown)
     print("Note that since the actual values are mostly a best-guess estimation of mine, "+
     "it makes sense that the errors will be 'larger' than on the testing data.\n")
@@ -328,14 +330,14 @@ def boxPlot(results, names, metric):
 
 def main():
     # Data Pre-processing
-    (X_known, y_known, X_unknown, y_unknown,
+    (X_data, y_data, X_unknown, y_unknown,
     X_train, y_train, X_test, y_test) = loadData(0.20)      # Loads the csv file, input sets training size
     (X_train, X_test) = scaleData(X_train, X_test)          # W/O scaling, SGD and PassAgg get some ridiculous r2 values
     # Model Selection/Refinement
     crossValidation(X_train, y_train)                       # Compare different algorithms
     trainModel(X_train, y_train, X_test, y_test)            # Run/Refine the best algorithm on the test/train data
     # Test prediction on unknown data
-    predictUnknown(X_known, y_known, X_unknown, y_unknown)
+    predictUnknown(X_data, y_data, X_unknown, y_unknown)
 
 if __name__ == "__main__":
     main()
