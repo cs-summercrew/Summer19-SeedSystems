@@ -331,7 +331,7 @@ def boxPlot(results, names, metric):
 ########################### End of Helper functions #################################
 #####################################################################################
 
-def makePrediction(X_data, y_data, info):
+def flaskPrediction(X_data, y_data, info):
     """Given an input attribute list, this function returns a prediction based on the chosen model """
     print("\n+++ Predicting the input data! +++")
     # model = ExtraTreesRegressor(n_estimators=100)
@@ -356,7 +356,7 @@ def main():
     # Test prediction on unknown data
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
     info = [302,140.0,4294,16,0,0,0,0,1,1]
-    makePrediction(X_data, y_data, info)
+    flaskPrediction(X_data, y_data, info)
 
 if __name__ == "__main__":
     main()
