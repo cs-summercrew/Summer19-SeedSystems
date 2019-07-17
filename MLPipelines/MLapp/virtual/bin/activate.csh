@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/Users/summer19/Documents/GitHub/Summer19-SeedSystems/MLPipelines/Regression Example/virtual"
+setenv VIRTUAL_ENV "/Users/summer19/Documents/GitHub/Summer19-SeedSystems/MLPipelines/MLapp/virtual"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"

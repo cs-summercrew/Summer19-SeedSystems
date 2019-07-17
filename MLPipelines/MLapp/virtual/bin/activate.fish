@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/summer19/Documents/GitHub/Summer19-SeedSystems/MLPipelines/Regression Example/virtual"
+set -gx VIRTUAL_ENV "/Users/summer19/Documents/GitHub/Summer19-SeedSystems/MLPipelines/MLapp/virtual"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
