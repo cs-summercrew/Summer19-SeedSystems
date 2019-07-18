@@ -62,11 +62,12 @@ If you have not done so, use the command
 ```pip install virtualenv```
 
 
-2.5 To run your virtual enviroment use the command
+3. To run your virtual enviroment use the command
 
 ```
-source venv/bin/activate" for Mac/Linux Users
-venv\Scripts\activate for Windows
+for Mac/Linux Users:    source venv/bin/activate
+
+for Windows:            venv\Scripts\activate 
 ```
 
 For any trouble with virtual environments, visit the website below
@@ -74,7 +75,7 @@ For any trouble with virtual environments, visit the website below
 * [Virtual Environment Troubleshooting](https://docs.python-guide.org/dev/virtualenvs/)
 
 
-3. Run the following commands to ensure that all of the necessary libraries 
+4. Run the following commands to ensure that all of the necessary libraries 
    have been downloaded
 
 ```
@@ -88,7 +89,7 @@ For help with installing the necessary libraries, visit the following sites
 
 * [Installing Pillow Library](https://pillow.readthedocs.io/en/stable/installation.html)
 
-4. Run the following commands 
+5. Run the following commands 
 
 For Mac:
 
@@ -104,7 +105,7 @@ set FLASK_APP=example-app.py
 flask run
 ```
         
-5. Visit the website:
+6. Visit the website:
 
 http://localhost:5000/
 
