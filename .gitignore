@@ -41,7 +41,8 @@ Thumbs.db
 __pycache__/
 *.py[cod]
 
-# Virtual Environment files
+# Virtual Environment & Joblib files
 ###########################
 venv/
 virtual/
+.joblib
