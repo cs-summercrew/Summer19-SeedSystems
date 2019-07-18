@@ -52,17 +52,17 @@ Sets the static folder as the default upload folder for files
 
 1. Step into the ExampleApp directory
 
-2. Create a virtual environment using the command
+2. Create a new virtual environment using the command
 
 ```python3 -m venv venv```
 
-This will create a virtual environment called venv
+This will create a new virtual environment called venv
 If you have not done so, use the command
 
 ```pip install virtualenv```
 
 
-If the first command does not working, activate your virtual enviroment using the command
+2.5 To run your virtual enviroment use the command
 
 ```
 source venv/bin/activate" for Mac/Linux Users
