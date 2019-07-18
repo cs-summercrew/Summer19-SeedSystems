@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to the MPG Regression Predictor!</h1>
+    <div><p>Copy/Paste in one of the provided examples to see its predicted MPG!</p></div>
+    <div>Features: displacement, horsepower, weight, acceleration, diesel, station wagon, 4 cylinders, 6 cylinders, 8 cylinders, american</p></div>
+    <!--This is a comment. Below are the examples to try-->
+    <div>Actual MPG = 13.0:</div>
+    <div>302, 140.0, 4294, 16, 0, 0, 0, 0, 1, 1</p></div>
+    <div>Actual MPG = 16.3:</div>
+    <div>133.0, 115.0, 3090, 17.5, 0, 0, 1, 0, 0, 0</p></div>
+    <div>Actual MPG = 10.0:</div>
+    <div>350.0, 165.0, 4142, 11.5, 0, 1, 0, 0, 1, 1</p></div>
+    <!--<div>Actual MPG = 12.0:</div>
+    <div>351.0, 153.0, 4034, 11.0, 0, 1, 0, 0, 1, 1</p></div>
+    <div>Actual MPG = 12.0:</div>
+    <div>383.0, 175.0, 4166, 10.5, 0, 1, 0, 0, 1, 1</p></div>
+    <div>Actual MPG = 8.00:</div>
+    <div>302.0, 140.0, 3353, 8.00, 0, 0, 0, 0, 1, 1</p></div>
+    <div>Actual MPG = 20.8:</div>
+    <div>97.00, 48.00, 1978, 20.0, 0, 0, 1, 0, 0, 0</p></div>
+    <div>Actual MPG = 21.0:</div>
+    <div>121.0, 110.0, 2800, 15.4, 0, 0, 1, 0, 0, 0</p></div>
+    <div>Actual MPG = ????:</div>
+    <div>360.0, 175.0, 3850, 11.0, 0, 1, 0, 0, 1, 1</p></div>
+    This is a comment. Above are the examples to try-->
+    <form method=post>
+        Input:<br>
+        <input type=text name=myinput value=""><br>
+        <input type=submit value=Submit>
+        <input type="reset">
+    </form>
+{% endblock %}

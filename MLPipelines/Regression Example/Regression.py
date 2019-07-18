@@ -13,6 +13,9 @@ from statsmodels.tools.tools import add_constant
 from sklearn import svm, linear_model
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor
+# Saving things (pickle or joblib)!
+# import pickle
+from joblib import dump, load
 
 # NOTE: I strongly recommend that you skim the README and its additional resources before 
 #       looking at my code and as a reference if you get confused at any point
@@ -61,6 +64,7 @@ def loadData():
     
     # Organizing data into training/testing
     # NOTE: .values converts df to numpy array
+    print("hello", df.columns)
     X_data = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
     y_data = df['mpg'].values               # individually addressable columns (by name)
 
@@ -168,8 +172,12 @@ def trainModel(X_train, y_train, X_test, y_test):
         visualizer.score(X_test, y_test)  # Evaluate the model on the test data
         visualizer.poof()                 # Draw/show/poof the data
     
-    # Check model results on test data
+    # Fit the model to the data
     model.fit(X_train, y_train)
+    # Save the model for future use
+    dump(model, 'Regression.joblib')
+
+    # Check model results on test data
     predictions = model.predict(X_test)
     print("Note that Regression tends to give imprecise predictions, so expect to never get perfect answers.\n" +
     "Printing only the first 10 values for readability. The printed MAE is calculated from all the data.\n")
@@ -184,6 +192,7 @@ def trainModel(X_train, y_train, X_test, y_test):
     print( "Absolute Errors    :", list(map(lambda x: float("%.1f"%x), ErrorList[:10])) )
     print( "Mean Absolute Error:", round(metrics.mean_absolute_error(y_test,predictions), 1) )
     print( "Absolute Error Std :", round(np.array(ErrorList).std(), 1) )
+
     return
 
 def predictUnknown(X_data, y_data, X_unknown, y_unknown):
@@ -355,6 +364,7 @@ def main():
     trainModel(X_train, y_train, X_test, y_test)            # Run/Refine the best algorithm on the test/train data
     # Test prediction on unknown data
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
+    print("features:",X_data[0])
     info = [302,140.0,4294,16,0,0,0,0,1,1]
     flaskPrediction(X_data, y_data, info)
 

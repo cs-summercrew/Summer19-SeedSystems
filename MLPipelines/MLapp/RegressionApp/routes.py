@@ -1,16 +1,16 @@
 from flask import render_template, flash, redirect, url_for, request
 from RegressionApp import app
 from RegressionApp.forms import LoginForm
-from RegressionApp import piglatin
+from RegressionApp import mpgPredict
 
 # Pig latin page, when we click translate, moves to text result page
-@app.route('/text',methods=['GET','POST'])
+@app.route('/reg',methods=['GET','POST'])
 def text():
     if request.method == 'POST':
-        old_text = request.form['text']
-        new_text = piglatin.pig_translate(old_text)
-        return render_template('textResults.html', old_text=old_text, new_text=new_text)
-    return render_template('text.html', title='Home')
+        myinput = request.form['myinput']
+        output = mpgPredict.predict(myinput)
+        return render_template('regResults.html', myinput=myinput, output=output)
+    return render_template('reg.html', title='Home')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
