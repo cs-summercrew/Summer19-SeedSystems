@@ -40,3 +40,8 @@ Thumbs.db
 #######################################
 __pycache__/
 *.py[cod]
+
+# Virtual Environment files
+###########################
+venv/
+virtual/
