@@ -56,7 +56,7 @@ Sets the static folder as the default upload folder for files
 
 ```pip install virtualenv``` 
 
-Then create a new virtual environment using the command (second venv is for the name of folder)
+Then create a new virtual environment using the following command: (second venv is for the name of folder)
 
 ```python3 -m venv venv```
 
