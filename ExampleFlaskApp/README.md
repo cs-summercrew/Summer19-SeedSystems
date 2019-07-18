@@ -63,7 +63,7 @@ Then create a new virtual environment using the following command: (second venv 
 This will create a new virtual environment in a folder called venv.
 
 
-3. To run your virtual enviroment use the command
+3. To run your virtual enviroment use the following command:
 
 ```
 for Mac/Linux Users:    source venv/bin/activate
