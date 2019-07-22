@@ -14,8 +14,8 @@ from sklearn import svm, linear_model
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor
 # Saving things (pickle or joblib)!
-# import pickle
-from joblib import dump, load
+import pickle
+import joblib
 
 # NOTE: I strongly recommend that you skim the README and its additional resources before 
 #       looking at my code and as a reference if you get confused at any point
@@ -92,7 +92,7 @@ def scaleData(X_data):
 
     scaler = preprocessing.RobustScaler().fit(X_data[:4])
     # Save the scaler for future use
-    dump(scaler, 'RegressionScaler.sav')
+    joblib.dump(scaler, 'RegressionScaler.sav')
     X_data[:4] = scaler.transform(X_data[:4])
 
     # scaler = preprocessing.Normalizer().fit(X_data[:4])
@@ -180,7 +180,7 @@ def trainModel(X_train, y_train, X_test, y_test):
     # Fit the model to the data
     model.fit(X_train, y_train)
     # Save the model for future use
-    dump(model, 'RegressionModel.sav')
+    joblib.dump(model, 'RegressionModel.sav')
 
     # Check model results on test data
     predictions = model.predict(X_test)
@@ -357,8 +357,8 @@ def main():
     # Test prediction on unknown data
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
     
-    model = load('RegressionModel.sav')
-    scaler = load('RegressionScaler.sav')
+    model = joblib.load('RegressionModel.sav')
+    scaler = joblib.load('RegressionScaler.sav')
     info = [302, 140.0, 4294, 16, 0, 0, 0, 0, 1, 1]
     info = np.array(info)
     info = info.reshape(1, -1)
