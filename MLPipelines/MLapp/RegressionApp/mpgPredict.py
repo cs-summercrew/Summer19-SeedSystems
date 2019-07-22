@@ -20,6 +20,6 @@ def predict(mystr):
     numList = np.array(numList)
     numList = numList.reshape(1, -1)
     # Prediction from pickled model
-    model = load('Regression.joblib')
+    model = load('RegressionModel.sav')
     prediction = model.predict(numList)
     return str(round(prediction[0], 1))

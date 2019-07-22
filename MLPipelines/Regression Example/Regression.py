@@ -92,7 +92,7 @@ def scaleData(X_data):
 
     scaler = preprocessing.RobustScaler().fit(X_data[:4])
     # Save the scaler for future use
-    dump(scaler, 'RegressionScaler.joblib')
+    dump(scaler, 'RegressionScaler.sav')
     X_data[:4] = scaler.transform(X_data[:4])
 
     # scaler = preprocessing.Normalizer().fit(X_data[:4])
@@ -180,7 +180,7 @@ def trainModel(X_train, y_train, X_test, y_test):
     # Fit the model to the data
     model.fit(X_train, y_train)
     # Save the model for future use
-    dump(model, 'RegressionModel.joblib')
+    dump(model, 'RegressionModel.sav')
 
     # Check model results on test data
     predictions = model.predict(X_test)
@@ -356,6 +356,17 @@ def main():
     trainModel(X_train, y_train, X_test, y_test)            # Run/Refine the best algorithm on the test/train data
     # Test prediction on unknown data
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
+    
+    model = load('RegressionModel.sav')
+    scaler = load('RegressionScaler.sav')
+    info = [302, 140.0, 4294, 16, 0, 0, 0, 0, 1, 1]
+    info = np.array(info)
+    info = info.reshape(1, -1)
+    info[:4] = scaler.transform(info[:4])
+    print("\n\nWTF\n")
+    print(info)
+    print(model.predict(info))
+    
 
 if __name__ == "__main__":
     main()
