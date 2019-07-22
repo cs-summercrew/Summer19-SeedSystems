@@ -71,27 +71,32 @@ def loadData():
     return X_data, y_data, X_unknown, y_unknown
 
 def scaleData(X_data):
-    """Scales data in two different ways"""
+    """Scales data in several different ways"""
+
+    # NOTE: Scaling the categorical data is unnecessary. 
+    #       Only scaling X_data[:4] scales just the continuous data
 
     # MinMaxScaler subtracts the feature's mean from each value and then divides by the range.
     """Normalization is useful when your data has varying scales and the algorithm 
     you are using does not make assumptions about the distribution of your data, 
     such as k-nearest neighbors and artificial neural networks."""
-    # mm_scaler = preprocessing.MinMaxScaler()
-    # X_data[:4] = mm_scaler.fit_transform(X_data[:4])
+    # scaler = preprocessing.MinMaxScaler().fit(X_data[:4])
+    # X_data[:4] = mm_scaler.transform(X_data[:4])
     
     # StandardScaler scales each feature to have mean of 0 and standard deviation of 1.
     """Standardization is useful when your data has varying scales and the algorithm 
     you are using does make assumptions about your data having a Gaussian distribution, 
     such as linear regression, logistic regression and linear discriminant analysis"""
-    # s_scaler = preprocessing.StandardScaler()
-    # X_data[:,:4] = s_scaler.fit_transform(X_data[:,:4])
+    # scaler = preprocessing.StandardScaler().fit(X_data[:4])
+    # X_data[:,:4] = s_scaler.transform(X_data[:,:4])
 
-    rb_scaler = preprocessing.RobustScaler()
-    X_data[:4] = rb_scaler.fit_transform(X_data[:4])
+    scaler = preprocessing.RobustScaler().fit(X_data[:4])
+    # Save the scaler for future use
+    dump(scaler, 'RegressionScaler.joblib')
+    X_data[:4] = scaler.transform(X_data[:4])
 
-    # norm = preprocessing.Normalizer()
-    # X_data[:4] = norm.fit_transform(X_data[:4])
+    # scaler = preprocessing.Normalizer().fit(X_data[:4])
+    # X_data[:4] = scaler.transform(X_data[:4])
 
     return X_data
 
@@ -175,7 +180,7 @@ def trainModel(X_train, y_train, X_test, y_test):
     # Fit the model to the data
     model.fit(X_train, y_train)
     # Save the model for future use
-    dump(model, 'Regression.joblib')
+    dump(model, 'RegressionModel.joblib')
 
     # Check model results on test data
     predictions = model.predict(X_test)
@@ -340,19 +345,6 @@ def boxPlot(results, names, metric):
 ########################### End of Helper functions #################################
 #####################################################################################
 
-def flaskPrediction(X_data, y_data, info):
-    """Given an input attribute list, this function returns a prediction based on the chosen model """
-    print("\n+++ Predicting the input data! +++")
-    # model = ExtraTreesRegressor(n_estimators=100)
-    model = linear_model.LinearRegression()
-    info = np.array(info)
-    info = info.reshape(1, -1)
-    model.fit(X_data, y_data)
-    prediction = model.predict(info)
-    print("With this input, the predicted mpg is:", round(prediction[0], 1))
-    print(prediction)
-    return prediction[0]
-
 def main():
     # Data Pre-processing
     (X_data, y_data, X_unknown, y_unknown) = loadData()     # Loads the csv file, input sets training size
@@ -364,9 +356,6 @@ def main():
     trainModel(X_train, y_train, X_test, y_test)            # Run/Refine the best algorithm on the test/train data
     # Test prediction on unknown data
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
-    print("features:",X_data[0])
-    info = [302,140.0,4294,16,0,0,0,0,1,1]
-    flaskPrediction(X_data, y_data, info)
 
 if __name__ == "__main__":
     main()
