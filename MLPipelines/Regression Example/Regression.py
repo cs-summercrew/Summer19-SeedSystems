@@ -19,13 +19,15 @@ import joblib
 # NOTE: I strongly recommend that you skim the README and its additional resources before 
 #       looking at my code and as a reference if you get confused at any point
 
+# Global var for visualization
+globvis = False
+
 #####################################################################################
 ########################## Start of main() functions ################################
 #####################################################################################
 
 def loadData():
-    """Loads data from a csv and gets it into a workable format.
-       The size param specifies how much of the data to split into testing/training"""
+    """Loads data from auto-complete.csv and gets it into a workable format."""
     
     # Load the data
     df = pd.read_csv('auto-complete.csv', header=0)
@@ -48,26 +50,31 @@ def loadData():
     #       So all that really matters is whether the car was made in the US or not. 
     df = df.drop('european', axis=1)
     df = df.drop('japanese', axis=1)
-
-    # Load the "unknown" data that we will check our models against
-    # NOTE: There were missing mpg values in the original data, found some/made best guess online using fuelly.com
-    df2 = pd.read_csv('auto-missing.csv', header=0)
-    df2 = featurefy(df2)
-    df2 = onehot(df2)
-    df2 = df2.drop('model year', axis=1)
-    df2 = df2.drop('car name', axis=1)
-    df2 = df2.drop('european', axis=1)
-    df2 = df2.drop('japanese', axis=1)
-    X_unknown = df2.iloc[:,1:].values
-    y_unknown = df2[ 'mpg' ].values
     
-    # Organizing data into training/testing
-    # NOTE: .values converts df to numpy array
+    # Convert to numpy array
     print("hello", df.columns)
     X_data = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
     y_data = df['mpg'].values               # individually addressable columns (by name)
 
-    return X_data, y_data, X_unknown, y_unknown
+    return X_data, y_data
+
+def loadUnkown():
+    "Loads the unknown data from auto-missing.csv"
+    # NOTE: There were missing mpg values in the original data, found some/made best guess online using fuelly.com
+    df2 = pd.read_csv('auto-missing.csv', header=0)
+    # Conform the features to those in loadData()
+    df2 = featurefy(df2)
+    df2 = onehot(df2)
+    df2 = df2.drop('model year', axis=1)
+    df2 = df2.drop('car name', axis=1)
+    # Drop features chosen to be left out in loadData()
+    df2 = df2.drop('european', axis=1)
+    df2 = df2.drop('japanese', axis=1)
+    # Convert to numpy array
+    X_unknown = df2.iloc[:,1:].values
+    y_unknown = df2[ 'mpg' ].values
+
+    return X_unknown, y_unknown
 
 def scaleData(X_data):
     """Scales data in several different ways"""
@@ -111,8 +118,8 @@ def crossValidation(X_train, y_train):
     models.append( ("OLS                ",linear_model.LinearRegression()) )
     models.append( ("SVR                ",svm.SVR(gamma="scale")) )
     models.append( ("BayesianRidge      ",linear_model.BayesianRidge()) )
-    models.append( ("PassiveAggressive  ",linear_model.PassiveAggressiveRegressor()) )
-    models.append( ("SGD                ",linear_model.SGDRegressor()) )
+    # models.append( ("PassiveAggressive  ",linear_model.PassiveAggressiveRegressor()) )
+    # models.append( ("SGD                ",linear_model.SGDRegressor()) )
 
     # Loop through and evaluate each model
     r2Results = []
@@ -148,7 +155,7 @@ def crossValidation(X_train, y_train):
     rankList2 = sorted( rankList2, key=lambda x: x[1], reverse=False )
     print("The best algorithm after ranking R"+chr(0x00B2)+" is: "+rankList1[0][0])
     print("The best algorithm after ranking MAE is: "+rankList2[0][0])
-    if False:
+    if globvis:
         # The box and whisker plots help show the spread of values from cross-validation
         boxPlot(r2Results, names, "R Squared")             # Larger (higher) is better
         boxPlot(maeResults, names, "Mean Absolute Error")  # Smaller (lower) is better
@@ -162,11 +169,11 @@ def trainModel(X_train, y_train, X_test, y_test):
     print("\n\n+++ Predicting testing data! +++")
     
     # Choose model
-    # model = ExtraTreesRegressor(n_estimators=100)
-    model = linear_model.LinearRegression()
+    model = ExtraTreesRegressor(n_estimators=100)
+    # model = linear_model.LinearRegression()
     
     # Plot Residuals (Errors)
-    if False:
+    if globvis:
         """A common use of the residuals plot is to analyze the variance of the error of the regressor. 
         If the points are randomly dispersed around the horizontal axis, a linear regression model is usually 
         appropriate for the data; otherwise, a non-linear model is more appropriate."""
@@ -229,19 +236,19 @@ def predictUnknown(X_data, y_data, X_unknown, y_unknown):
 def visualizeData(df):
     """It is often a good idea to visualize data before starting to working with it."""
     print("\n+++ Visualizing the feature data! +++")
-    # The scatterplot is unreadable with all the categorical data in it, so I changed weight to a float here
-    # because its the only non-categorical category that wasnt a float
+    # The scatterplot is unreadable with all the categorical data in it, so I changed weight to a float
+    # to match the types of the continuous data to easily separate the non-categorical from the categorical data
     df = df.astype({"weight": float})
     numeric_df = df.select_dtypes(include=['float64'], ).copy() # Lets you select specific types of data from your df
     cat_df = df.select_dtypes(exclude=['float64'], ).copy()
-    if False:
+    if globvis:
         cat_df.hist()
         numeric_df.hist()
-    if False:
+    if globvis:
         from pandas.plotting import scatter_matrix
         scatter_matrix(numeric_df)
-    if False:
-        numeric_df.plot(kind='density', subplots=True, layout=(2,2), sharex=False)
+    if globvis:
+        numeric_df.plot(kind='density', subplots=True, layout=(3,3), sharex=False)
     plt.show()
     return
 
@@ -302,15 +309,11 @@ def multicollCheck(df):
     # However, do know that (rarely) there can be low VIF's while still have multicollinearity...
     df = df.drop('mpg', axis=1)
     # Drop the one-hot variables so they aren't checked: dummy variables will always have high VIF's
-    df = df.drop('4 cylinders', axis=1)
-    df = df.drop('6 cylinders', axis=1)
-    df = df.drop('8 cylinders', axis=1)
-    df = df.drop('american', axis=1)
-    df = df.drop('european', axis=1)
-    df = df.drop('japanese', axis=1)
+    df = df.astype({"weight": float})
+    numeric_df = df.select_dtypes(include=['float64'], ).copy()
     # Add a regression Intercept
     # Based off of info from this post: https://stackoverflow.com/questions/42658379/variance-inflation-factor-in-python
-    X = add_constant(df)
+    X = add_constant(numeric_df)
     vif = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])],index=X.columns)
     print(vif)
     return
@@ -345,15 +348,27 @@ def boxPlot(results, names, metric):
 #####################################################################################
 
 def main():
+    # Set Global var controlling visualization
+    global globvis
+    globvis = False
+    
     # Data Pre-processing
-    (X_data, y_data, X_unknown, y_unknown) = loadData()     # Loads the csv file, input sets training size
-    (X_data) = scaleData(X_data)
+    (X_data, y_data) = loadData()               # Loads auto-complete.csv
+    (X_unknown, y_unknown) = loadUnkown()       # Loads auto-missing.csv
+    if True:
+        X_data = scaleData(X_data)
+        X_unknown = scaleData(X_unknown)
+    
+    # Data Shuffling & Train/Test split
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X_data, y_data, 
-    test_size=0.20, shuffle=True, random_state=None)        # Shuffle the data & split into test/train
+    test_size=0.20, shuffle=True, random_state=None)
+    
     # Model Selection/Refinement
-    crossValidation(X_train, y_train)                       # Compare different algorithms
-    trainModel(X_train, y_train, X_test, y_test)            # Run/Refine the best algorithm on the test/train data
+    crossValidation(X_train, y_train)
+    trainModel(X_train, y_train, X_test, y_test)
+    
     # Test prediction on unknown data
+    # NOTE: The predictions seem to be better when the data is unscaled
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
 
 if __name__ == "__main__":
