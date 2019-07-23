@@ -19,7 +19,11 @@ def predict(mystr):
     # Make list numpy array
     numList = np.array(numList)
     numList = numList.reshape(1, -1)
-    # Prediction from pickled model
+    # Load the scaler and scale the input
+    if False:
+        scaler = load('RegressionScaler.sav')
+        numList[:4] = scaler.transform(numList[:4])
+    # Load the model and make a prediction
     model = load('RegressionModel.sav')
     prediction = model.predict(numList)
     return str(round(prediction[0], 1))

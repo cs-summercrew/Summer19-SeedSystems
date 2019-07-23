@@ -14,7 +14,6 @@ from sklearn import svm, linear_model
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor
 # Saving things (pickle or joblib)!
-import pickle
 import joblib
 
 # NOTE: I strongly recommend that you skim the README and its additional resources before 
@@ -356,17 +355,6 @@ def main():
     trainModel(X_train, y_train, X_test, y_test)            # Run/Refine the best algorithm on the test/train data
     # Test prediction on unknown data
     predictUnknown(X_data, y_data, X_unknown, y_unknown)
-    
-    model = joblib.load('RegressionModel.sav')
-    scaler = joblib.load('RegressionScaler.sav')
-    info = [302, 140.0, 4294, 16, 0, 0, 0, 0, 1, 1]
-    info = np.array(info)
-    info = info.reshape(1, -1)
-    info[:4] = scaler.transform(info[:4])
-    print("\n\nWTF\n")
-    print(info)
-    print(model.predict(info))
-    
 
 if __name__ == "__main__":
     main()
