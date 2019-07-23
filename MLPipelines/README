@@ -1,2 +1,6 @@
 Created a G-Doc with all the relevant info for Machine Learning:
 https://docs.google.com/document/d/1nLYHduhdzUszwthgKDBix-JFOz5ebDva4oyed9FLOgU/edit?usp=sharing
+
+NOTE: When loading a model with joblib/pickle into your Flask app, 
+make sure you put it in the right directory: check os.getcwd() in the file you load from to find the right directory! 
+This will save a lot of time and anguish.
