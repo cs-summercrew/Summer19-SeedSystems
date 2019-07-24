@@ -165,9 +165,9 @@ def crossValidation(X_train, y_train):
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
-    """This function fine-tune your chosen algorithm (the best alg is probably very random forests or OLS)
+    """This function is where you would fine-tune your chosen algorithm (the best alg is probably very random forests or OLS)
        Fine-tuning here is faster/less intensive than in the cross-validation function, but it could also be
-       done there as well."""
+       done there as well. This function also saves the model to RegressionModel.sav with joblib."""
     print("\n\n+++ Predicting testing data! +++")
     
     # Choose model
@@ -239,7 +239,7 @@ def predictUnknown(X_data, y_data, X_unknown, y_unknown):
 #####################################################################################
 
 def visualizeData(df):
-    """It is often a good idea to visualize data before starting to working with it."""
+    """Visualizes the data with histograms and scatterplot matrix."""
     print("\n+++ Visualizing the feature data! +++")
     # The scatterplot is unreadable with all the categorical data in it, so I changed weight to a float
     # to match the types of the continuous data to easily separate the non-categorical from the categorical data
@@ -250,13 +250,11 @@ def visualizeData(df):
         # Shows histogram distribution
         cat_df.hist()
         numeric_df.hist()
+    #TODO:Make a good correlation matrix/heatmap visual
     if globvis:
         # Shows scatterplot matrix
         from pandas.plotting import scatter_matrix
         scatter_matrix(numeric_df)
-    if globvis:
-        # TODO: Explain this visualization
-        numeric_df.plot(kind='density', subplots=True, layout=(3,3), sharex=False)
     plt.show()
     return
 
@@ -357,7 +355,7 @@ def boxPlot(results, names, metric):
 def main():
     # Set Global var controlling visualization
     global globvis
-    globvis = True
+    globvis = False
     
     # Data Pre-processing
     (X_data, y_data) = loadData()

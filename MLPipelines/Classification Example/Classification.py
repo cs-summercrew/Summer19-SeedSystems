@@ -21,7 +21,7 @@ titanic = True
 iris = False
 digits = False
 # Global that controls visualizations
-globvis = False
+globvis = True
 #####################################################################################
 ########################## Start of load() functions ################################
 #####################################################################################
@@ -167,10 +167,9 @@ def crossValidation(X_data, y_data):
     return
 
 def trainModel(X_train, y_train, X_test, y_test):
-    """Run the best model from the cross validation on the test/training data.
-       It is a good idea to fine-tune your chosen algorithm in this function."""
-    # NOTE: https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline
-    #       The pipeline function in the link above may help in your fine-tuning
+    """This function is where you would fine-tune your chosen algorithm (the best alg depends on which dataset used)
+       Fine-tuning here is faster/less intensive than in the cross-validation function, but it could also be
+       done there as well. This function also saves the final model to ClassificationModel.sav with joblib."""
     print("\n+++ Fine-tuning & Summary Data! +++")
     print("Note that the default model is svm, which isn't the best model for the iris or titanic data")
     # Set the model
@@ -192,7 +191,7 @@ def trainModel(X_train, y_train, X_test, y_test):
     return
 
 def predictUnknown(X_data, y_data, X_unknown, y_unknown):
-    "Runs the model on the unknown data"
+    """Makes predictions on the unknown data"""
     print("\n\n+++ Predicting unknown data! +++")
     model = LogisticRegression(solver="liblinear", multi_class="auto")
     model.fit(X_data, y_data)
@@ -223,21 +222,20 @@ def predictUnknown(X_data, y_data, X_unknown, y_unknown):
 #####################################################################################
 
 def visualizeData(df):
-    """It is often a good idea to visualize data before starting to working with it."""
+    """Visualizes the data with histograms and scatterplot matrix."""
     print("\n+++ Visualizing the feature data! +++")
     if globvis:
+        # Shows histogram distribution
         df.hist()
-    # NOTE: The two below are broken for Digits data, probably works for titanic/iris
+    # NOTE: The scatterplot seems broken for Digits data
     if globvis:
+        # Shows scatterplot matrix
         from pandas.plotting import scatter_matrix
         scatter_matrix(df)
-    if globvis: 
-        df.plot(kind='density', subplots=True, layout=(4,4), sharex=False)
-    plt.show()
     return
 
 def boxPlot(results, names, metric):
-    """ This box plot shows the spread of the data, NOT the confidence interval!!! 
+    """ This box plot shows the spread of the data, not the confidence interval.
         The box extends from the lower to upper quartile values of the data, with a line at the median. 
         The whiskers extend from the box to show the range of the data. """
     fig = plt.figure()
