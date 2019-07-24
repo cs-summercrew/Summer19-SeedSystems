@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to the Titanic Survival Predictor!</h1>
+    <div><p>Copy/Paste in one of the provided examples to see whether they survive!</p></div>
+    <div>Features: class(1st, 2nd, 3rd), sex(m=0, f=1), age, num siblings/spouses aboard, num parents/children aboard, ticket fare</p></div>
+    <!--This is a comment. Below are the examples to try-->
+    <div>Survived? No:</div>
+    <div>3, 0, 22, 0, 0, 8.05</p></div>
+    <div>Survival? No:</div>
+    <div>3, 0, 19, 0, 0, 8.05</p></div>
+    <div>Survival? Yes:</div>
+    <div>2, 1, 12, 0, 0, 15.75</p></div>
+    <div>Survival? Yes:</div>
+    <div>1, 0, 48, 0, 0, 26.55</p></div>
+    <div>Survival? Yes:</div>
+    <div>1, 1, 63, 1, 0, 77.96</p></div>
+    <!--This is a comment. Above are the examples to try-->
+    <form method=post>
+        Input:<br>
+        <input type=text name=clsInput value=""><br>
+        <input type=submit value=Submit>
+        <input type="reset">
+    </form>
+{% endblock %}

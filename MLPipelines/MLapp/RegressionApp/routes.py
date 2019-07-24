@@ -1,37 +1,36 @@
+# Authors: CS-World Domination Summer19 - DM
 from flask import render_template, flash, redirect, url_for, request
 from RegressionApp import app
-from RegressionApp.forms import LoginForm
 from RegressionApp import mpgPredict
+from RegressionApp import survPredict
 
-# Pig latin page, when we click translate, moves to text result page
+# Classification page, when submit is clicked, it moves to the clsResults page
+@app.route('/cls',methods=['GET','POST'])
+def cls():
+    if request.method == 'POST':
+        clsInput = request.form['clsInput']
+        clsOutput = survPredict.predict(clsInput)
+        return render_template('clsResults.html', clsInput=clsInput, clsOutput=clsOutput)
+    return render_template('cls.html', title='Titanic')
+
+# Regression page, when submit is clicked, it moves to the regResults page
 @app.route('/reg',methods=['GET','POST'])
-def text():
+def reg():
     if request.method == 'POST':
         myinput = request.form['myinput']
         output = mpgPredict.predict(myinput)
         return render_template('regResults.html', myinput=myinput, output=output)
-    return render_template('reg.html', title='Home')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.username.data, form.remember_me.data))
-        return redirect(url_for('index'))
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('reg.html', title='MPG')
 
 @app.route('/')
 @app.route('/index')
 def index():
     content = [
         {
-            'topic': 'For Regression on MPG',
-            'body': 'See...'
+            'topic': 'Click the Regression tab to see the MPG predictor.',
         },
         {
-            'topic': 'For Classification on several Datasets',
-            'body': 'See...'
+            'topic': 'Click the Classification tab to see the Titanic Survival predictor.',
         }
     ]
     return render_template('index.html', title='Home', content=content)

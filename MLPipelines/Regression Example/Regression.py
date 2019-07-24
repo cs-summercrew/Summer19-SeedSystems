@@ -9,12 +9,11 @@ from sklearn import model_selection # MinMaxScaler,StandardScaler
 from sklearn.feature_selection import f_regression,mutual_info_regression,SelectKBest
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tools.tools import add_constant
+import joblib
 # ML models Imports
 from sklearn import svm, linear_model
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor
-# Saving things (pickle or joblib)!
-import joblib
 
 # NOTE: I strongly recommend that you skim the README and its additional resources before 
 #       looking at my code and as a reference if you get confused at any point
@@ -52,7 +51,6 @@ def loadData():
     df = df.drop('japanese', axis=1)
     
     # Convert to numpy array
-    print("hello", df.columns)
     X_data = df.iloc[:,1:].values           # iloc == "integer locations" of rows/cols
     y_data = df['mpg'].values               # individually addressable columns (by name)
 
@@ -78,31 +76,35 @@ def loadUnkown():
 
 def scaleData(X_data):
     """Scales data in several different ways"""
-
     # NOTE: Scaling the categorical data is unnecessary. 
     #       Only scaling X_data[:4] scales just the continuous data
-
-    # MinMaxScaler subtracts the feature's mean from each value and then divides by the range.
-    """Normalization is useful when your data has varying scales and the algorithm 
-    you are using does not make assumptions about the distribution of your data, 
-    such as k-nearest neighbors and artificial neural networks."""
-    # scaler = preprocessing.MinMaxScaler().fit(X_data[:4])
-    # X_data[:4] = mm_scaler.transform(X_data[:4])
+    if False:
+        # MinMaxScaler subtracts the feature's mean from each value and then divides by the range.
+        """Normalization is useful when your data has varying scales and the algorithm 
+        you are using does not make assumptions about the distribution of your data, 
+        such as k-nearest neighbors and artificial neural networks."""
+        scaler = preprocessing.MinMaxScaler().fit(X_data[:4])
+        joblib.dump(scaler, 'RegressionScaler.sav')
+        X_data[:4] = scaler.transform(X_data[:4])
     
-    # StandardScaler scales each feature to have mean of 0 and standard deviation of 1.
-    """Standardization is useful when your data has varying scales and the algorithm 
-    you are using does make assumptions about your data having a Gaussian distribution, 
-    such as linear regression, logistic regression and linear discriminant analysis"""
-    # scaler = preprocessing.StandardScaler().fit(X_data[:4])
-    # X_data[:,:4] = s_scaler.transform(X_data[:,:4])
+    if False:
+        # StandardScaler scales each feature to have mean of 0 and standard deviation of 1.
+        """Standardization is useful when your data has varying scales and the algorithm 
+        you are using does make assumptions about your data having a Gaussian distribution, 
+        such as linear regression, logistic regression and linear discriminant analysis"""
+        scaler = preprocessing.StandardScaler().fit(X_data[:4])
+        joblib.dump(scaler, 'RegressionScaler.sav')
+        X_data[:,:4] = scaler.transform(X_data[:,:4])
 
-    scaler = preprocessing.RobustScaler().fit(X_data[:4])
-    # Save the scaler for future use
-    joblib.dump(scaler, 'RegressionScaler.sav')
-    X_data[:4] = scaler.transform(X_data[:4])
+    if True:
+        scaler = preprocessing.RobustScaler().fit(X_data[:4])
+        joblib.dump(scaler, 'RegressionScaler.sav')
+        X_data[:4] = scaler.transform(X_data[:4])
 
-    # scaler = preprocessing.Normalizer().fit(X_data[:4])
-    # X_data[:4] = scaler.transform(X_data[:4])
+    if False:
+        scaler = preprocessing.Normalizer().fit(X_data[:4])
+        joblib.dump(scaler, 'RegressionScaler.sav')
+        X_data[:4] = scaler.transform(X_data[:4])
 
     return X_data
 
@@ -172,17 +174,6 @@ def trainModel(X_train, y_train, X_test, y_test):
     model = ExtraTreesRegressor(n_estimators=100)
     # model = linear_model.LinearRegression()
     
-    # Plot Residuals (Errors)
-    if globvis:
-        """A common use of the residuals plot is to analyze the variance of the error of the regressor. 
-        If the points are randomly dispersed around the horizontal axis, a linear regression model is usually 
-        appropriate for the data; otherwise, a non-linear model is more appropriate."""
-        from yellowbrick.regressor import ResidualsPlot
-        visualizer = ResidualsPlot(model, hist=False)
-        visualizer.fit(X_train, y_train)  # Fit the training data to the model
-        visualizer.score(X_test, y_test)  # Evaluate the model on the test data
-        visualizer.poof()                 # Draw/show/poof the data
-    
     # Fit the model to the data
     model.fit(X_train, y_train)
     # Save the model for future use
@@ -197,9 +188,23 @@ def trainModel(X_train, y_train, X_test, y_test):
     ErrorList = []
     for i in range(len(predictions)):
         ErrorList.append( abs(predictions[i]-y_test[i]) )
-    # Check histogram distribution of errors
-    # pd.Series(ErrorList).hist()
-    # plt.show()
+    
+    # Plot Residuals (Errors) with scatterplot & Histogram distribution
+    if globvis:
+        """A common use of the residuals plot is to analyze the variance of the error of the regressor. 
+        If the points are randomly dispersed around the horizontal axis, a linear regression model is usually 
+        appropriate for the data; otherwise, a non-linear model is more appropriate."""
+        from yellowbrick.regressor import ResidualsPlot
+        visualizer = ResidualsPlot(model, hist=False)
+        visualizer.fit(X_train, y_train)  # Fit the training data to the model
+        visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+        visualizer.poof()                 # Draw the data
+        # Check histogram distribution of errors
+        pd.Series(ErrorList).hist()
+        plt.show()
+        # If its normally distributed, linear models are good
+        # Here it seems to not be normally distributed: so non-linear models are better
+
     print( "Absolute Errors    :", list(map(lambda x: float("%.1f"%x), ErrorList[:10])) )
     print( "Mean Absolute Error:", round(metrics.mean_absolute_error(y_test,predictions), 1) )
     print( "Absolute Error Std :", round(np.array(ErrorList).std(), 1) )
@@ -242,12 +247,15 @@ def visualizeData(df):
     numeric_df = df.select_dtypes(include=['float64'], ).copy() # Lets you select specific types of data from your df
     cat_df = df.select_dtypes(exclude=['float64'], ).copy()
     if globvis:
+        # Shows histogram distribution
         cat_df.hist()
         numeric_df.hist()
     if globvis:
+        # Shows scatterplot matrix
         from pandas.plotting import scatter_matrix
         scatter_matrix(numeric_df)
     if globvis:
+        # TODO: Explain this visualization
         numeric_df.plot(kind='density', subplots=True, layout=(3,3), sharex=False)
     plt.show()
     return
@@ -272,8 +280,8 @@ def featurefy(df):
 
 def onehot(df):
     """One hot encodes the features: cylinders and origin"""
-    # NOTE: I would recommend doing the encoding instead with pd.get_dummies, 
-    #       but since I call this function twice, there are some bugs if I use it here.
+    # NOTE: Onehot encoding should typically use pd.get_dummies, 
+    #       this way however ensures that the proper labels are created for the unknown data
     # One-hot encode cylinders
     cyl4 = []
     cyl6 = []
@@ -301,12 +309,10 @@ def onehot(df):
     return df
 
 def multicollCheck(df):
-    """ Checks for multicollinearity using VIF scores, the included link explains when checking is important"""
+    """ Checks for multicollinearity by printing VIF scores."""
     print("\n+++ Checking for multicollinearity! +++")
     print("Note that I was unable to get the warning to go away, so that task is left to the reader!")
-    # Check for multicollinearity!
-    # A rule of thumb is that if there are VIF scores of more than five to ten, the variables are multicollinear!!!
-    # However, do know that (rarely) there can be low VIF's while still have multicollinearity...
+    
     df = df.drop('mpg', axis=1)
     # Drop the one-hot variables so they aren't checked: dummy variables will always have high VIF's
     df = df.astype({"weight": float})
@@ -316,6 +322,7 @@ def multicollCheck(df):
     X = add_constant(numeric_df)
     vif = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])],index=X.columns)
     print(vif)
+    # With VIF's higher than 5-10, there is multicollinearity
     return
 
 def featureSelect(df, numToSelect):
@@ -350,11 +357,11 @@ def boxPlot(results, names, metric):
 def main():
     # Set Global var controlling visualization
     global globvis
-    globvis = False
+    globvis = True
     
     # Data Pre-processing
-    (X_data, y_data) = loadData()               # Loads auto-complete.csv
-    (X_unknown, y_unknown) = loadUnkown()       # Loads auto-missing.csv
+    (X_data, y_data) = loadData()
+    (X_unknown, y_unknown) = loadUnkown()
     if True:
         X_data = scaleData(X_data)
         X_unknown = scaleData(X_unknown)
@@ -364,7 +371,8 @@ def main():
     test_size=0.20, shuffle=True, random_state=None)
     
     # Model Selection/Refinement
-    crossValidation(X_train, y_train)
+    crossValidation(X_data, y_data)             
+    # NOTE: Cross-validation does its own train/test splitting already, so just feed it all the data
     trainModel(X_train, y_train, X_test, y_test)
     
     # Test prediction on unknown data
