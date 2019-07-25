@@ -8,7 +8,7 @@ import shutil
 
 # NOTE: The code used in this file is heavily based off of the tutorial code in the following link, which contains more detail:
 #       https://www.pyimagesearch.com/2015/03/09/capturing-mouse-click-events-with-python-and-opencv/
-#       Some of the comment suggestions in the link were used too!
+#       Some of the commented suggestions in the link were used too!
 
 # TODO: It may be more useful to be able loop through a folder of images, cropping each one, instead of only cropping a single file
 #       at a time as is currently implemented. If you think so, then look at image-labeler.py for inspiration...
@@ -37,10 +37,12 @@ def click_and_crop(event, x, y, flags, param):
         refPt.append((x, y))
         cropping = False
  
-        # These if statements adjust the refPt list to get it into the TopLeft to BotRight format
-        # required for the rectangle() function
+        # Lines for Debugging
         # print("x1:",refPt[0][0],"y1:",refPt[0][1])
         # print("x2:",refPt[1][0],"y2:",refPt[1][1])
+
+        # These if statements adjust the refPt list to get it into the TopLeft to BotRight format
+        # required for the rectangle() function
         if (refPt[0][0] > refPt[1][0]) and (refPt[0][1] > refPt[1][1]):
             # Bottom Right to Top Left Case
             temp0 = refPt[0]
