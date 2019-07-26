@@ -19,6 +19,10 @@ refPt = []
 sel_rect_endpoint = []
 cropping = False
 
+original_dir = os.getcwd()
+path = os.path.join(original_dir, "Bananna")
+os.chdir(path)
+
 def click_and_crop(event, x, y, flags, param):
 	# grab references to the global variables
     global refPt, cropping, sel_rect_endpoint
@@ -70,11 +74,7 @@ def click_and_crop(event, x, y, flags, param):
         cv.imshow(FILE_NAME, image)
     elif event == cv.EVENT_MOUSEMOVE and cropping:
         sel_rect_endpoint = [(x, y)]
-    
-
-original_dir = os.getcwd()
-path = os.path.join(original_dir, "Bananna")
-os.chdir(path)
+    return
 
 FILE_NAME = "frame448.png"
 image = cv.imread(FILE_NAME, -1)
@@ -121,3 +121,10 @@ os.chdir(original_dir)
 cv.destroyAllWindows()
 
 
+def main():
+    print("Start of main()\n")
+
+    print("End of main()\n")
+
+if __name__ == "__main__":
+    main()
