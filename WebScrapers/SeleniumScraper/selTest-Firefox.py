@@ -3,6 +3,7 @@
 # NOTE: Installation Instructions for Firefox
 #       Use "pip install selenium" to install selenium for python
 #       Make sure you have Firefox installed
+#       add a note for test
 #       Go to https://addons.mozilla.org/en-US/firefox/addon/selenium-ide/ to install the Selenium add-on for Firefox
 #       Go to https://github.com/mozilla/geckodriver/releases to install geckodriver
 #       Make sure to choose the geckodriver download that corresponds to your OS
