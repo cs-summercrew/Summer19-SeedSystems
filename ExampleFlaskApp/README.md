@@ -11,37 +11,7 @@ domain using software called ngrok.
 
 ---
 
-```
-Architecture:
-
-ExampleApp:
-
-    app:
-
-        templates:
-
-            -base.html
-            -index.html
-            -text.html
-            -textResults.html
-            -image.html
-            -imageResults.html
-            -README
-
-        static
-        -__init__.py
-        -routes.py
-        -piglatin.py
-        -README
-
-    -example-app.py
-
-    -config.py
-
-    -README
-
-config.py:
-```
+![Program Image](https://github.com/cs-summercew/Summer19-SeedSystems/blob/master/ExampleFlaskApp/tree.png)
 
 Initializes the configurations of our app
 
