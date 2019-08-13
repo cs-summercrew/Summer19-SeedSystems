@@ -11,3 +11,6 @@ After anaconda, install selenium and openCV
 
 ## TODO:
 selTest-Firefox.py seems broken
+Finish installation instructions
+Fix documentations, especially the OpenCV folder
+Fix .gitignore so that it ignores file output / get rid of file outputs from the directory
