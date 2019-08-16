@@ -11,37 +11,7 @@ domain using software called ngrok.
 
 ---
 
-```
-Architecture:
-
-ExampleApp:
-
-    app:
-
-        templates:
-
-            -base.html
-            -index.html
-            -text.html
-            -textResults.html
-            -image.html
-            -imageResults.html
-            -README
-
-        static
-        -__init__.py
-        -routes.py
-        -piglatin.py
-        -README
-
-    -example-app.py
-
-    -config.py
-
-    -README
-
-config.py:
-```
+![Program Image](https://github.com/cs-summercew/Summer19-SeedSystems/blob/master/ExampleFlaskApp/tree.png)
 
 Initializes the configurations of our app
 
@@ -55,6 +25,10 @@ Sets the static folder as the default upload folder for files
 2. If you have not done so, use the command:
 
 ```pip install virtualenv``` 
+
+If above command is not working, try:
+
+```pip3 install virtualenv``` 
 
 Then create a new virtual environment using the following command: (second venv is for the name of folder)
 
