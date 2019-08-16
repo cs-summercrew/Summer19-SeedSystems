@@ -25,7 +25,7 @@ os.chdir(path)
 
 
 def main():
-    print("Start of main()\n")
+    # print("Start of main()\n")
     def click_and_crop(event, x, y, flags, param):
         # grab references to the global variables
         global refPt, cropping, sel_rect_endpoint
