@@ -1,5 +1,5 @@
 ## Image Detection
-`featuremath.py` matches the similarties between `objects.jpg` and `pillow.jpg` using the orb algorithm.  
+`featurematch.py` matches the similarties between `objects.jpg` and `pillow.jpg` using the orb algorithm.  
 
 `orb.py` an example comparing the orb, sift, and suft algorithms. For this file to work, you will need to use either an older version of OpenCV, or to download the opencv_contrib package. See this [link](https://www.pyimagesearch.com/2015/07/16/where-did-sift-and-surf-go-in-opencv-3/) for more information.  
 
