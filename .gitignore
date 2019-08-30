@@ -49,4 +49,4 @@ virtual/
 
 # Ignore Specific files
 ###########################
-/temp/
+*temp/
