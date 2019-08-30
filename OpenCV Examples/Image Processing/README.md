@@ -2,5 +2,10 @@
 
 `mouse-crop.py` allows you to crop the image and save it if you want. Read through the code and find out for the keys to use in this file.
 
-`simeple-recording.py` will turn on your camera and record a video but capturing the images. You may also change the color when program is running.
-
+`simeple-recording.py` will turn on your camera, records video, displays the current frame, and lets you switch in and out of color. It also allows capturing images and stores them to a temp folder. The controls are the following:
+```
+spacebar: Saves the current frame as an image.
+c: Saves the next 30 continuous frames.
+s: switches color display (grayscale <--> rgb)
+esc: quit (do not press the x button on the window!)
+``` 
