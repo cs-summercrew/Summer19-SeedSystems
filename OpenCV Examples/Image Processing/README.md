@@ -1,6 +1,6 @@
-`image-labeler.py` opens every image in the `Banana` folder individually and gives you the option to press **Y** or **N** for each. Also, you may use **Esc** key to continue to the next image. Depending on the key you pressed, the results get saved to `BanannaData.csv`. This is usefule if you are making a machine learning classifier and need to label a large amount of images quickly. 
+`image-labeler.py` opens every image in the `Banana` folder individually and gives you the option to press **Y** (1), **N** (0), or **Esc**(N/A) for each. Depending on the key you pressed, the results get saved to `BanannaData.csv`. This is usefule if you are making a machine learning classifier and need to label a large amount of images quickly. 
 
-`mouse-crop.py` allows you to crop the image and save it if you want. `FILE_NAME = "frame448.png"` controls which file in `/Bannana` is opened, you may want to change this. The controls are the following:
+`mouse-crop.py` allows you to crop the image and save it if you want. The line `FILE_NAME = "frame448.png"` controls which file in `/Bannana` is opened, you may want to change this. The controls are the following:
 ```
 mouse click n'drag: creates a rectangle representing the crop region
 escape: Exits the first window without saving if no crop window, displays cropped image otherwise.
