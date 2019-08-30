@@ -43,8 +43,8 @@ __pycache__/
 
 # Virtual Environment & Joblib files
 ###########################
-venv/
-virtual/
+*venv/
+*virtual/
 *.joblib
 
 # Ignore Specific files
