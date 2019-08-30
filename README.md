@@ -1,5 +1,5 @@
 # Tips for Using our Repo
-Please read the instructions we have added as comments in each .py file to ensure that you have the proper libriaries installed, and for helpful information. Important Comments in our code will be marked by a NOTE:, TODO:, or BUG:
+Please read the instructions we have added as comments in each .py file to ensure that you have the proper libriaries installed, and for helpful information. Important Comments in our code will be marked by a NOTE:, TODO:, or BUG:  
 If you are using anaconda, you should have *most* of the libraries you will need to use our seed-systems. Also pay attention to the readme.md files in each folder. They should explain what each program does for the most part.
 
 # Installation
