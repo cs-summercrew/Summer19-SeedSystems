@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 NUM_EDGES=5
 NUM_NODES=NUM_EDGES*2
 
-img1 = cv2.imread('pillow.jpg',0)
-img2 = cv2.imread('objects.jpg',0)
+img1 = cv2.imread('Images/pillow.jpg',0)
+img2 = cv2.imread('Images/objects.jpg',0)
 
 orb = cv2.ORB_create()
 
