@@ -131,7 +131,7 @@ def backandforth(driver):
 def main():
     time.sleep(4)
     driver = createdriver('https://duckduckgo.com',
-    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/WebScrapers/SeleniumScraper/geckodriver')
+    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/WebScraping-Examples/SeleniumScraper/geckodriver')
     # NOTE: You will need to change the above path to wherever you have installed geckodriver
     # If its in the same folder as this code, use the uncommented code below to get the path you need
     # import os

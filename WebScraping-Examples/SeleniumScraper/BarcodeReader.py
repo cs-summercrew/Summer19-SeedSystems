@@ -50,7 +50,7 @@ def closebrowser(driver):
 
 def main():
     driver = createdriver('https://www.barcodelookup.com',
-    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/WebScrapers/SeleniumScraper/geckodriver')
+    '/Users/summer19/Documents/GitHub/Summer19-SeedSystems/WebScraping-Examples/SeleniumScraper/geckodriver')
     # NOTE: You will need to change the above path to wherever you have installed geckodriver
     barcode = 0
     while(loop):
