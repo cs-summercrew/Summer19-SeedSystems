@@ -5,6 +5,8 @@ If you are using anaconda, you should have *most* of the libraries you will need
 # Installation
 We ran our code using Anaconda/Python 3. We have included the installation instructions from this year's CS121 course as Installation.md which may be helpful in installing what you need to run our seed systems.
 
+# Acknowledgments
+This repo was created by the CS4All Clinic Development Team in the Summer of 2019: Chris Butler, Justin G, Ciante Jones, and Dylan McGarvey
 ## TODO:
 selTest-Firefox.py seems broken
 Finish installation instructions
