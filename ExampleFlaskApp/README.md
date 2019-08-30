@@ -19,6 +19,7 @@ Initializes the configurations of our app
 Sets the static folder as the default upload folder for files
 
 #### Running the App Locally:
+Note that Steps 1-3 deal with running your flask app from a virtual environment with virtualenv. Many tutorials online use virtualenv, but just know that these steps are entirely optional.  
 
 1. Step into the ExampleApp directory
 
@@ -54,8 +55,8 @@ For any trouble with virtual environments, visit the website below
    have been downloaded
 
 ```
-pip install Flask twilio
-pip install Pillow
+pip (or conda) install Flask twilio
+pip (or conda) install Pillow
 ```
 
 For help with installing the necessary libraries, visit the following sites
