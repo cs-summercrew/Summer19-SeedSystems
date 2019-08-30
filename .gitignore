@@ -46,3 +46,7 @@ __pycache__/
 venv/
 virtual/
 *.joblib
+
+# Ignore Specific files
+###########################
+/temp/
