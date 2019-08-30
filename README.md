@@ -6,10 +6,13 @@ If you are using anaconda, you should have *most* of the libraries you will need
 We ran our code using Anaconda/Python 3. We have included the installation instructions from this year's CS121 course as Installation.md which may be helpful in installing what you need to run our seed systems.
 
 ## Acknowledgments
-This repo was created by the CS4All Clinic Development Team in the Summer of 2019: Chris Butler, Justin Gadalla, Ciante Jones, and Dylan McGarvey
+This repo was created by the CS4All Clinic Development Team in the Summer of 2019: Chris Butler, Tim Chen, Justin Gadalla, Ciante Jones, and Dylan McGarvey
 
 ### TODO:
-selTest-Firefox.py seems broken
-Finish installation instructions
+ExampleFlaskApp- Image Inverter seems broken, code is weird too. Should probably add Tim's Example if possible.
+MLPipelines- Needs a readme documentation / mention Fall CS121 code framework
+StatsModels Systems- readme doc
+WebScrapers- readme doc, and fix broken things (selTest-Firefox.py)
+OpenCV- fix readme docs, and organization
 Fix documentations, especially the OpenCV folder
 Fix .gitignore so that it ignores file output / get rid of file outputs from the directory
