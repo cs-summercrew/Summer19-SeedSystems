@@ -38,7 +38,7 @@ import string
 def writeCSV(path, data):
     " Takes our data and writes it to a csv file"
     path = os.path.join(path, "EsoData.csv")
-    with open(path, 'w') as myCSVfile:
+    with open(path, 'w', encoding="utf-8") as myCSVfile:
         print("Writing EsoData.csv")
         filewriter = csv.writer(myCSVfile, delimiter='\n', quoting=csv.QUOTE_NONE, escapechar='\\')
         for i in range(0,len(data)):
@@ -55,9 +55,6 @@ def simplifyText(myString):
 
 def parseData(path):
     "Parses file directory"
-    print("Test1", list(os.walk(path)))
-    for tf in os.walk(path):
-        print("test",tf)
     AllFiles = list(os.walk(path))[0][2]
     # Start: Code specific to Mac only
     if '.DS_Store' in AllFiles:
@@ -118,6 +115,7 @@ def parseData(path):
             hasExtRes = int("External resources" in headList)
 
             data.append([soup.title.string[:-10], lastEdit, str(isStub), str(containsHelloWorld), str(isTuringComp), str(hasExtRes)])
+        print("Completed:", file)
     print("Number of files:", len(data)-1)
     return data
 
