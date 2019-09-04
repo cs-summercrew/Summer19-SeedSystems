@@ -83,12 +83,12 @@ def main():
     Ourpath = setup()
     soup = makesoup(Ourpath)
     
-    LinkList = soup.findAll('a').encode('utf-8')
+    LinkList = soup.findAll('a')
 
     # NOTE: Experiment & Look at different languages!
     #       Our list includes the first 16 as well as some favorites and interesting languages
     #       LinkList[34] is the first link in the list of languages: !!!
-    LinkList_Subset = LinkList[34:50]
+    LinkList_Subset = LinkList[34:48]
     LinkList_Subset.append(LinkList[174])
     LinkList_Subset.append(LinkList[282])
     LinkList_Subset.append(LinkList[361])
