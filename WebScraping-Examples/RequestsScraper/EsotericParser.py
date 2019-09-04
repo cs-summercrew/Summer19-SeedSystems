@@ -55,6 +55,9 @@ def simplifyText(myString):
 
 def parseData(path):
     "Parses file directory"
+    print("Test1", list(os.walk(path)))
+    for tf in os.walk(path):
+        print("test",tf)
     AllFiles = list(os.walk(path))[0][2]
     # Start: Code specific to Mac only
     if '.DS_Store' in AllFiles:
@@ -122,7 +125,7 @@ def parseData(path):
 def main():
     print("Start of main()\n")
     currDir = os.getcwd()
-    path = os.path.join(currDir, "Files_To_Parse")
+    path = os.path.join(currDir, "Scraped_Files")
     data = parseData(path)
     writeCSV(currDir, data)
 
