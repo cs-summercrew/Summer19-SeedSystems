@@ -71,7 +71,7 @@ def parseData(path):
 
     for file in AllFiles:
         fpath = os.path.join(path, file)
-        with open(fpath) as f:
+        with open(fpath, encoding="utf-8") as f:
             soup = BeautifulSoup(f, "lxml")
 
             # Finds the categories section and puts each category into catList
