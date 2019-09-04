@@ -65,7 +65,7 @@ def createfiles(listOflinks, path):
         finalInfo = info.text
         # Write the files
         print("Writing",file_name)
-        with open(filePath, 'w') as f:
+        with open(filePath, 'w', encoding="utf-8") as f:
             f.write(finalInfo)
     return
 
@@ -83,7 +83,7 @@ def main():
     Ourpath = setup()
     soup = makesoup(Ourpath)
     
-    LinkList = soup.findAll('a')
+    LinkList = soup.findAll('a').encode('utf-8')
 
     # NOTE: Experiment & Look at different languages!
     #       Our list includes the first 16 as well as some favorites and interesting languages
