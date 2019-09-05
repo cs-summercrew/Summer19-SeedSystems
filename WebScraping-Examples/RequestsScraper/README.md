@@ -1,5 +1,5 @@
 ### Python Programs:
-`EsotericScraper.py` uses the requests library to scrape the html from links at https://esolangs.org/wiki/Language_list.
+`EsotericScraper.py` uses the requests library to scrape the html from links at https://esolangs.org/wiki/Language_list.  
 Make sure you first run `EsotericScraper.py` before running `EsotericParser.py` so that the necessary `Scraped_Files` folder is created.
 `EsotericScraper.py` creates and outputs to the file `Scraped_Files`.  
 
